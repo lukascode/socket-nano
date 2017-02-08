@@ -5,7 +5,7 @@
 
 class TcpRequestHandler : public ClientRequestHandler {
 public:
-	virtual int handleConnection(Socket* socket, Client* context) {
+	virtual int handleConnection() {
 		while(1) {
 			std::string message;
 			std::getline(std::cin, message);

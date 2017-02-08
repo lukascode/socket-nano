@@ -10,12 +10,20 @@ Socket::Socket(int socket_descriptor) {
 	descriptor = socket_descriptor;
 }
 
+Socket::~Socket() {
+	if(isValid()) { closeSocket(); }
+}
+
 int Socket::getDescriptor() {
 	return descriptor;
 }
 
 void Socket::setDescriptor(int desc) {
 	descriptor = desc;
+}
+
+int Socket::isValid() {
+	return ( fcntl(descriptor, F_GETFD) != -1 )  || ( errno != EBADF );
 }
 
 Address Socket::getRemoteAddress(int* err) {

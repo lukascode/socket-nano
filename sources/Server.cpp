@@ -1,15 +1,15 @@
 #include "Server.h"
 
-Server::Server(Address address, ServerConnectionHandler* connHandler) {
+Server::Server(Address address, ServerConnectionHandlerFactory* connHandlerFactory) {
 	this->address = new Address(address);
-	this->connHandler = connHandler;
+	this->connHandlerFactory = connHandlerFactory;
 	socket = NULL;
 }
 
 Server::~Server() {
 	if(address) delete address;
 	if(socket) delete socket;
-	if(connHandler) delete connHandler;
+	if(connHandlerFactory) delete connHandlerFactory;
 
 	for(int i=0; i<clients.size(); ++i) {
 		if(clients[i]) delete clients[i];
@@ -59,10 +59,10 @@ bool Server::removeClient(Socket* client) {
 	return false;
 }
 
-ServerConnectionHandler* Server::getConnHandler() { return connHandler; }
+ServerConnectionHandlerFactory* Server::getConnHandlerFactory() { return connHandlerFactory; }
 
 void* handleConnection(void* arg) {
-	bundle* b = (bundle*)arg;
-	b->handler->handleConnection(b->client, b->context);
-	delete b;
+	ServerConnectionHandler* handler = (ServerConnectionHandler*)arg;
+	handler->handleConnection();
+	delete handler;
 }

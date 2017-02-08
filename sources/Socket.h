@@ -9,6 +9,7 @@ class Socket {
 public:
 	Socket(int type, int* err); /* type ~ SOCK_STREAM/SOCK_DGRAM */
 	Socket(int socket_descriptor);
+	~Socket();
 
 
 	int getDescriptor();
@@ -18,11 +19,14 @@ public:
 	int Send(std::string* data);
 	int Recv(std::string* data, int nbytes);
 
+	int sendall(const char* buf, int* len);
+	int recvall(char* buf, int* len);
+
+	int isValid();
+
 private:
 	int descriptor;
 
-	int sendall(const char* buf, int* len);
-	int recvall(char* buf, int* len);
 };
 
 

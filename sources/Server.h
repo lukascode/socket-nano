@@ -6,22 +6,18 @@
 #include "Socket.h"
 #include <vector>
 #include "ServerConnectionHandler.h"
+#include "ServerConnectionHandlerFactory.h"
 #include <algorithm>
 
 #define BACKLOG 10
 
 extern void* handleConnection(void* arg); /* thread connection handler */
 
-struct bundle {
-	ServerConnectionHandler* handler;
-	Socket* client;
-	Server* context;
-};
 
 class Server {
 
 public:
-	Server(Address address, ServerConnectionHandler* connHandler);
+	Server(Address address, ServerConnectionHandlerFactory* connHandlerFactory);
 	~Server();
 	int Listen(); //factory method
 
@@ -29,7 +25,7 @@ public:
 	Socket* getSocket();
 	std::vector<Socket*>* getClients();
 	bool removeClient(Socket* client);
-	ServerConnectionHandler* getConnHandler();
+	ServerConnectionHandlerFactory* getConnHandlerFactory();
 
 protected:
 	virtual Socket* createSocket()=0;
@@ -40,7 +36,7 @@ protected:
 private:
 	Address* address;
 	Socket* socket;
-	ServerConnectionHandler* connHandler;
+	ServerConnectionHandlerFactory* connHandlerFactory;
 
 };
 

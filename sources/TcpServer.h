@@ -4,9 +4,8 @@
 #include "Server.h"
 
 class TcpServer : public Server {
-
 public:
-	TcpServer(Address address, ServerConnectionHandler* connHandler);
+	TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory);
 protected:
 	virtual Socket* createSocket();
 	virtual int onListen();

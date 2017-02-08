@@ -1,6 +1,6 @@
 #include "TcpServer.h"
 
-TcpServer::TcpServer(Address address, ServerConnectionHandler* connHandler) : Server(address, connHandler) {
+TcpServer::TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory) : Server(address, connHandlerFactory) {
 
 }
 
@@ -16,7 +16,7 @@ Socket* TcpServer::createSocket() {
 
 int TcpServer::onListen() {
 
-	ServerConnectionHandler* handler = Server::getConnHandler();
+	ServerConnectionHandlerFactory* connHandlerFactory = Server::getConnHandlerFactory();
 	Socket* serverSocketListener = Server::getSocket();
 
 	if( listen(serverSocketListener->getDescriptor(), BACKLOG) < 0 ) {
@@ -33,14 +33,13 @@ int TcpServer::onListen() {
 		Socket* client = new Socket(client_socket);
 		clients.push_back(client);
 
-		bundle* b = new bundle;
-		b->handler = handler;
-		b->client = client;
-		b->context = this;
+		ServerConnectionHandler* handler = connHandlerFactory->createServerConnectionHandler();
+		handler->setSocket(client);
+		handler->setContext(this);
 
 		//handle connection in thread
 		pthread_t thread;
-		pthread_create(&thread, NULL, handleConnection, (void*)b);
+		pthread_create(&thread, NULL, handleConnection, (void*)handler);
 
 	}
 

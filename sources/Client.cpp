@@ -25,7 +25,9 @@ int Client::Connect() {
 		return -1;
 	}
 
-	reqHandler->handleConnection(socket, this);
+	reqHandler->setSocket(socket);
+	reqHandler->setContext(this);
+	reqHandler->handleConnection();
 
 }
 
