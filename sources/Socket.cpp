@@ -93,3 +93,35 @@ int Socket::recvall(char* buf, int* len) {
 	if(n <= 0) return -1;
 	return 0;
 }
+
+//0 - success, -1 - close, -2 - buffer overflow
+int Socket::recvuntil(char* buf, int maxlen, const char* pattern, int patternlen, int* len) {
+	int n;
+	char byte;
+	*len = 0;
+	if(maxlen <= 0) return -2;
+	while(!isContain(buf, *len, pattern, patternlen)) {
+		if(*len >= maxlen) { return -2; }
+		n = recv(descriptor, &byte, 1, 0);
+		if(n <= 0) { return -1; }
+		buf[*len] = byte;
+		*len += 1;
+	}
+	return 0;
+}
+
+//1 - yes, 0 - no
+int Socket::isContain(const char* buf, int buflen, const char* pattern, int patternlen) {
+	int contains = 0;
+	if(buflen < patternlen) return contains;
+	else if( (buflen == 0) && (patternlen == 0)) return 1;
+	else if(patternlen == 0) return contains;
+	int j = 0;
+	for(int i=0; i<buflen; ++i) {
+		if(buf[i] == pattern[j]) {
+			if(j == patternlen-1) { contains = 1; break;}
+			else ++j;
+		} else j = 0;
+	}
+	return contains;
+}

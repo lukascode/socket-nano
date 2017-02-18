@@ -27,10 +27,24 @@ public:
 	}
 };
 
+class TcpConnectionHandler2 : public ServerConnectionHandler {
+public:
+	virtual int handleConnection() {
+		int err;
+		NetworkUtils::print_stdout("New client connected. " + socket->getRemoteAddress(&err).toString() + "\n");
+		const char* pattern = "alamakota\n";
+		char data[MAXHDRSIZE];
+		int len;
+		int ret = socket->recvuntil(data, MAXHDRSIZE, pattern, 10, &len);
+		data[len] = '\0';
+		printf("Otrzymano dane:%s\n", data);
+	}
+};
+
 class TcpConnectionHandlerFactory : public ServerConnectionHandlerFactory {
 public:
 	virtual ServerConnectionHandler* createServerConnectionHandler() 
-	{ return new TcpConnectionHandler(); }
+	{ return new TcpConnectionHandler2(); }
 };
 
 

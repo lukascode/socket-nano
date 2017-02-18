@@ -21,11 +21,14 @@ public:
 
 	int sendall(const char* buf, int* len);
 	int recvall(char* buf, int* len);
+	int recvuntil(char* buf, int patternlen, const char* pattern, int maxlen, int* len);
 
 	int isValid();
 
 private:
 	int descriptor;
+
+	int isContain(const char* buf, int buflen, const char* pattern, int patternlen);
 
 };
 

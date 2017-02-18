@@ -1,0 +1,12 @@
+- factory dla clienthandler
+- serwer udp //wielowatkowy? 
+aktualnie tworze nowy socket do obsugi klienta
+a oryginalny ktory jest powiazany(bind) z adresem:
+recvfrom(s_orginal, client_addr, buf, 0-bytes)
+Socket* client_socket = new Socket(SOCK_DGRAM...);
+handle_conn(client_socket)
+...
+- ogarniecie jak zarzadzac danymi binarnymi
+
+- potestowac i ulepszyc funkcje recvuntil i 
+ulepszyc protokol udp. 

@@ -26,6 +26,7 @@
 #include <sstream>
 
 #define BSIZE 256
+#define MAXHDRSIZE 8192
 
 class NetworkUtils {
 
