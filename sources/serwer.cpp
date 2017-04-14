@@ -31,14 +31,27 @@ class TcpConnectionHandler2 : public ServerConnectionHandler {
 public:
 	virtual int handleConnection() {
 		int err;
-		NetworkUtils::print_stdout("New client connected. " + socket->getRemoteAddress(&err).toString() + "\n");
-		const char* pattern = "alamakota\n";
+	//	NetworkUtils::print_stdout("New client connected. " + socket->getRemoteAddress(&err).toString() + "\n");
+		const char* pattern = "\r\n";
 		char data[MAXHDRSIZE];
 		int len;
 		int ret = socket->recvuntil(data, MAXHDRSIZE, pattern, 10, &len);
 		data[len] = '\0';
 		printf("Otrzymano dane:%s\n", data);
 	}
+};
+
+class TcpConnectionHandler3 : public ServerConnectionHandler {
+public:
+	virtual int handleConnection() {
+		int err;
+		NetworkUtils::print_stdout("New client connected. " + socket->getRemoteAddress(&err).toString() + "\n");
+		char data[] = "HTTP/1.1 200 OK\nContent-Length: 47\nContent-Type: text/html\n\n<html><body><h1>Hello World!</h1></body></html>";
+		int len = strlen(data);
+		socket->sendall(data, &len);
+		context->removeClient(socket);
+	}
+
 };
 
 class TcpConnectionHandlerFactory : public ServerConnectionHandlerFactory {

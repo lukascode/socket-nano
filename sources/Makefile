@@ -12,8 +12,8 @@ OBJS = 	NetworkUtils.o \
 LFLAGS = -pthread
 CFLAGS = -ggdb -std=c++11
 
-CLIENT =  client
-SERVER = server
+CLIENT =  klient
+SERVER = serwer
 LIBNAME = libsockets.a
 
 all: $(CLIENT) $(SERVER)
@@ -21,10 +21,10 @@ all: $(CLIENT) $(SERVER)
 lib: $(OBJS)
 	ar rcs $(LIBNAME) $^
 
-$(CLIENT): client.o $(OBJS)
+$(CLIENT): klient.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
-$(SERVER): server.o $(OBJS)
+$(SERVER): serwer.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp

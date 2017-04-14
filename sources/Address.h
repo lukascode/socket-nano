@@ -17,16 +17,12 @@ public:
 
 	short getPort();
 	std::string getIP();
-	bool isBroken();
 	struct sockaddr_in* getAddr();
 	std::string toString();
 
 private:
 	struct sockaddr_in addr;	
-
 	void fill_structure(short port);
-
-	bool broken;
 
 };
 
