@@ -11,4 +11,4 @@ handle_conn(client_socket)
 - potestowac i ulepszyc funkcje recvuntil i 
 ulepszyc protokol udp. 
 
-recvuntil -> sendall -> send/recv vector -> udp
+send/recv vector -> udp

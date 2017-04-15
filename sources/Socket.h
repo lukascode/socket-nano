@@ -4,6 +4,7 @@
 #include "NetworkUtils.h"
 #include "Address.h"
 #include <exception>
+#include <vector>
 
 class Socket {
 
@@ -18,9 +19,13 @@ public:
 	Address getRemoteAddress();
 	int closeSocket();
 
+	int sendall(const std::vector<uint8_t>& data, int* sended);
+	int recvall(std::vector<uint8_t>& data, int size);
+	int recvuntil(std::vector<uint8_t>& data, const std::vector<uint8_t>& pattern);
+
 	int sendall(const uint8_t* buf, int* len);
 	int recvall(uint8_t* buf, int* len);
-	int recvuntil(uint8_t* buf, int patternlen, const uint8_t* pattern, int maxlen, int* len);
+	int recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len);
 	int isValid();
 
 private:

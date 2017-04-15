@@ -3,19 +3,40 @@
 #include "ServerConnectionHandler.h"
 #include "ServerConnectionHandlerFactory.h"
 
+/*
+ABOUT VECTOR
+std::vector<uint8_t> data(buf, buf + len); //inicjalizacja buforem (kopiuje)
+data.assign(buf, buf + len); //przypisanie 
+myData.insert(myData.end(), rawBuffer, rawBuffer + bytesRead); //dodanie danych
+
+//inicjalizacja wektora
+std::vector<CustomClass *> whatever(20000);
+lub
+std::vector<CustomClass *> whatever;
+whatever.reserve(20000);
+
+whatever.data() //dostep do surowych danych, lub &whatever[0]
+
+//z pliku do wektora
+std::vector<uint8_t> data(size);
+size_t bytes = fread(data.data(), sizeof(uint8_t), size, f);
+
+*/
 
 class TcpConnectionHandler : public ServerConnectionHandler {
 public:
     virtual int handleConnection() {
         NetworkUtils::print_stdout("New Client: " + socket->getRemoteAddress().toString() + "\n");
-        uint8_t buf[BSIZE] = {0}; 
+        const int size = 4096;
+        std::vector<uint8_t> data; 
         int len;
-        const uint8_t* patt = (const uint8_t*)"ABCD";//{65, 66, 67, 68};
         while(1) {
-            int ret = socket->recvuntil(buf, 128, patt, 4, &len);
+            int ret = socket->recvall(data, size);
             if(ret < 0) break;
-            buf[len] = '\0';
-            printf("%s", buf);
+            printf("%s", (char*)data.data());
+            FILE* f = fopen("testfile", "w");
+            fwrite(data.data(), sizeof(uint8_t), data.size(), f);
+            fclose(f);
         }
         NetworkUtils::print_stdout("Client: " + socket->getRemoteAddress().toString() + " disconnected\n");
         context->removeClient(socket);

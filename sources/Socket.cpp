@@ -65,6 +65,27 @@ int Socket::closeSocket() {
 // 	return ret;
 // }
 
+int Socket::sendall(const std::vector<uint8_t>& data, int* sended) {
+	return sendall(data.data(), sended);
+}
+
+int Socket::recvall(std::vector<uint8_t>& data, int size) {
+	uint8_t* buf = new uint8_t[size];
+	int len = size;
+	int ret = recvall(buf, &len);
+	data.assign(buf, buf + len);
+	return ret;
+}
+
+int Socket::recvuntil(std::vector<uint8_t>& data, const std::vector<uint8_t>& pattern) {
+	const uint8_t* p = pattern.data();
+	uint8_t buf[MAXBSIZE];
+	int len = 0;
+	int ret = recvuntil(buf, MAXBSIZE, p, pattern.size(), &len);
+	data.assign(buf, buf + len);
+	return ret;
+}
+
 //-1 error, 0 success
 int Socket::sendall(const uint8_t* buf, int* len) {
 	int total = 0;
@@ -107,7 +128,7 @@ int Socket::recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patt
 	while(!isContain(buf, *len, pattern, patternlen)) {
 		if(*len >= maxlen) { return -2; }
 		n = recv(descriptor, &byte, 1, 0);
-		if(n <= 0) { return -1; }
+		if(n <= 0) { return -1; } //socket closed on the other side
 		buf[*len] = byte;
 		*len += 1;
 	}
