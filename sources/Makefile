@@ -14,6 +14,7 @@ CFLAGS = -ggdb -std=c++11
 
 CLIENT =  klient
 SERVER = serwer
+TEST = serv
 LIBNAME = libsockets.a
 
 all: $(CLIENT) $(SERVER)
@@ -25,6 +26,9 @@ $(CLIENT): klient.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
 $(SERVER): serwer.o $(OBJS)
+	$(CC) $^ -o $@ $(LFLAGS)
+
+$(TEST): serv.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp

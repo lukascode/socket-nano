@@ -1,9 +1,11 @@
 #include "Socket.h"
 
-Socket::Socket(int type, int* err) {
-	*err = 0;
+Socket::Socket(int type, int notsocketdescriptor) {
 	descriptor = socket(AF_INET, type, 0);
-	if(descriptor < 0) { perror("socket"); *err = -1; }
+	if(descriptor < 0) { 
+		std::string err(strerror(errno)); 
+		throw "socket: " + err;
+	}
 }
 
 Socket::Socket(int socket_descriptor) {
@@ -26,43 +28,45 @@ int Socket::isValid() {
 	return ( fcntl(descriptor, F_GETFD) != -1 )  || ( errno != EBADF );
 }
 
-Address Socket::getRemoteAddress(int* err) {
-	*err = 0;
+Address Socket::getRemoteAddress() {
 	struct sockaddr_in remote_addr;
 	socklen_t addrlen = sizeof(struct sockaddr);
 	int ret = getpeername(descriptor, (struct sockaddr*)&remote_addr, &addrlen);
 	if(ret != -1) {
 		return Address(remote_addr);
-	} else *err = ret;
+	} else {
+		std::string err(strerror(errno));
+		throw ("getpeername: " + err).c_str();
+	} 
 }
 
 int Socket::closeSocket() {
 	return close(descriptor);
 }
 
-//-1 error, 0 - success
-int Socket::Send(std::string* data) {
-	int len = data->length();
-	if(sendall(data->c_str(), &len) == -1) {
-		return -1;
-	}
-	return 0;
-}
+// //-1 error, 0 - success
+// int Socket::Send(std::string* data) {
+// 	int len = data->length();
+// 	if(sendall(data->c_str(), &len) == -1) {
+// 		return -1;
+// 	}
+// 	return 0;
+// }
 
-//-1 close, 0 - success
-int Socket::Recv(std::string* data, int nbytes) {
-	int len = nbytes;
-	char* buf = new char[len+1];
-	int ret = recvall(buf, &len);
-	buf[len] = '\0';
-	std::string received(buf);
-	delete buf;
-	(*data) = received;
-	return ret;
-}
+// //-1 close, 0 - success
+// int Socket::Recv(std::string* data, int nbytes) {
+// 	int len = nbytes;
+// 	char* buf = new char[len+1];
+// 	int ret = recvall(buf, &len);
+// 	buf[len] = '\0';
+// 	std::string received(buf);
+// 	delete buf;
+// 	(*data) = received;
+// 	return ret;
+// }
 
 //-1 error, 0 success
-int Socket::sendall(const char* buf, int* len) {
+int Socket::sendall(const uint8_t* buf, int* len) {
 	int total = 0;
 	int bytesleft = *len;
 	int n;
@@ -78,7 +82,7 @@ int Socket::sendall(const char* buf, int* len) {
 }
 
 //-1 close, 0 success
-int Socket::recvall(char* buf, int* len) {
+int Socket::recvall(uint8_t* buf, int* len) {
 	int total = 0;
 	int bytesleft = *len;
 	int n;
@@ -95,9 +99,9 @@ int Socket::recvall(char* buf, int* len) {
 }
 
 //0 - success, -1 - close, -2 - buffer overflow
-int Socket::recvuntil(char* buf, int maxlen, const char* pattern, int patternlen, int* len) {
+int Socket::recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len) {
 	int n;
-	char byte;
+	uint8_t byte;
 	*len = 0;
 	if(maxlen <= 0) return -2;
 	while(!isContain(buf, *len, pattern, patternlen)) {
@@ -111,7 +115,7 @@ int Socket::recvuntil(char* buf, int maxlen, const char* pattern, int patternlen
 }
 
 //1 - yes, 0 - no
-int Socket::isContain(const char* buf, int buflen, const char* pattern, int patternlen) {
+int Socket::isContain(const uint8_t* buf, int buflen, const uint8_t* pattern, int patternlen) {
 	int contains = 0;
 	if(buflen < patternlen) return contains;
 	else if( (buflen == 0) && (patternlen == 0)) return 1;

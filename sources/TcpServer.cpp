@@ -5,12 +5,13 @@ TcpServer::TcpServer(Address address, ServerConnectionHandlerFactory* connHandle
 }
 
 Socket* TcpServer::createSocket() {
-	int err;
-	Socket* socket = new Socket(SOCK_STREAM, &err);
-	if(err == -1) {
+	Socket* socket;
+	try {
+		socket = new Socket(SOCK_STREAM, 0);
+	} catch(...) {
 		delete socket;
-		return NULL;
-	}
+		throw;
+	} 
 	return socket;
 }
 

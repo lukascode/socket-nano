@@ -6,11 +6,11 @@
 class TcpRequestHandler : public ClientRequestHandler {
 public:
 	virtual int handleConnection() {
-		while(1) {
-			std::string message;
-			std::getline(std::cin, message);
-			socket->Send(&message);
-		}
+		// while(1) {
+		// 	std::string message;
+		// 	std::getline(std::cin, message);
+		// 	socket->Send(&message);
+		// }
 		return 0;
 	}
 };
@@ -18,7 +18,7 @@ public:
 int main(int argc, char* argv[]) {
 
 	TcpRequestHandler* handler = new TcpRequestHandler();
-	Client* client = new Client(Address("127.0.0.1", 8080, IP), SOCK_STREAM, handler);
+	Client* client = new Client(Address("127.0.0.1", 1234, IP), SOCK_STREAM, handler);
 
 	int ret = client->Connect();
 	if(ret < 0) {

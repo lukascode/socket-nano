@@ -5,12 +5,13 @@ UdpServer::UdpServer(Address address, ServerConnectionHandlerFactory* connHandle
 }
 
 Socket* UdpServer::createSocket() {
-	int err;
-	Socket* socket = new Socket(SOCK_DGRAM, &err);
-	if(err == -1) {
+	Socket* socket;
+	try {
+		socket = new Socket(SOCK_DGRAM, 0);
+	} catch(...) {
 		delete socket;
-		return NULL;
-	}
+		throw;
+	} 
 	return socket;
 }
 
@@ -27,9 +28,7 @@ int UdpServer::onListen() {
 		if((numbytes = recvfrom(serverSocket->getDescriptor(), buf, 0, 0, (struct sockaddr*)&client_addr, &addr_len))==-1) {
 			continue;
 		}
-		int err;
-		Socket* client = new Socket(SOCK_DGRAM, &err); //create new socket client
-		if(err == -1) continue;
+		Socket* client = new Socket(SOCK_DGRAM, 0); //create new socket client
 		int ret = connect(client->getDescriptor(), (struct sockaddr*)&client_addr, addr_len);
 		if(ret == -1) continue;
 		clients.push_back(client); // TODO
