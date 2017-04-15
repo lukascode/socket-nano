@@ -3,26 +3,6 @@
 #include "ServerConnectionHandler.h"
 #include "ServerConnectionHandlerFactory.h"
 
-/*
-ABOUT VECTOR
-std::vector<uint8_t> data(buf, buf + len); //inicjalizacja buforem (kopiuje)
-data.assign(buf, buf + len); //przypisanie 
-myData.insert(myData.end(), rawBuffer, rawBuffer + bytesRead); //dodanie danych
-
-//inicjalizacja wektora
-std::vector<CustomClass *> whatever(20000);
-lub
-std::vector<CustomClass *> whatever;
-whatever.reserve(20000);
-
-whatever.data() //dostep do surowych danych, lub &whatever[0]
-
-//z pliku do wektora
-std::vector<uint8_t> data(size);
-size_t bytes = fread(data.data(), sizeof(uint8_t), size, f);
-
-*/
-
 class TcpConnectionHandler : public ServerConnectionHandler {
 public:
     virtual int handleConnection() {
