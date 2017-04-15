@@ -11,9 +11,6 @@
 
 #define BACKLOG 10
 
-extern void* handleConnection(void* arg); /* thread connection handler */
-
-
 class Server {
 
 public:

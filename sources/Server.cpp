@@ -60,9 +60,3 @@ bool Server::removeClient(Socket* client) {
 }
 
 ServerConnectionHandlerFactory* Server::getConnHandlerFactory() { return connHandlerFactory; }
-
-void* handleConnection(void* arg) {
-	ServerConnectionHandler* handler = (ServerConnectionHandler*)arg;
-	handler->handleConnection();
-	delete handler;
-}

@@ -15,8 +15,8 @@ int NetworkUtils::getHostByName(std::string name, std::string* ip_str) {
 }
 
 void NetworkUtils::print_stdout(std::string message) {
-	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-	pthread_mutex_lock(&mutex);
+	static std::mutex mtx;
+	mtx.lock();
 	std::cout<<message;
-	pthread_mutex_unlock(&mutex);
+	mtx.unlock();
 }

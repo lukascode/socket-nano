@@ -2,6 +2,7 @@
 #define TCPSERVER_H
 
 #include "Server.h"
+#include <thread>
 
 class TcpServer : public Server {
 public:
@@ -9,6 +10,8 @@ public:
 protected:
 	virtual Socket* createSocket();
 	virtual int onListen();
+private:
+    std::vector<std::thread*> connections;
 };
 
 #endif /* TCPSERVER_H */

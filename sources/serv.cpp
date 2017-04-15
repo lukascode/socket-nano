@@ -53,7 +53,7 @@ public:
 
 int main(int argc, char* argv[]) {
 
-    short port = 8090;
+    int port = 8090;
     if(argc > 1)
         port = atoi(argv[1]);
     TcpConnectionHandlerFactory* connHandlerFactory = new TcpConnectionHandlerFactory();

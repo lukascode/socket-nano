@@ -24,6 +24,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <mutex>
 
 #define BSIZE 256
 #define MAXBSIZE 8192

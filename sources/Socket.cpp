@@ -44,29 +44,9 @@ int Socket::closeSocket() {
 	return close(descriptor);
 }
 
-// //-1 error, 0 - success
-// int Socket::Send(std::string* data) {
-// 	int len = data->length();
-// 	if(sendall(data->c_str(), &len) == -1) {
-// 		return -1;
-// 	}
-// 	return 0;
-// }
-
-// //-1 close, 0 - success
-// int Socket::Recv(std::string* data, int nbytes) {
-// 	int len = nbytes;
-// 	char* buf = new char[len+1];
-// 	int ret = recvall(buf, &len);
-// 	buf[len] = '\0';
-// 	std::string received(buf);
-// 	delete buf;
-// 	(*data) = received;
-// 	return ret;
-// }
-
 int Socket::sendall(const std::vector<uint8_t>& data, int* sended) {
-	return sendall(data.data(), sended);
+	int ret = sendall(data.data(), sended);
+	return ret;
 }
 
 int Socket::recvall(std::vector<uint8_t>& data, int size) {
@@ -92,12 +72,14 @@ int Socket::sendall(const uint8_t* buf, int* len) {
 	int bytesleft = *len;
 	int n;
 
+	_send.lock();
 	while(total < *len) {
 		n = send(descriptor, buf + total, bytesleft, 0);
 		if(n == -1) break;
 		total += n;
 		bytesleft -= n;
 	}
+	_send.unlock();
 	*len = total;
 	return n==-1?-1:0;
 }
@@ -108,12 +90,14 @@ int Socket::recvall(uint8_t* buf, int* len) {
 	int bytesleft = *len;
 	int n;
 
+	_recv.lock();
 	while(total < *len) {
 		n = recv(descriptor, buf + total, bytesleft, 0);
 		if(n <= 0) { break; }
 		total += n;
 		bytesleft -= n;
 	}
+	_recv.unlock();
 	*len = total;
 	if(n <= 0) return -1;
 	return 0;
@@ -125,6 +109,7 @@ int Socket::recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patt
 	uint8_t byte;
 	*len = 0;
 	if(maxlen <= 0) return -2;
+	_recv.lock();
 	while(!isContain(buf, *len, pattern, patternlen)) {
 		if(*len >= maxlen) { return -2; }
 		n = recv(descriptor, &byte, 1, 0);
@@ -132,6 +117,7 @@ int Socket::recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patt
 		buf[*len] = byte;
 		*len += 1;
 	}
+	_recv.unlock();
 	return 0;
 }
 

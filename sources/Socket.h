@@ -5,6 +5,7 @@
 #include "Address.h"
 #include <exception>
 #include <vector>
+#include <mutex>
 
 class Socket {
 
@@ -30,6 +31,9 @@ public:
 
 private:
 	int descriptor;
+	std::mutex _send;
+	std::mutex _recv;
+
 	int isContain(const uint8_t* buf, int buflen, const uint8_t* pattern, int patternlen);
 
 };
