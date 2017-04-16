@@ -12,9 +12,8 @@ OBJS = 	NetworkUtils.o \
 LFLAGS = -pthread
 CFLAGS = -ggdb -std=c++11
 
-CLIENT =  klient
-SERVER = serwer
-TEST = serv
+CLIENT =  cli
+SERVER = serv
 LIBNAME = libsockets.a
 
 all: $(CLIENT) $(SERVER)
@@ -22,13 +21,10 @@ all: $(CLIENT) $(SERVER)
 lib: $(OBJS)
 	ar rcs $(LIBNAME) $^
 
-$(CLIENT): klient.o $(OBJS)
+$(CLIENT): cli.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
-$(SERVER): serwer.o $(OBJS)
-	$(CC) $^ -o $@ $(LFLAGS)
-
-$(TEST): serv.o $(OBJS)
+$(SERVER): serv.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp
@@ -46,5 +42,7 @@ UdpServer.o: UdpServer.h
 
 clean:
 	rm -f *.o
+	rm -f cli serv
+	rm -f libsockets.a
 
 .PHONY: clean all lib

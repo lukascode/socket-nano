@@ -4,7 +4,7 @@ Socket::Socket(int type, int notsocketdescriptor) {
 	descriptor = socket(AF_INET, type, 0);
 	if(descriptor < 0) { 
 		std::string err(strerror(errno)); 
-		throw "socket: " + err;
+		throw SocketException("socket: " + err);
 	}
 }
 

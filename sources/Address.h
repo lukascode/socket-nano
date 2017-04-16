@@ -3,16 +3,13 @@
 
 #include "NetworkUtils.h"
 
-
-enum ADRESS_TYPE { IP, NAME };
-
 class Address {
 
 public:
 
 
 	Address(short port);
-	Address(std::string adr, short port, ADRESS_TYPE TYPE);
+	Address(std::string adr, short port);
 	Address(struct sockaddr_in addr);
 
 	short getPort();

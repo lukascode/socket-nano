@@ -21,11 +21,12 @@ int Client::Connect() {
 	int ret = connect(socket->getDescriptor(), (struct sockaddr*)serverAddress->getAddr(), sizeof(struct sockaddr));
 	if(ret < 0) {
 		std::string err(strerror(errno));
-		throw "connect: " + err;
+		throw ConnectException("connect: " + err);
 	}
 	reqHandler->setSocket(socket);
 	reqHandler->setContext(this);
 	reqHandler->handleConnection();
+	return 0;
 }
 
 Address* Client::getServerAddress() { return serverAddress; }

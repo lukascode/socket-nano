@@ -38,5 +38,16 @@ private:
 
 };
 
+class SocketException : public std::exception {
+public:
+	SocketException(std::string msg) {
+		this->msg = msg;
+	}
+	virtual const char* what() const noexcept {
+		return msg.c_str();
+	}	
+private:
+	std::string msg;
+};
 
 #endif /* SOCKET_H */

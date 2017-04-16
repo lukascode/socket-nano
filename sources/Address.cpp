@@ -7,13 +7,11 @@ Address::Address(short port) {
    fill_structure(port);
 }
 
-Address::Address(std::string adr, short port, ADRESS_TYPE TYPE) {
+Address::Address(std::string adr, short port) {
 	std::string ip = adr;
-	if(TYPE == NAME) {
 		if( NetworkUtils::getHostByName(adr, &ip) < 0 ) {
             throw std::invalid_argument("name \""+adr+"\" could not be resolved");
         }	
-	} 
    addr.sin_addr.s_addr = inet_addr(ip.c_str());
    fill_structure(port);
 }

@@ -5,6 +5,7 @@
 #include "Address.h"
 #include "Socket.h"
 #include "ClientRequestHandler.h"
+#include <exception>
 	
 class Client {
 
@@ -23,6 +24,18 @@ private:
 	ClientRequestHandler* reqHandler;
 	Address* serverAddress;
 	int type;
+};
+
+class ConnectException : public std::exception {
+public:
+	ConnectException(std::string msg) {
+		this->msg = msg;
+	}
+	virtual const char* what() const noexcept {
+		return msg.c_str();
+	}
+private:
+	std::string msg;
 };
 
 	
