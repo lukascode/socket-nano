@@ -27,7 +27,9 @@ public:
 	int sendall(const uint8_t* buf, int* len);
 	int recvall(uint8_t* buf, int* len);
 	int recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len);
+	int recvtimeout(int s, uint8_t* buf, int len, int timeout);
 	int isValid();
+	int getSockType();
 
 private:
 	int descriptor;

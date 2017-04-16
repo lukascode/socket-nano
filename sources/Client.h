@@ -4,24 +4,24 @@
 #include "NetworkUtils.h"
 #include "Address.h"
 #include "Socket.h"
-#include "ClientRequestHandler.h"
+#include "ClientConnectionHandler.h"
 #include <exception>
 	
 class Client {
 
 public:
-	Client(Address serverAddress, int type, ClientRequestHandler* reqHandler); //type ~ SOCK_STREAM/SOCK_DGRAM
+	Client(Address serverAddress, int type, ClientConnectionHandler* reqHandler); //type ~ SOCK_STREAM/SOCK_DGRAM
 	~Client();
 
 	int Connect();
 
 	Address* getServerAddress();
-	ClientRequestHandler* getReqHandler();
+	ClientConnectionHandler* getReqHandler();
 	Socket* getSocket();
 
 private:
 	Socket* socket;
-	ClientRequestHandler* reqHandler;
+	ClientConnectionHandler* reqHandler;
 	Address* serverAddress;
 	int type;
 };

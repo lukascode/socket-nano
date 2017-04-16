@@ -6,7 +6,7 @@ OBJS = 	NetworkUtils.o \
 	   	TcpServer.o \
 	   	Client.o \
 	   	ServerConnectionHandler.o \
-	   	ClientRequestHandler.o \
+	   	ClientConnectionHandler.o \
 	   	UdpServer.o
 
 LFLAGS = -pthread
@@ -37,7 +37,7 @@ Server.o: Server.h
 TcpServer.o: TcpServer.h
 Client.o: Client.h
 ServerConnectionHandler.o: ServerConnectionHandler.h
-ClientRequestHandler.o: ClientRequestHandler.h
+ClientConnectionHandler.o: ClientConnectionHandler.h
 UdpServer.o: UdpServer.h
 
 clean:

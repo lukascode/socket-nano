@@ -1,12 +1,12 @@
-#ifndef CLIENTREQUESTHANDLER_H
-#define CLIENTREQUESTHANDLER_H
+#ifndef CLIENTCONNECTIONHANDLER_H
+#define CLIENTCONNECTIONHANDLER_H
 
 
 #include "Socket.h"
 
 class Client;
 
-class ClientRequestHandler {
+class ClientConnectionHandler {
 public:
 	virtual int handleConnection()=0;
 	void setSocket(Socket* socket);
@@ -16,4 +16,4 @@ protected:
 	Client* context;
 };
 
-#endif /* CLIENTREQUESTHANDLER_H */
+#endif /* CLIENTCONNECTIONHANDLER_H */

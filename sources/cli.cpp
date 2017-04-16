@@ -1,14 +1,12 @@
 #include <iostream>
-
 #include "Client.h"
-#include "ClientRequestHandler.h"
 #include <thread>
 
-class TcpRequestHandler : public ClientRequestHandler {
+class TcpClientHandler : public ClientConnectionHandler {
 public:
 	virtual int handleConnection() {
 		std::vector<uint8_t> req_data;
-		std::thread rec(&TcpRequestHandler::receive, this);
+		std::thread rec(&TcpClientHandler::receive, this);
 		char buf[BSIZE];
 		while(1) {
 			fgets(buf, BSIZE, stdin);
@@ -20,6 +18,12 @@ public:
 	}
 	void receive() {
 		std::vector<uint8_t> data;
+		int type = socket->getSockType();
+		if(type == SOCK_STREAM) {
+			printf("SOCK_STREAM socket\n");
+		} else if(type == SOCK_DGRAM) {
+			printf("SOCK_DGRAM socket\n");
+		}
 		while(1) {
 			int ret = socket->recvall(data, 64);
 			if(ret < 0) {
@@ -41,12 +45,12 @@ int main(int argc, char* argv[]) {
 
 	int port = atoi(argv[2]);
 
-	TcpRequestHandler* handler = new TcpRequestHandler();
+	TcpClientHandler* handler = new TcpClientHandler();
 	Client* client;
 
 	try {
 		client = new Client(Address(argv[1], port), 
-								SOCK_STREAM, handler);
+								SOCK_DGRAM, handler);
 		client->Connect();
 	} catch(const std::exception& e) {
 		printf("%s\n", e.what());

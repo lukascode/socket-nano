@@ -36,9 +36,6 @@ int UdpServer::onListen() {
 		handler->setSocket(client);
 		handler->setContext(this);
 
-		//handle connection in thread
-		// pthread_t thread;
-		// pthread_create(&thread, NULL, handleConnection, (void*)handler);
 
 	}
 

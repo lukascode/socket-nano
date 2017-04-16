@@ -1,6 +1,6 @@
 #include "Client.h"
 
-Client::Client(Address serverAddress, int type, ClientRequestHandler* reqHandler) {
+Client::Client(Address serverAddress, int type, ClientConnectionHandler* reqHandler) {
 	this->serverAddress = new Address(serverAddress);
 	this->reqHandler = reqHandler;
 	this->type = type;
@@ -31,6 +31,6 @@ int Client::Connect() {
 
 Address* Client::getServerAddress() { return serverAddress; }
 
-ClientRequestHandler* Client::getReqHandler() { return reqHandler; }
+ClientConnectionHandler* Client::getReqHandler() { return reqHandler; }
 
 Socket* Client::getSocket() { return socket; }
