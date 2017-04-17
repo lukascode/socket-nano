@@ -3,7 +3,8 @@
 
 #include "NetworkUtils.h"
 
-class Address {
+class Address 
+{
 
 public:
 

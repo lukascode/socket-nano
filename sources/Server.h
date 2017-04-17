@@ -11,7 +11,8 @@
 
 #define BACKLOG 10
 
-class Server {
+class Server 
+{
 
 public:
 	Server(Address address, ServerConnectionHandlerFactory* connHandlerFactory);

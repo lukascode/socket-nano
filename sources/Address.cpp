@@ -2,12 +2,14 @@
 #include <exception>
 #include <string>
 
-Address::Address(short port) {
+Address::Address(short port) 
+{
    addr.sin_addr.s_addr = INADDR_ANY;
    fill_structure(port);
 }
 
-Address::Address(std::string adr, short port) {
+Address::Address(std::string adr, short port) 
+{
 	std::string ip = adr;
 		if( NetworkUtils::getHostByName(adr, &ip) < 0 ) {
             throw std::invalid_argument("name \""+adr+"\" could not be resolved");
@@ -16,30 +18,36 @@ Address::Address(std::string adr, short port) {
    fill_structure(port);
 }
 
-Address::Address(struct sockaddr_in addr) {
+Address::Address(struct sockaddr_in addr) 
+{
 	this->addr = addr;
 }
 
-void Address::fill_structure(short port) {
+void Address::fill_structure(short port) 
+{
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
 	memset(&(addr.sin_zero), '\0', 8);
 }
 
-short Address::getPort() {
+short Address::getPort() 
+{
 	return ntohs(addr.sin_port);
 }
 
-std::string Address::getIP() {
+std::string Address::getIP() 
+{
 	std::string ip(inet_ntoa(addr.sin_addr));
 	return ip;
 }
 
-std::string Address::toString() {
+std::string Address::toString() 
+{
 	std::string str = "IP: " + getIP() + ", PORT: " + std::to_string((unsigned short)getPort());
 	return str;
 }
 
-struct sockaddr_in* Address::getAddr() {
+struct sockaddr_in* Address::getAddr() 
+{
 	return &addr;
 }

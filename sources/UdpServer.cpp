@@ -1,10 +1,12 @@
 #include "UdpServer.h"
 
-UdpServer::UdpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory) : Server(address, connHandlerFactory) {
+UdpServer::UdpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory) : Server(address, connHandlerFactory) 
+{
 
 }
 
-Socket* UdpServer::createSocket() {
+Socket* UdpServer::createSocket() 
+{
 	Socket* socket;
 	try {
 		socket = new Socket(SOCK_DGRAM, 0);
@@ -15,7 +17,8 @@ Socket* UdpServer::createSocket() {
 	return socket;
 }
 
-int UdpServer::onListen() {
+int UdpServer::onListen() 
+{
 
 	ServerConnectionHandlerFactory* connHandlerFactory = Server::getConnHandlerFactory();
 	Socket* serverSocket = Server::getSocket();

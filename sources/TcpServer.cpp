@@ -3,11 +3,13 @@
 static void handleConnection(ServerConnectionHandler* handler);
 static void joinFinishedThreads(std::vector<std::thread*>* connections);
 
-TcpServer::TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory) : Server(address, connHandlerFactory) {
+TcpServer::TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory) : Server(address, connHandlerFactory) 
+{
 
 }
 
-Socket* TcpServer::createSocket() {
+Socket* TcpServer::createSocket() 
+{
 	Socket* socket;
 	try {
 		socket = new Socket(SOCK_STREAM, 0);
@@ -18,7 +20,8 @@ Socket* TcpServer::createSocket() {
 	return socket;
 }
 
-int TcpServer::onListen() {
+int TcpServer::onListen() 
+{
 
 	ServerConnectionHandlerFactory* connHandlerFactory = Server::getConnHandlerFactory();
 	Socket* serverSocketListener = Server::getSocket();
@@ -55,12 +58,14 @@ int TcpServer::onListen() {
 	return 0;
 }
 
-static void handleConnection(ServerConnectionHandler* handler) {
+static void handleConnection(ServerConnectionHandler* handler) 
+{
 	handler->handleConnection();
 	delete handler;
 }
 
-static void joinFinishedThreads(std::vector<std::thread*>* connections) {
+static void joinFinishedThreads(std::vector<std::thread*>* connections) 
+{
 	while(1) {
 		for(int i=0; i<connections->size(); ++i) {
 			(*connections)[i]->join();

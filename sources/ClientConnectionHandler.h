@@ -6,7 +6,8 @@
 
 class Client;
 
-class ClientConnectionHandler {
+class ClientConnectionHandler 
+{
 public:
 	virtual int handleConnection()=0;
 	void setSocket(Socket* socket);

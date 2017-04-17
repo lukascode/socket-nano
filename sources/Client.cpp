@@ -1,19 +1,22 @@
 #include "Client.h"
 
-Client::Client(Address serverAddress, int type, ClientConnectionHandler* reqHandler) {
+Client::Client(Address serverAddress, int type, ClientConnectionHandler* reqHandler) 
+{
 	this->serverAddress = new Address(serverAddress);
 	this->reqHandler = reqHandler;
 	this->type = type;
 	socket = NULL;
 }
 
-Client::~Client() {
+Client::~Client() 
+{
 	if(serverAddress) delete serverAddress;
 	if(reqHandler) delete reqHandler;
 	if(socket) delete socket;
 }
 
-int Client::Connect() {
+int Client::Connect() 
+{
 	try {
 		socket = new Socket(type, 0);
 	} catch(...) { throw; }

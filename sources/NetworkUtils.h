@@ -30,7 +30,8 @@
 #define MAXBSIZE 8192
 #define MAXHDRSIZE 8192
 
-class NetworkUtils {
+class NetworkUtils 
+{
 
 public:
 

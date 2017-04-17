@@ -1,12 +1,14 @@
 #include "Server.h"
 
-Server::Server(Address address, ServerConnectionHandlerFactory* connHandlerFactory) {
+Server::Server(Address address, ServerConnectionHandlerFactory* connHandlerFactory) 
+{
 	this->address = new Address(address);
 	this->connHandlerFactory = connHandlerFactory;
 	socket = NULL;
 }
 
-Server::~Server() {
+Server::~Server() 
+{
 	if(address) delete address;
 	if(socket) delete socket;
 	if(connHandlerFactory) delete connHandlerFactory;
@@ -16,7 +18,8 @@ Server::~Server() {
 	} clients.clear();
 }
 
-int Server::Listen() {
+int Server::Listen() 
+{
 
 	//socket
 	socket = createSocket();
@@ -48,7 +51,8 @@ Socket* Server::getSocket() { return socket; }
 
 std::vector<Socket*>* Server::getClients() { return &clients; }
 
-bool Server::removeClient(Socket* client) {
+bool Server::removeClient(Socket* client) 
+{
 	auto it = std::find(clients.begin(), clients.end(), client);
 	if(it != clients.end()) {
 		clients.erase(it);

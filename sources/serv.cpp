@@ -3,9 +3,11 @@
 #include "ServerConnectionHandler.h"
 #include "ServerConnectionHandlerFactory.h"
 
-class TcpConnectionHandler : public ServerConnectionHandler {
+class TcpConnectionHandler : public ServerConnectionHandler 
+{
 public:
-    virtual int handleConnection() {
+    virtual int handleConnection() 
+    {
         NetworkUtils::print_stdout("New Client: " + socket->getRemoteAddress().toString() + "\n");
         const int size = 4096;
         std::vector<uint8_t> data; 
@@ -23,15 +25,18 @@ public:
     }
 };
 
-class TcpConnectionHandlerFactory : public ServerConnectionHandlerFactory {
+class TcpConnectionHandlerFactory : public ServerConnectionHandlerFactory 
+{
 public:
-    virtual ServerConnectionHandler* createServerConnectionHandler() {
+    virtual ServerConnectionHandler* createServerConnectionHandler() 
+    {
         return new TcpConnectionHandler();
     }
 };
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
 
     int port = 8090;
     if(argc > 1)

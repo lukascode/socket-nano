@@ -6,7 +6,8 @@
 
 class Server;
 
-class ServerConnectionHandlerFactory {
+class ServerConnectionHandlerFactory 
+{
 public:
 	virtual ServerConnectionHandler* createServerConnectionHandler()=0;
 };

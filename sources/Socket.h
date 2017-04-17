@@ -7,7 +7,8 @@
 #include <vector>
 #include <mutex>
 
-class Socket {
+class Socket 
+{
 
 public:
 	Socket(int type, int notsocketdescriptor); /* type ~ SOCK_STREAM/SOCK_DGRAM */
@@ -40,12 +41,15 @@ private:
 
 };
 
-class SocketException : public std::exception {
+class SocketException : public std::exception 
+{
 public:
-	SocketException(std::string msg) {
+	SocketException(std::string msg) 
+	{
 		this->msg = msg;
 	}
-	virtual const char* what() const noexcept {
+	virtual const char* what() const noexcept 
+	{
 		return msg.c_str();
 	}	
 private:

@@ -4,7 +4,8 @@
 #include "Server.h"
 #include <thread>
 
-class TcpServer : public Server {
+class TcpServer : public Server 
+{
 public:
 	TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory);
 protected:

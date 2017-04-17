@@ -7,7 +7,8 @@
 #include "ClientConnectionHandler.h"
 #include <exception>
 	
-class Client {
+class Client 
+{
 
 public:
 	Client(Address serverAddress, int type, ClientConnectionHandler* reqHandler); //type ~ SOCK_STREAM/SOCK_DGRAM

@@ -2,9 +2,11 @@
 #include "Client.h"
 #include <thread>
 
-class TcpClientHandler : public ClientConnectionHandler {
+class TcpClientHandler : public ClientConnectionHandler 
+{
 public:
-	virtual int handleConnection() {
+	virtual int handleConnection() 
+	{
 		std::vector<uint8_t> req_data;
 		std::thread rec(&TcpClientHandler::receive, this);
 		char buf[BSIZE];
@@ -16,7 +18,8 @@ public:
 		}
 		return 0;
 	}
-	void receive() {
+	void receive() 
+	{
 		std::vector<uint8_t> data;
 		int type = socket->getSockType();
 		if(type == SOCK_STREAM) {
@@ -35,7 +38,8 @@ public:
 	}
 };
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
 
 	if(argc != 3) {
 		printf("Incorrect number of parameters\n");
