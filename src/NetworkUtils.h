@@ -32,16 +32,15 @@
 
 class NetworkUtils 
 {
-
 public:
-
 	static std::string getLocalHostName();
-
-	static int getHostByName(std::string name, std::string* ip_str);
-
+	static std::string getHostByName(std::string name);
 	static void print_stdout(std::string message);
+};
 
-
+class DnsLookupException: public std::runtime_error {
+public:
+	DnsLookupException(std::string msg): std::runtime_error(msg) {}
 };
 
 #endif /* NETWORK_UTILS_H */

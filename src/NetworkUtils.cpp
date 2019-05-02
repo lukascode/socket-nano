@@ -3,17 +3,21 @@
 std::string NetworkUtils::getLocalHostName() 
 {
 	char buf[BSIZE];
-	gethostname(buf, BSIZE);
-	std::string lname(buf);
-	return lname;
+	if(gethostname(buf, BSIZE) < 0) {
+		std::string err(strerror(errno));
+		throw std::runtime_error(("gethostname error: " + err).c_str());
+	}
+	return std::string(buf);
 }
 
-int NetworkUtils::getHostByName(std::string name, std::string* ip_str) 
+std::string NetworkUtils::getHostByName(std::string name) 
 {
-	struct hostent* h;
-	if( (h = gethostbyname(name.c_str())) == NULL ) { return -1; }
-	*ip_str = inet_ntoa(*((struct in_addr*)h->h_addr));
-	return 0;
+	hostent* h = gethostbyname(name.c_str());
+	if(!h) {
+		std::string err(hstrerror(h_errno));
+		throw DnsLookupException("gethostbyname error: " + err);
+	}
+	return std::string(inet_ntoa(*((struct in_addr*)h->h_addr)));
 }
 
 void NetworkUtils::print_stdout(std::string message) 

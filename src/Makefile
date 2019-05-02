@@ -10,7 +10,7 @@ OBJS = 	NetworkUtils.o \
 	   	UdpServer.o
 
 LFLAGS = -pthread
-CFLAGS = -ggdb -std=c++11
+CFLAGS = -ggdb -std=c++11 -Wall -Wextra -pedantic
 
 CLIENT =  cli
 SERVER = serv
@@ -25,6 +25,9 @@ $(CLIENT): cli.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
 $(SERVER): serv.o $(OBJS)
+	$(CC) $^ -o $@ $(LFLAGS)
+
+devtest: main.o Socket.o Address.o NetworkUtils.o
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp
@@ -44,5 +47,6 @@ clean:
 	rm -f *.o
 	rm -f cli serv
 	rm -f libsockets.a
+	rm -f devtest
 
-.PHONY: clean all lib
+.PHONY: clean all lib devtest

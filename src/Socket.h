@@ -13,8 +13,8 @@ public:
 
 	static Socket createSocket(int type); /* type SOCK_STREAM / SOCK_DGRAM */
 	Socket(int socket_descriptor);
+	Socket(const Socket& socket);
 	~Socket();
-
 
 	Address getRemoteAddress();
 
@@ -41,19 +41,10 @@ private:
 	bool isValidDescriptor();
 };
 
-class SocketException : public std::exception 
+class SocketException : public std::runtime_error 
 {
 public:
-	SocketException(std::string msg) 
-	{
-		this->msg = msg;
-	}
-	virtual const char* what() const noexcept 
-	{
-		return msg.c_str();
-	}	
-private:
-	std::string msg;
+	SocketException(std::string msg): std::runtime_error(msg) {}
 };
 
 #endif /* SOCKET_H */

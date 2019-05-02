@@ -15,6 +15,11 @@ Socket::Socket(int socket_descriptor)
 	setSocket(socket_descriptor);
 }
 
+Socket::Socket(const Socket& socket) 
+{
+	socket_descriptor = socket.socket_descriptor;
+}
+
 Socket::~Socket() 
 {
 	if(isValidDescriptor()) {
