@@ -18,7 +18,7 @@ Client::~Client()
 int Client::Connect() 
 {
 	try {
-		socket = new Socket(type, 0);
+		socket = new Socket(type);
 	} catch(...) { throw; }
 
 	int ret = connect(socket->getDescriptor(), (struct sockaddr*)serverAddress->getAddr(), sizeof(struct sockaddr));

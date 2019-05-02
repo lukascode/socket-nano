@@ -5,10 +5,7 @@
 
 class Address 
 {
-
 public:
-
-
 	Address(short port);
 	Address(std::string adr, short port);
 	Address(struct sockaddr_in addr);
@@ -21,7 +18,6 @@ public:
 private:
 	struct sockaddr_in addr;	
 	void fill_structure(short port);
-
 };
 
 #endif /* ADDRESS_H */

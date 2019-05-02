@@ -1,5 +1,5 @@
-#ifndef SERVERCONNECTIONHANDLER_H
-#define SERVERCONNECTIONHANDLER_H
+#ifndef SERVER_CONNECTION_HANDLER_H
+#define SERVER_CONNECTION_HANDLER_H
 
 #include "NetworkUtils.h"
 #include "Socket.h"
@@ -17,4 +17,4 @@ protected:
 	Server* context;
 };
 
-#endif /* SERVERCONNECTIONHANDLER_H */
+#endif /* SERVER_CONNECTION_HANDLER_H */

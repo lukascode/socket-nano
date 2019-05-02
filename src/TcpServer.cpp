@@ -5,14 +5,13 @@ static void joinFinishedThreads(std::vector<std::thread*>* connections);
 
 TcpServer::TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory) : Server(address, connHandlerFactory) 
 {
-
 }
 
 Socket* TcpServer::createSocket() 
 {
 	Socket* socket;
 	try {
-		socket = new Socket(SOCK_STREAM, 0);
+		socket = new Socket(SOCK_STREAM);
 	} catch(...) {
 		delete socket;
 		throw;
@@ -22,7 +21,6 @@ Socket* TcpServer::createSocket()
 
 int TcpServer::onListen() 
 {
-
 	ServerConnectionHandlerFactory* connHandlerFactory = Server::getConnHandlerFactory();
 	Socket* serverSocketListener = Server::getSocket();
 

@@ -9,7 +9,7 @@ Socket* UdpServer::createSocket()
 {
 	Socket* socket;
 	try {
-		socket = new Socket(SOCK_DGRAM, 0);
+		socket = new Socket(SOCK_DGRAM);
 	} catch(...) {
 		delete socket;
 		throw;
@@ -31,7 +31,7 @@ int UdpServer::onListen()
 		if((numbytes = recvfrom(serverSocket->getDescriptor(), buf, 0, 0, (struct sockaddr*)&client_addr, &addr_len))==-1) {
 			continue;
 		}
-		Socket* client = new Socket(SOCK_DGRAM, 0); //create new socket client
+		Socket* client = new Socket(SOCK_DGRAM); //create new socket client
 		int ret = connect(client->getDescriptor(), (struct sockaddr*)&client_addr, addr_len);
 		if(ret == -1) continue;
 		clients.push_back(client); // TODO

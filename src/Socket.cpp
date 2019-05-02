@@ -1,45 +1,49 @@
 #include "Socket.h"
 
-Socket::Socket(int type, int notsocketdescriptor) 
+Socket Socket::createSocket(int type) 
 {
-	descriptor = socket(AF_INET, type, 0);
-	if(descriptor < 0) { 
+	int socket_descriptor = socket(AF_INET, type, 0);
+	if(socket_descriptor < 0) { 
 		std::string err(strerror(errno)); 
 		throw SocketException("socket: " + err);
 	}
+	return Socket(socket_descriptor);
 }
 
 Socket::Socket(int socket_descriptor) 
 {
-	descriptor = socket_descriptor;
-	if(!isValid())
-		throw SocketException("Invalid socket descriptor");
+	setSocket(socket_descriptor);
 }
 
 Socket::~Socket() 
 {
-	if(isValid()) { closeSocket(); }
+	if(isValidDescriptor()) {
+		closeSocket();
+	}
 }
 
-int Socket::getDescriptor() {
-	return descriptor;
+int Socket::getSocket() {
+	return socket_descriptor;
 }
 
-void Socket::setDescriptor(int desc) 
+void Socket::setSocket(int socket_descriptor) 
 {
-	descriptor = desc;
+	this->socket_descriptor = socket_descriptor;
+	if(!isValidDescriptor()) {
+		throw SocketException("Invalid socket descriptor");
+	}
 }
 
-int Socket::isValid() 
+bool Socket::isValidDescriptor() 
 {
-	return ( fcntl(descriptor, F_GETFD) != -1 )  || ( errno != EBADF );
+	return ( fcntl(socket_descriptor, F_GETFD) != -1 )  || ( errno != EBADF );
 }
 
-int Socket::getSockType() 
+int Socket::getSocketType() 
 {
 	int type; 
 	socklen_t length = sizeof(int);
-	getsockopt(descriptor, SOL_SOCKET, SO_TYPE, &type, &length);
+	getsockopt(socket_descriptor, SOL_SOCKET, SO_TYPE, &type, &length);
 	return type;
 }
 
@@ -47,18 +51,21 @@ Address Socket::getRemoteAddress()
 {
 	struct sockaddr_in remote_addr;
 	socklen_t addrlen = sizeof(struct sockaddr);
-	int ret = getpeername(descriptor, (struct sockaddr*)&remote_addr, &addrlen);
+	int ret = getpeername(socket_descriptor, (struct sockaddr*)&remote_addr, &addrlen);
 	if(ret != -1) {
 		return Address(remote_addr);
 	} else {
 		std::string err(strerror(errno));
-		throw ("getpeername: " + err).c_str();
+		throw SocketException("getpeername: " + err);
 	} 
 }
 
-int Socket::closeSocket() 
+void Socket::closeSocket() 
 {
-	return close(descriptor);
+	if(close(socket_descriptor) < 0) {
+		std::string err(strerror(errno));
+		throw SocketException("close: " + err);
+	}
 }
 
 //-1 error, 0 success
@@ -97,7 +104,7 @@ int Socket::sendall(const uint8_t* buf, int* len)
 
 	_send.lock();
 	while(total < *len) {
-		n = send(descriptor, buf + total, bytesleft, 0);
+		n = send(socket_descriptor, buf + total, bytesleft, 0);
 		if(n == -1) break;
 		total += n;
 		bytesleft -= n;
@@ -116,7 +123,7 @@ int Socket::recvall(uint8_t* buf, int* len)
 
 	_recv.lock();
 	while(total < *len) {
-		n = recv(descriptor, buf + total, bytesleft, 0);
+		n = recv(socket_descriptor, buf + total, bytesleft, 0);
 		if(n <= 0) { break; }
 		total += n;
 		bytesleft -= n;
@@ -137,7 +144,7 @@ int Socket::recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patt
 	_recv.lock();
 	while(!isContain(buf, *len, pattern, patternlen)) {
 		if(*len >= maxlen) { return -2; }
-		n = recv(descriptor, &byte, 1, 0);
+		n = recv(socket_descriptor, &byte, 1, 0);
 		if(n <= 0) { return -1; } //socket closed on the other side
 		buf[*len] = byte;
 		*len += 1;

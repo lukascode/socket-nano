@@ -4,7 +4,7 @@ Server::Server(Address address, ServerConnectionHandlerFactory* connHandlerFacto
 {
 	this->address = new Address(address);
 	this->connHandlerFactory = connHandlerFactory;
-	socket = NULL;
+	socket = nullptr;
 }
 
 Server::~Server() 
@@ -23,7 +23,7 @@ int Server::Listen()
 
 	//socket
 	socket = createSocket();
-	if(socket == NULL) { return -1; }
+	if(!socket) { return -1; }
 
 	//for disturbing message "address already in use"
 	int yes=1;

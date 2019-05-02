@@ -9,17 +9,19 @@
 
 class Socket 
 {
-
 public:
-	Socket(int type, int notsocketdescriptor); /* type ~ SOCK_STREAM/SOCK_DGRAM */
+
+	static Socket createSocket(int type); /* type SOCK_STREAM / SOCK_DGRAM */
 	Socket(int socket_descriptor);
 	~Socket();
 
 
-	int getDescriptor();
-	void setDescriptor(int desc);
 	Address getRemoteAddress();
-	int closeSocket();
+
+	int getSocket();
+	void setSocket(int socket_descriptor);
+	void closeSocket();
+	int getSocketType();
 
 	int sendall(const std::vector<uint8_t>& data, int* sended);
 	int recvall(std::vector<uint8_t>& data, int size);
@@ -29,16 +31,14 @@ public:
 	int recvall(uint8_t* buf, int* len);
 	int recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len);
 	int recvtimeout(int s, uint8_t* buf, int len, int timeout);
-	int isValid();
-	int getSockType();
 
 private:
-	int descriptor;
+	int socket_descriptor;
 	std::mutex _send;
 	std::mutex _recv;
 
 	int isContain(const uint8_t* buf, int buflen, const uint8_t* pattern, int patternlen);
-
+	bool isValidDescriptor();
 };
 
 class SocketException : public std::exception 

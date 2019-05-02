@@ -1,5 +1,5 @@
-#ifndef NETWORKUTILS_H
-#define NETWORKUTILS_H
+#ifndef NETWORK_UTILS_H
+#define NETWORK_UTILS_H
 
 #include <stdio.h>
 #include <errno.h>
@@ -44,4 +44,4 @@ public:
 
 };
 
-#endif /* NETWORKUTILS_H */
+#endif /* NETWORK_UTILS_H */

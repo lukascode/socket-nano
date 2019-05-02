@@ -1,5 +1,5 @@
-#ifndef CLIENTCONNECTIONHANDLER_H
-#define CLIENTCONNECTIONHANDLER_H
+#ifndef CLIENT_CONNECTION_HANDLER_H
+#define CLIENT_CONNECTION_HANDLER_H
 
 
 #include "Socket.h"
@@ -17,4 +17,4 @@ protected:
 	Client* context;
 };
 
-#endif /* CLIENTCONNECTIONHANDLER_H */
+#endif /* CLIENT_CONNECTION_HANDLER_H */

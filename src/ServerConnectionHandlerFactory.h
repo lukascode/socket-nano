@@ -1,5 +1,5 @@
-#ifndef SERVERCONNECTIONHANDLERFACTORY_H
-#define SERVERCONNECTIONHANDLERFACTORY_H
+#ifndef SERVER_CONNECTION_HANDLER_FACTORY_H
+#define SERVER_CONNECTION_HANDLER_FACTORY_H
 
 #include "NetworkUtils.h"
 #include "ServerConnectionHandler.h"
@@ -12,4 +12,4 @@ public:
 	virtual ServerConnectionHandler* createServerConnectionHandler()=0;
 };
 
-#endif /* SERVERCONNECTIONHANDLERFACTORY_H */
+#endif /* SERVER_CONNECTION_HANDLER_FACTORY_H */

@@ -3,3 +3,4 @@
 *.test
 sources/http_req
 todo
+.vscode

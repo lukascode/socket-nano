@@ -1,5 +1,5 @@
-#ifndef TCPSERVER_H
-#define TCPSERVER_H
+#ifndef TCP_SERVER_H
+#define TCP_SERVER_H
 
 #include "Server.h"
 #include <thread>
@@ -15,4 +15,4 @@ private:
     std::vector<std::thread*> connections;
 };
 
-#endif /* TCPSERVER_H */
+#endif /* TCP_SERVER_H */
