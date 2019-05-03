@@ -2,8 +2,8 @@
 
 std::string NetworkUtils::getLocalHostName() 
 {
-	char buf[BSIZE];
-	if(gethostname(buf, BSIZE) < 0) {
+	char buf[256];
+	if(gethostname(buf, 256) < 0) {
 		std::string err(strerror(errno));
 		throw std::runtime_error(("gethostname error: " + err).c_str());
 	}

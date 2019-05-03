@@ -6,6 +6,7 @@
 #include <exception>
 #include <vector>
 #include <mutex>
+#include <cstddef>
 
 class Socket 
 {
@@ -28,12 +29,14 @@ public:
 	void _listen(int backlog);
 	Socket* _accept();
 
-	int sendall(const std::vector<uint8_t>& data, int* sended);
-	int recvall(std::vector<uint8_t>& data, int size);
+	void sendall(const std::vector<uint8_t>& data);
+	std::vector<uint8_t> recvall(size_t size);
+
 	int recvuntil(std::vector<uint8_t>& data, const std::vector<uint8_t>& pattern);
 
-	int sendall(const uint8_t* buf, int* len);
-	int recvall(uint8_t* buf, int* len);
+	void sendall(const uint8_t* buf, size_t len);
+	void recvall(uint8_t* buf, size_t len);
+
 	int recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len);
 	int recvtimeout(int s, uint8_t* buf, int len, int timeout);
 
@@ -52,6 +55,24 @@ class SocketException : public std::runtime_error
 {
 public:
 	SocketException(std::string msg): std::runtime_error(msg) {}
+};
+
+class SendException: public SocketException 
+{
+public:
+	SendException(std::string msg): SocketException(msg) {}
+};
+
+class RecvException: public SocketException
+{
+public:
+	RecvException(std::string msg): SocketException(msg) {}
+};
+
+class SocketConnectionClosedException: public SocketException
+{
+public:
+	SocketConnectionClosedException(std::string msg): SocketException(msg) {}
 };
 
 #endif /* SOCKET_H */

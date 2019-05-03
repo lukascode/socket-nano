@@ -112,70 +112,74 @@ void Socket::closeSocket()
 	}
 }
 
-//-1 error, 0 success
-int Socket::sendall(const std::vector<uint8_t>& data, int* sended) 
+void Socket::sendall(const std::vector<uint8_t>& data) 
 {
-	 return sendall(data.data(), sended);
+	 return sendall(data.data(), data.size());
 }
 
-//-1 close, 0 success
-int Socket::recvall(std::vector<uint8_t>& data, int size) 
+std::vector<uint8_t> Socket::recvall(size_t size) 
 {
-	uint8_t* buf = new uint8_t[size];
-	int len = size;
-	int ret = recvall(buf, &len);
-	data.assign(buf, buf + len);
-	return ret;
+	std::vector<uint8_t> data(size);
+	recvall(data.data(), data.size());
+	return data;
 }
 
 //0 - success, -1 - close, -2 - buffer overflow
 int Socket::recvuntil(std::vector<uint8_t>& data, const std::vector<uint8_t>& pattern) 
 {
 	const uint8_t* p = pattern.data();
-	uint8_t buf[MAXBSIZE];
+	uint8_t buf[BUFFER_SIZE];
 	int len = 0;
-	int ret = recvuntil(buf, MAXBSIZE, p, pattern.size(), &len);
+	int ret = recvuntil(buf, BUFFER_SIZE, p, pattern.size(), &len);
 	data.assign(buf, buf + len);
 	return ret;
 }
 
-//-1 error, 0 success
-int Socket::sendall(const uint8_t* buf, int* len) 
+void Socket::sendall(const uint8_t* buf, size_t len) 
 {
-	int total = 0;
-	int bytesleft = *len;
-	int n;
+	size_t total = 0;
+	int bytesleft = len;
+	ssize_t n;
 
-	_send.lock();
-	while(total < *len) {
-		n = send(socket_descriptor, buf + total, bytesleft, 0);
-		if(n == -1) break;
+	// _send.lock();
+	while(bytesleft > 0) {
+		if((n = send(socket_descriptor, buf + total, bytesleft, 0)) <= 0) {
+			if(n < 0 && errno == EINTR) n = 0;
+			else { n = -1; break; }
+		}
 		total += n;
 		bytesleft -= n;
 	}
-	_send.unlock();
-	*len = total;
-	return n==-1?-1:0;
+	// _send.unlock();
+	if(n < 0) {
+		std::string err(strerror(errno));
+		throw SendException("sendall error: " + err);
+	}
 }
 
-//-1 close, 0 success
-int Socket::recvall(uint8_t* buf, int* len) 
+void Socket::recvall(uint8_t* buf, size_t len) 
 {
-	int total = 0;
-	int bytesleft = *len;
-	int n;
+	size_t total = 0;
+	int bytesleft = len;
+	ssize_t n;
 
-	_recv.lock();
-	while(total < *len) {
-		n = recv(socket_descriptor, buf + total, bytesleft, 0);
-		if(n <= 0) { break; }
+	// _recv.lock();
+	while(bytesleft > 0) {
+		if((n = recv(socket_descriptor, buf + total, bytesleft, 0)) < 0) {
+			if(errno == EINTR) n = 0;
+			else { n = -1; break; }
+		} else if(n == 0) break;
 		total += n;
 		bytesleft -= n;
 	}
-	_recv.unlock();
-	*len = total;
-	if(n <= 0) return -1;
-	return 0;
+	// _recv.unlock();
+	if(n < 0) {
+		std::string err(strerror(errno));
+		throw RecvException("recvall error: " + err);
+	}
+	if(n == 0) {
+		throw SocketConnectionClosedException("Connection has been closed");
+	}
 }
 
 //0 - success, -1 - close, -2 - buffer overflow

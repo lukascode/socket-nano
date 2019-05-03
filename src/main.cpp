@@ -19,12 +19,19 @@ int main(int argc, char** argv) {
 
     std::cout<<"Listening on "<<port<<"..."<<std::endl;
 
-    while(1) {
-        Socket* client_socket = serv_socket->_accept();
-        std::cout<<"New connection from: " + client_socket->getRemoteAddress().getIP()<<std::endl;
-        sleep(5);
-        delete client_socket;
+    Socket* client_socket = serv_socket->_accept();
+    std::cout<<"New connection from: " + client_socket->getRemoteAddress().getIP()<<std::endl;
+    try {
+        // const int size = 16;
+        // std::vector<uint8_t> data = client_socket->recvall(size);
+        // printf("%s", data.data());
+        const char* hello = "Hello World\n";
+        std::vector<uint8_t> data(hello, hello + strlen(hello));
+        client_socket->sendall(data);
+    } catch(const std::exception& e) {
+        std::cout<<std::string(e.what())<<std::endl;
     }
+    delete client_socket;
 
     delete serv_socket;
 

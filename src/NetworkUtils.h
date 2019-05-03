@@ -20,15 +20,14 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <cstdint>
 
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <mutex>
 
-#define BSIZE 256
-#define MAXBSIZE 8192
-#define MAXHDRSIZE 8192
+const size_t BUFFER_SIZE = 8192;
 
 class NetworkUtils 
 {
