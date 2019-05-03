@@ -11,17 +11,22 @@ class Socket
 {
 public:
 
-	static Socket createSocket(int type); /* type SOCK_STREAM / SOCK_DGRAM */
+	static Socket* createSocket(int type); /* type SOCK_STREAM / SOCK_DGRAM */
 	Socket(int socket_descriptor);
-	Socket(const Socket& socket);
+	Socket(const Socket& socket) = delete;
 	~Socket();
 
 	Address getRemoteAddress();
+	Address* getBoundAddress();
 
 	int getSocket();
 	void setSocket(int socket_descriptor);
 	void closeSocket();
 	int getSocketType();
+
+	void _bind(Address* address);
+	void _listen(int backlog);
+	Socket* _accept();
 
 	int sendall(const std::vector<uint8_t>& data, int* sended);
 	int recvall(std::vector<uint8_t>& data, int size);
@@ -34,6 +39,8 @@ public:
 
 private:
 	int socket_descriptor;
+	Address* boundAddress;
+
 	std::mutex _send;
 	std::mutex _recv;
 

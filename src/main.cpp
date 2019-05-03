@@ -13,19 +13,20 @@ int main(int argc, char** argv) {
 
     const short port = atol(argv[1]);
 
-    // Socket serv_socket = Socket::createSocket(SOCK_STREAM); 
+    Socket* serv_socket = Socket::createSocket(SOCK_STREAM); 
+    serv_socket->_bind(new Address(port));
+    serv_socket->_listen(5);
 
-    // Address serv_addr = Address("0.0.0.0", port);
+    std::cout<<"Listening on "<<port<<"..."<<std::endl;
 
-    // bind(serv_socket.getSocket(), )
+    while(1) {
+        Socket* client_socket = serv_socket->_accept();
+        std::cout<<"New connection from: " + client_socket->getRemoteAddress().getIP()<<std::endl;
+        sleep(5);
+        delete client_socket;
+    }
 
-
-    std::string lname = NetworkUtils::getLocalHostName();
-
-    std::cout<<lname<<std::endl;
-
-    Address address("wp123xyz.pl", 80);
-
+    delete serv_socket;
 
     return 0;
 }

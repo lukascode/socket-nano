@@ -1,29 +1,28 @@
 #include "Socket.h"
 
-Socket Socket::createSocket(int type) 
+Socket* Socket::createSocket(int type) 
 {
 	int socket_descriptor = socket(AF_INET, type, 0);
 	if(socket_descriptor < 0) { 
 		std::string err(strerror(errno)); 
-		throw SocketException("socket: " + err);
+		throw SocketException("socket error: " + err);
 	}
-	return Socket(socket_descriptor);
+	return new Socket(socket_descriptor);
 }
 
 Socket::Socket(int socket_descriptor) 
 {
 	setSocket(socket_descriptor);
-}
-
-Socket::Socket(const Socket& socket) 
-{
-	socket_descriptor = socket.socket_descriptor;
+	boundAddress = nullptr;
 }
 
 Socket::~Socket() 
 {
 	if(isValidDescriptor()) {
 		closeSocket();
+	}
+	if(boundAddress) {
+		delete boundAddress;
 	}
 }
 
@@ -41,7 +40,7 @@ void Socket::setSocket(int socket_descriptor)
 
 bool Socket::isValidDescriptor() 
 {
-	return ( fcntl(socket_descriptor, F_GETFD) != -1 )  || ( errno != EBADF );
+	return (fcntl(socket_descriptor, F_GETFD) != -1)  || (errno != EBADF);
 }
 
 int Socket::getSocketType() 
@@ -50,6 +49,41 @@ int Socket::getSocketType()
 	socklen_t length = sizeof(int);
 	getsockopt(socket_descriptor, SOL_SOCKET, SO_TYPE, &type, &length);
 	return type;
+}
+
+void Socket::_bind(Address* address) 
+{
+	int yes = 1;
+	if(setsockopt(socket_descriptor, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) < 0) {
+		std::string err(strerror(errno));
+		throw SocketException("setsockopt error: " + err);
+	}
+	if(!address) {
+		throw std::invalid_argument("Param address must not be null");
+	}
+	if(bind(socket_descriptor, (struct sockaddr*) address->getRawAddress(), sizeof(struct sockaddr)) < 0) {
+		std::string err(strerror(errno));
+		throw SocketException("bind error: " + err);
+	}
+	this->boundAddress = address;
+}
+
+void Socket::_listen(int backlog) 
+{
+	if(listen(socket_descriptor, backlog) < 0) {
+		std::string err(strerror(errno));
+		throw SocketException("listen error: " + err);
+	}
+}
+
+Socket* Socket::_accept() 
+{
+	int socket = accept(socket_descriptor, nullptr, nullptr);
+	if(socket < 0) {
+		std::string err(strerror(errno));
+		throw SocketException("accept error: " + err);
+	}
+	return new Socket(socket);
 }
 
 Address Socket::getRemoteAddress() 
@@ -61,8 +95,13 @@ Address Socket::getRemoteAddress()
 		return Address(remote_addr);
 	} else {
 		std::string err(strerror(errno));
-		throw SocketException("getpeername: " + err);
+		throw SocketException("getpeername error: " + err);
 	} 
+}
+
+Address* Socket::getBoundAddress()
+{
+	return boundAddress;
 }
 
 void Socket::closeSocket() 
