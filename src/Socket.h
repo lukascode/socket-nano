@@ -11,7 +11,7 @@
 class Socket 
 {
 public:
-	static Socket* createSocket(int type); /* type SOCK_STREAM / SOCK_DGRAM */
+	static Socket* createSocket(int type);
 	Socket(int socket_descriptor);
 	Socket(const Socket& socket) = delete;
 	~Socket();
@@ -29,21 +29,17 @@ public:
 	Socket* _accept();
 
 	void sendall(const std::vector<uint8_t>& data);
-	std::vector<uint8_t> recvall(size_t size);
+	void sendall(const uint8_t* buf, size_t len);
 
+	std::vector<uint8_t> recvall(size_t size);
+	void recvall(uint8_t* buf, size_t len);
 	std::vector<uint8_t> recvuntil(const std::string pattern, size_t maxlen);
 	std::vector<uint8_t> recvuntil(const std::vector<uint8_t>& pattern, size_t maxlen);
-
-	void sendall(const uint8_t* buf, size_t len);
-	void recvall(uint8_t* buf, size_t len);
-
 	void recvuntil(uint8_t* buf, size_t buflen, const uint8_t* pattern, size_t patternlen, size_t* len);
-	int recvtimeout(int s, uint8_t* buf, int len, int timeout);
 
 private:
 	int socket_descriptor;
 	Address* boundAddress;
-
 	std::mutex _send;
 	std::mutex _recv;
 	std::mutex _recvuntil;
@@ -74,6 +70,12 @@ class SocketConnectionClosedException: public SocketException
 {
 public:
 	SocketConnectionClosedException(std::string msg): SocketException(msg) {}
+};
+
+class TimeoutException: public SocketException
+{
+public:
+	TimeoutException(std::string msg): SocketException(msg) {}
 };
 
 #endif /* SOCKET_H */

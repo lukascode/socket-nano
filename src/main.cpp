@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     Socket* client_socket = serv_socket->_accept();
     std::cout<<"New connection from: " + client_socket->getRemoteAddress().getIP()<<std::endl;
     try {
-        std::vector<uint8_t> data = client_socket->recvuntil("qwerty\n", 8192);
+        std::vector<uint8_t> data = client_socket->recvuntil("alamakota\n", 8192);
         for(int i=0; i<data.size(); ++i) {
             printf("%c", data[i]);
         }

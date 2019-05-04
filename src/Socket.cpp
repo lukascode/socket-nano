@@ -144,7 +144,7 @@ void Socket::sendall(const uint8_t* buf, size_t len)
 	size_t bytesleft = len;
 	ssize_t n;
 
-	_send.lock();
+	std::lock_guard<std::mutex> lock(_send);
 	while(bytesleft > 0) {
 		if((n = send(socket_descriptor, buf + total, bytesleft, 0)) <= 0) {
 			if(n < 0 && errno == EINTR) n = 0;
@@ -153,7 +153,6 @@ void Socket::sendall(const uint8_t* buf, size_t len)
 		total += n;
 		bytesleft -= n;
 	}
-	_send.unlock();
 	if(n < 0) {
 		std::string err(strerror(errno));
 		throw SendException("sendall error: " + err);
@@ -166,7 +165,7 @@ void Socket::recvall(uint8_t* buf, size_t len)
 	size_t bytesleft = len;
 	ssize_t n;
 
-	_recv.lock();
+	std::lock_guard<std::mutex> lock(_recv);
 	while(bytesleft > 0) {
 		if((n = recv(socket_descriptor, buf + total, bytesleft, 0)) < 0) {
 			if(errno == EINTR) n = 0;
@@ -175,7 +174,6 @@ void Socket::recvall(uint8_t* buf, size_t len)
 		total += n;
 		bytesleft -= n;
 	}
-	_recv.unlock();
 	if(n < 0) {
 		std::string err(strerror(errno));
 		throw RecvException("recvall error: " + err);
@@ -191,7 +189,7 @@ void Socket::recvuntil(uint8_t* buf, size_t buflen, const uint8_t* pattern, size
 	ssize_t bytesleft = buflen;
 	ssize_t n;
 	
-	_recvuntil.lock();
+	std::lock_guard<std::mutex> lock(_recvuntil);
 	int patternidx;
 	do {
 		if(bytesleft <= 0) {
@@ -213,7 +211,6 @@ void Socket::recvuntil(uint8_t* buf, size_t buflen, const uint8_t* pattern, size
 		total += n;
 		bytesleft -= n;
 	} while(patternidx < 0);
-	_recvuntil.unlock();
 	if(n < 0) {
 		std::string err(strerror(errno));
 		throw RecvException("recvall error: " + err);
@@ -237,29 +234,4 @@ int Socket::isContainPattern(const uint8_t* buf, size_t len, const uint8_t* patt
 		} else j = 0;
 	}
 	return notfound;
-}
-
-/* impl from Beej's Guide to Network Programming Using Internet Sockets*/
-//-2 - timeout, -1 - error, 0 - connection closed
-int Socket::recvtimeout(int s, uint8_t* buf, int len, int timeout) 
-{
-	fd_set fds;
-	int n;
-	struct timeval tv;
-
-	//set descriptors
-	FD_ZERO(&fds);
-	FD_SET(s, &fds);
-
-	//set timeval for timeout
-	tv.tv_sec = timeout;
-	tv.tv_usec = 0;
-
-	//read for timeout or for data
-	n = select(s+1, &fds, NULL, NULL, &tv);
-	if(n == 0) return -2; //timeout
-	if(n == -1) return -1; //error
-
-	//get received data
-	return recv(s, buf, len, 0);
 }

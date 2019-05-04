@@ -27,8 +27,6 @@
 #include <sstream>
 #include <mutex>
 
-const size_t BUFFER_SIZE = 128;
-
 class NetworkUtils 
 {
 public:
