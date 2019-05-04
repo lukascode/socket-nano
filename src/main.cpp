@@ -22,17 +22,15 @@ int main(int argc, char** argv) {
     Socket* client_socket = serv_socket->_accept();
     std::cout<<"New connection from: " + client_socket->getRemoteAddress().getIP()<<std::endl;
     try {
-        // const int size = 16;
-        // std::vector<uint8_t> data = client_socket->recvall(size);
-        // printf("%s", data.data());
-        const char* hello = "Hello World\n";
-        std::vector<uint8_t> data(hello, hello + strlen(hello));
-        client_socket->sendall(data);
+        std::vector<uint8_t> data = client_socket->recvuntil("qwerty\n", 8192);
+        for(int i=0; i<data.size(); ++i) {
+            printf("%c", data[i]);
+        }
+        printf("\n");
     } catch(const std::exception& e) {
         std::cout<<std::string(e.what())<<std::endl;
     }
     delete client_socket;
-
     delete serv_socket;
 
     return 0;

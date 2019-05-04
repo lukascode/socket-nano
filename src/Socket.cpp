@@ -124,24 +124,27 @@ std::vector<uint8_t> Socket::recvall(size_t size)
 	return data;
 }
 
-//0 - success, -1 - close, -2 - buffer overflow
-int Socket::recvuntil(std::vector<uint8_t>& data, const std::vector<uint8_t>& pattern) 
+std::vector<uint8_t> Socket::recvuntil(const std::string pattern, size_t maxlen)
 {
-	const uint8_t* p = pattern.data();
-	uint8_t buf[BUFFER_SIZE];
-	int len = 0;
-	int ret = recvuntil(buf, BUFFER_SIZE, p, pattern.size(), &len);
-	data.assign(buf, buf + len);
-	return ret;
+	return recvuntil(std::vector<uint8_t>(pattern.begin(), pattern.end()), maxlen);
+}
+
+std::vector<uint8_t> Socket::recvuntil(const std::vector<uint8_t>& pattern, size_t maxlen) 
+{
+	size_t len = 0;
+	std::vector<uint8_t> data(maxlen);
+	recvuntil(data.data(), data.size(), pattern.data(), pattern.size(), &len);
+	data.resize(len);
+	return data;
 }
 
 void Socket::sendall(const uint8_t* buf, size_t len) 
 {
 	size_t total = 0;
-	int bytesleft = len;
+	size_t bytesleft = len;
 	ssize_t n;
 
-	// _send.lock();
+	_send.lock();
 	while(bytesleft > 0) {
 		if((n = send(socket_descriptor, buf + total, bytesleft, 0)) <= 0) {
 			if(n < 0 && errno == EINTR) n = 0;
@@ -150,7 +153,7 @@ void Socket::sendall(const uint8_t* buf, size_t len)
 		total += n;
 		bytesleft -= n;
 	}
-	// _send.unlock();
+	_send.unlock();
 	if(n < 0) {
 		std::string err(strerror(errno));
 		throw SendException("sendall error: " + err);
@@ -160,10 +163,10 @@ void Socket::sendall(const uint8_t* buf, size_t len)
 void Socket::recvall(uint8_t* buf, size_t len) 
 {
 	size_t total = 0;
-	int bytesleft = len;
+	size_t bytesleft = len;
 	ssize_t n;
 
-	// _recv.lock();
+	_recv.lock();
 	while(bytesleft > 0) {
 		if((n = recv(socket_descriptor, buf + total, bytesleft, 0)) < 0) {
 			if(errno == EINTR) n = 0;
@@ -172,7 +175,7 @@ void Socket::recvall(uint8_t* buf, size_t len)
 		total += n;
 		bytesleft -= n;
 	}
-	// _recv.unlock();
+	_recv.unlock();
 	if(n < 0) {
 		std::string err(strerror(errno));
 		throw RecvException("recvall error: " + err);
@@ -182,40 +185,58 @@ void Socket::recvall(uint8_t* buf, size_t len)
 	}
 }
 
-//0 - success, -1 - close, -2 - buffer overflow
-int Socket::recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len) 
+void Socket::recvuntil(uint8_t* buf, size_t buflen, const uint8_t* pattern, size_t patternlen, size_t* len)
 {
-	int n;
-	uint8_t byte;
-	*len = 0;
-	if(maxlen <= 0) return -2;
-	_recv.lock();
-	while(!isContain(buf, *len, pattern, patternlen)) {
-		if(*len >= maxlen) { return -2; }
-		n = recv(socket_descriptor, &byte, 1, 0);
-		if(n <= 0) { return -1; } //socket closed on the other side
-		buf[*len] = byte;
-		*len += 1;
+	size_t total = 0;
+	ssize_t bytesleft = buflen;
+	ssize_t n;
+	
+	_recvuntil.lock();
+	int patternidx;
+	do {
+		if(bytesleft <= 0) {
+			throw std::overflow_error("recvuntil error: Overflow error");
+		}
+		if((n = recv(socket_descriptor, buf + total, bytesleft, MSG_PEEK)) < 0) {
+			if(errno == EINTR) n = 0;
+			else { n = -1; break; }
+		} else if(n == 0) break;
+		if(n > 0) {
+			patternidx = isContainPattern(buf, total + n, pattern, patternlen);
+			if(patternidx < 0) {
+				recvall(buf + total, n);
+			} else {
+				n = patternidx - (total-1);
+				recvall(buf + total, n);
+			}
+		}
+		total += n;
+		bytesleft -= n;
+	} while(patternidx < 0);
+	_recvuntil.unlock();
+	if(n < 0) {
+		std::string err(strerror(errno));
+		throw RecvException("recvall error: " + err);
 	}
-	_recv.unlock();
-	return 0;
+	if(n == 0) {
+		throw SocketConnectionClosedException("Connection has been closed");
+	}
+	*len = total;
 }
 
-//1 - yes, 0 - no
-int Socket::isContain(const uint8_t* buf, int buflen, const uint8_t* pattern, int patternlen) 
+int Socket::isContainPattern(const uint8_t* buf, size_t len, const uint8_t* pattern, size_t patternlen) 
 {
-	int contains = 0;
-	if(buflen < patternlen) return contains;
-	else if( (buflen == 0) && (patternlen == 0)) return 1;
-	else if(patternlen == 0) return contains;
-	int j = 0;
-	for(int i=0; i<buflen; ++i) {
+	int notfound = -1;
+	if(len < patternlen) return notfound;
+	else if((len == 0) && (patternlen == 0)) return notfound;
+	else if(patternlen == 0) return notfound;
+	for(size_t i=0,j=0; i<len; ++i) {
 		if(buf[i] == pattern[j]) {
-			if(j == patternlen-1) { contains = 1; break;}
+			if(j == patternlen-1) return i;
 			else ++j;
 		} else j = 0;
 	}
-	return contains;
+	return notfound;
 }
 
 /* impl from Beej's Guide to Network Programming Using Internet Sockets*/

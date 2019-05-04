@@ -11,7 +11,6 @@
 class Socket 
 {
 public:
-
 	static Socket* createSocket(int type); /* type SOCK_STREAM / SOCK_DGRAM */
 	Socket(int socket_descriptor);
 	Socket(const Socket& socket) = delete;
@@ -32,12 +31,13 @@ public:
 	void sendall(const std::vector<uint8_t>& data);
 	std::vector<uint8_t> recvall(size_t size);
 
-	int recvuntil(std::vector<uint8_t>& data, const std::vector<uint8_t>& pattern);
+	std::vector<uint8_t> recvuntil(const std::string pattern, size_t maxlen);
+	std::vector<uint8_t> recvuntil(const std::vector<uint8_t>& pattern, size_t maxlen);
 
 	void sendall(const uint8_t* buf, size_t len);
 	void recvall(uint8_t* buf, size_t len);
 
-	int recvuntil(uint8_t* buf, int maxlen, const uint8_t* pattern, int patternlen, int* len);
+	void recvuntil(uint8_t* buf, size_t buflen, const uint8_t* pattern, size_t patternlen, size_t* len);
 	int recvtimeout(int s, uint8_t* buf, int len, int timeout);
 
 private:
@@ -46,8 +46,9 @@ private:
 
 	std::mutex _send;
 	std::mutex _recv;
+	std::mutex _recvuntil;
 
-	int isContain(const uint8_t* buf, int buflen, const uint8_t* pattern, int patternlen);
+	int isContainPattern(const uint8_t* buf, size_t len, const uint8_t* pattern, size_t patternlen);
 	bool isValidDescriptor();
 };
 
