@@ -1,18 +1,27 @@
 #ifndef TCP_SERVER_H
 #define TCP_SERVER_H
 
-#include "Server.h"
 #include <thread>
+#include <algorithm>
+#include "Address.h"
+#include "TcpConnectionHandlerFactory.h"
 
-class TcpServer : public Server 
+class TcpServer
 {
 public:
-	TcpServer(Address address, ServerConnectionHandlerFactory* connHandlerFactory);
-protected:
-	virtual Socket* createSocket();
-	virtual int onListen();
+	TcpServer(short port, TcpConnectionHandlerFactory* connHandlerFactory);
+	TcpServer(std::string ip, short port, TcpConnectionHandlerFactory* connHandlerFactory);
+	~TcpServer();
+
+	void Listen();
+	bool removeClient(Socket* client);
 private:
     std::vector<std::thread*> connections;
+	std::vector<Socket*> clients;
+	TcpConnectionHandlerFactory* connHandlerFactory;
+	Socket* socket;
+	short port;
+	std::string ip;
 };
 
 #endif /* TCP_SERVER_H */

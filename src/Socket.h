@@ -28,6 +28,7 @@ public:
 	void _listen(int backlog);
 	Socket* _accept();
 
+	void sendall(const std::string& data);
 	void sendall(const std::vector<uint8_t>& data);
 	void sendall(const uint8_t* buf, size_t len);
 

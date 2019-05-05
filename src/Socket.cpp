@@ -112,9 +112,14 @@ void Socket::closeSocket()
 	}
 }
 
+void Socket::sendall(const std::string& data)
+{
+	sendall(std::vector<uint8_t>(data.begin(), data.end()));
+}
+
 void Socket::sendall(const std::vector<uint8_t>& data) 
 {
-	 return sendall(data.data(), data.size());
+	sendall(data.data(), data.size());
 }
 
 std::vector<uint8_t> Socket::recvall(size_t size) 

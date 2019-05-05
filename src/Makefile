@@ -27,7 +27,7 @@ $(CLIENT): cli.o $(OBJS)
 $(SERVER): serv.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
-devtest: main.o Socket.o Address.o NetworkUtils.o
+devtest: main.o Socket.o Address.o NetworkUtils.o TcpConnectionHandler.o TcpServer.o
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp
@@ -38,6 +38,7 @@ Address.o: Address.h
 Socket.o: Socket.h
 Server.o: Server.h
 TcpServer.o: TcpServer.h
+TcpConnectionHandler.o: TcpConnectionHandler.h
 Client.o: Client.h
 ServerConnectionHandler.o: ServerConnectionHandler.h
 ClientConnectionHandler.o: ClientConnectionHandler.h
