@@ -1,8 +1,9 @@
 #ifndef TCP_CONNECTION_HANDLER_FACTORY_H
 #define TCP_CONNECTION_HANDLER_FACTORY_H
 
-#include "NetworkUtils.h"
 #include "TcpConnectionHandler.h"
+
+class TcpConnectionHandler;
 
 class TcpConnectionHandlerFactory 
 {

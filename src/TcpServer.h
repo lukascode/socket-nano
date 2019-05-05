@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Address.h"
 #include "TcpConnectionHandlerFactory.h"
+#include "TcpConnectionHandler.h"
 
 class TcpServer
 {
