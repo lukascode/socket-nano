@@ -8,75 +8,82 @@
 #include <mutex>
 #include <cstddef>
 
-class Socket 
+class Socket
 {
 public:
-	static Socket* createSocket(int type);
+	static Socket *createSocket(int type);
 	Socket(int socket_descriptor);
-	Socket(const Socket& socket) = delete;
+	Socket(const Socket &socket) = delete;
 	~Socket();
 
 	Address getRemoteAddress();
-	Address* getBoundAddress();
+	Address *getBoundAddress();
+
+	void enableTimeout(int timeout);
+	void disableTimeout();
 
 	int getSocket();
 	void setSocket(int socket_descriptor);
 	void closeSocket();
 	int getSocketType();
 
-	void _bind(Address* address);
+	void _bind(Address *address);
 	void _listen(int backlog);
-	Socket* _accept();
+	Socket *_accept();
 
-	void sendall(const std::string& data);
-	void sendall(const std::vector<uint8_t>& data);
-	void sendall(const uint8_t* buf, size_t len);
+	void sendall(const std::string &data);
+	void sendall(const std::vector<uint8_t> &data);
+	void sendall(const uint8_t *buf, size_t len);
 
 	std::vector<uint8_t> recvall(size_t size);
-	void recvall(uint8_t* buf, size_t len);
+	void recvall(uint8_t *buf, size_t len);
 	std::vector<uint8_t> recvuntil(const std::string pattern, size_t maxlen);
-	std::vector<uint8_t> recvuntil(const std::vector<uint8_t>& pattern, size_t maxlen);
-	void recvuntil(uint8_t* buf, size_t buflen, const uint8_t* pattern, size_t patternlen, size_t* len);
+	std::vector<uint8_t> recvuntil(const std::vector<uint8_t> &pattern, size_t maxlen);
+	void recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len);
 
 private:
 	int socket_descriptor;
-	Address* boundAddress;
+	Address *boundAddress;
 	std::mutex _send;
 	std::mutex _recv;
 	std::mutex _recvuntil;
 
-	int isContainPattern(const uint8_t* buf, size_t len, const uint8_t* pattern, size_t patternlen);
+	int timeout;
+
+	int recvtimeoutwrapper(int socket, void *buf, size_t len, int flags);
+	int recvtimeout(int socket, void *buf, size_t n, int flags, int timeout);
+	int isContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen);
 	bool isValidDescriptor();
 };
 
-class SocketException : public std::runtime_error 
+class SocketException : public std::runtime_error
 {
 public:
-	SocketException(std::string msg): std::runtime_error(msg) {}
+	SocketException(std::string msg) : std::runtime_error(msg) {}
 };
 
-class SendException: public SocketException 
+class SendException : public SocketException
 {
 public:
-	SendException(std::string msg): SocketException(msg) {}
+	SendException(std::string msg) : SocketException(msg) {}
 };
 
-class RecvException: public SocketException
+class RecvException : public SocketException
 {
 public:
-	RecvException(std::string msg): SocketException(msg) {}
+	RecvException(std::string msg) : SocketException(msg) {}
 };
 
-class SocketConnectionClosedException: public SocketException
+class SocketConnectionClosedException : public SocketException
 {
 public:
-	SocketConnectionClosedException(std::string msg): SocketException(msg) {}
+	SocketConnectionClosedException(std::string msg) : SocketException(msg) {}
 };
 
-class TimeoutException: public SocketException
+class TimeoutException : public SocketException
 {
 public:
-	TimeoutException(std::string msg): SocketException(msg) {}
+	TimeoutException(std::string msg) : SocketException(msg) {}
 };
 
 #endif /* SOCKET_H */
