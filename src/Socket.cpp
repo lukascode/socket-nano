@@ -46,7 +46,7 @@ void Socket::setSocket(int socket_descriptor)
 
 void Socket::enableTimeout(int timeout)
 {
-	if (timeout >= 0)
+	if (timeout > 0)
 	{
 		this->timeout = timeout;
 	}

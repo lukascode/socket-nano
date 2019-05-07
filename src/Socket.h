@@ -1,5 +1,4 @@
-#ifndef SOCKET_H
-#define SOCKET_H
+#pragma once
 
 #include "NetworkUtils.h"
 #include "Address.h"
@@ -85,5 +84,3 @@ class TimeoutException : public SocketException
 public:
 	TimeoutException(std::string msg) : SocketException(msg) {}
 };
-
-#endif /* SOCKET_H */

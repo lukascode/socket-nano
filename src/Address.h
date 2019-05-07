@@ -1,5 +1,4 @@
-#ifndef ADDRESS_H
-#define ADDRESS_H
+#pragma once
 
 #include "NetworkUtils.h"
 
@@ -21,5 +20,3 @@ private:
 	static sockaddr_in tempaddr(std::string address, short port);
 	static sockaddr_in tempaddr(short port);
 };
-
-#endif /* ADDRESS_H */

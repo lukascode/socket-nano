@@ -1,5 +1,4 @@
-#ifndef CLIENT_H
-#define CLIENT_H
+#pragma once
 
 #include "NetworkUtils.h"
 #include "Address.h"
@@ -38,6 +37,3 @@ public:
 private:
 	std::string msg;
 };
-
-	
-#endif /* CLIENT_H */

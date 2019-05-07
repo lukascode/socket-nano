@@ -19,10 +19,8 @@ public:
             for (;;)
             {
                 auto data = socket->recvuntil("XYZ123\n", 8192);
-                for (size_t i = 0; i < data.size(); ++i)
-                {
-                    printf("%c", data[i]);
-                }
+                std::string datastr(data.begin(), data.end());
+                std::cout<<datastr;
             }
         }
         catch (std::exception &e)
@@ -66,8 +64,8 @@ public:
 int main(void)
 {
 
-    TcpServer *server = new TcpServer(1234, new TcpConnectionHandlerFactoryImpl());
-    server->Listen();
+    TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
+    server->Listen("0.0.0.0", 1234);
 
     return 0;
 }

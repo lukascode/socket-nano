@@ -1,5 +1,4 @@
-#ifndef NETWORK_UTILS_H
-#define NETWORK_UTILS_H
+#pragma once
 
 #include <stdio.h>
 #include <errno.h>
@@ -27,7 +26,7 @@
 #include <sstream>
 #include <mutex>
 
-class NetworkUtils 
+class NetworkUtils
 {
 public:
 	static std::string getLocalHostName();
@@ -35,9 +34,8 @@ public:
 	static void print_stdout(std::string message);
 };
 
-class DnsLookupException: public std::runtime_error {
+class DnsLookupException : public std::runtime_error
+{
 public:
-	DnsLookupException(std::string msg): std::runtime_error(msg) {}
+	DnsLookupException(std::string msg) : std::runtime_error(msg) {}
 };
-
-#endif /* NETWORK_UTILS_H */

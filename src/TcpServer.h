@@ -1,5 +1,4 @@
-#ifndef TCP_SERVER_H
-#define TCP_SERVER_H
+#pragma once
 
 #include <thread>
 #include <algorithm>
@@ -10,19 +9,20 @@
 class TcpServer
 {
 public:
-	TcpServer(short port, TcpConnectionHandlerFactory* connHandlerFactory);
-	TcpServer(std::string ip, short port, TcpConnectionHandlerFactory* connHandlerFactory);
+	TcpServer(TcpConnectionHandlerFactory *connHandlerFactory);
 	~TcpServer();
 
-	void Listen();
-	bool removeClient(Socket* client);
+	void Listen(short port);
+	void Listen(std::string ip, short port);
+	bool removeClient(Socket *client);
+
 private:
-    std::vector<std::thread*> connections;
-	std::vector<Socket*> clients;
-	TcpConnectionHandlerFactory* connHandlerFactory;
-	Socket* socket;
+	std::vector<std::thread *> connections;
+	std::vector<Socket *> clients;
+	TcpConnectionHandlerFactory *connHandlerFactory;
+	Socket *socket;
 	short port;
 	std::string ip;
-};
 
-#endif /* TCP_SERVER_H */
+	void _Listen();
+};

@@ -1,5 +1,4 @@
-#ifndef TCP_CONNECTION_HANDLER_H
-#define TCP_CONNECTION_HANDLER_H
+#pragma once
 
 #include "Socket.h"
 #include "TcpServer.h"
@@ -17,5 +16,3 @@ protected:
 	Socket* socket;
 	TcpServer* context;
 };
-
-#endif /* TCP_CONNECTION_HANDLER_H */
