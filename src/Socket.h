@@ -34,6 +34,13 @@ public:
 	void sendall(const std::vector<uint8_t> &data);
 	void sendall(const uint8_t *buf, size_t len);
 
+	// TODO
+	void sendto(Address address, const uint8_t *buf, size_t len);
+	void sendto(Address address, const std::vector<uint8_t> &data);
+	void sendto(Address address, const std::string &data);
+
+	// TODO recvfrom
+
 	std::vector<uint8_t> recvall(size_t size);
 	void recvall(uint8_t *buf, size_t len);
 	std::vector<uint8_t> recvuntil(const std::string pattern, size_t maxlen);
@@ -49,8 +56,8 @@ private:
 
 	int timeout;
 
-	int recvtimeoutwrapper(int socket, void *buf, size_t len, int flags);
-	int recvtimeout(int socket, void *buf, size_t n, int flags, int timeout);
+	void applyRecvTimeout();
+	int recvtimeoutwrapper(void *buf, size_t len, int flags);
 	int isContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen);
 	bool isValidDescriptor();
 };

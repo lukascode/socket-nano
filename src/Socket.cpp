@@ -209,7 +209,7 @@ void Socket::recvall(uint8_t *buf, size_t len)
 	std::lock_guard<std::mutex> lock(_recv);
 	while (bytesleft > 0)
 	{
-		if ((n = recvtimeoutwrapper(socket_descriptor, buf + total, bytesleft, 0)) < 0)
+		if ((n = recvtimeoutwrapper(buf + total, bytesleft, 0)) < 0)
 		{
 			if (errno == EINTR)
 				n = 0;
@@ -249,7 +249,7 @@ void Socket::recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size
 		{
 			throw std::overflow_error("recvuntil error: Overflow error");
 		}
-		if ((n = recvtimeoutwrapper(socket_descriptor, buf + total, bytesleft, MSG_PEEK)) < 0)
+		if ((n = recvtimeoutwrapper(buf + total, bytesleft, MSG_PEEK)) < 0)
 		{
 			if (errno == EINTR)
 				n = 0;
@@ -313,35 +313,27 @@ int Socket::isContainPattern(const uint8_t *buf, size_t len, const uint8_t *patt
 	return notfound;
 }
 
-int Socket::recvtimeoutwrapper(int socket, void *buf, size_t len, int flags)
+int Socket::recvtimeoutwrapper(void *buf, size_t len, int flags)
+{
+	applyRecvTimeout();
+	return recv(socket_descriptor, buf, len, flags);
+}
+
+void Socket::applyRecvTimeout()
 {
 	if (timeout > 0)
 	{
-		int n = recvtimeout(socket, buf, len, flags, timeout);
-		if (n == -2)
+		fd_set fds;
+		int n;
+		struct timeval tv;
+		FD_ZERO(&fds);
+		FD_SET(socket_descriptor, &fds);
+		tv.tv_sec = timeout;
+		tv.tv_usec = 0;
+		n = select(socket_descriptor + 1, &fds, nullptr, nullptr, &tv);
+		if (n == 0)
 			throw TimeoutException("Waiting time has been exceeded");
-		return n;
+		else if (n == -1)
+			throw RecvException("select error: " + std::string(strerror(errno)));
 	}
-	return recv(socket, buf, len, flags);
-}
-
-int Socket::recvtimeout(int socket, void *buf, size_t len, int flags, int timeout)
-{
-	fd_set fds;
-	int n;
-	struct timeval tv;
-
-	FD_ZERO(&fds);
-	FD_SET(socket, &fds);
-
-	tv.tv_sec = timeout;
-	tv.tv_usec = 0;
-
-	n = select(socket + 1, &fds, NULL, NULL, &tv);
-	if (n == 0)
-		return -2; // timeout
-	else if (n == -1)
-		return -1;
-
-	return recv(socket, buf, len, flags);
 }
