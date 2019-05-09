@@ -150,9 +150,9 @@ void Socket::sendall(const std::vector<uint8_t> &data)
 	sendall(data.data(), data.size());
 }
 
-std::vector<uint8_t> Socket::recvall(size_t size)
+std::vector<uint8_t> Socket::recvall(size_t len)
 {
-	std::vector<uint8_t> data(size);
+	std::vector<uint8_t> data(len);
 	recvall(data.data(), data.size());
 	return data;
 }
@@ -197,6 +197,26 @@ void Socket::sendall(const uint8_t *buf, size_t len)
 	{
 		std::string err(strerror(errno));
 		throw SendException("sendall error: " + err);
+	}
+}
+
+void Socket::SendTo(Address *address, const std::string &data)
+{
+	SendTo(address, std::vector<uint8_t>(data.begin(), data.end()));
+}
+
+void Socket::SendTo(Address *address, const std::vector<uint8_t> &data)
+{
+	SendTo(address, data.data(), data.size());
+}
+
+void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
+{
+	struct sockaddr *addr = (struct sockaddr *)address->getRawAddress();
+	if (sendto(socket_descriptor, buf, len, 0, addr, sizeof(*addr)) < 0)
+	{
+		std::string err(strerror(errno));
+		throw SendException("sendto error: " + err);
 	}
 }
 
@@ -287,6 +307,28 @@ void Socket::recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size
 		throw SocketConnectionClosedException("Connection has been closed");
 	}
 	*len = total;
+}
+
+std::vector<uint8_t> Socket::RecvFrom(Address *&address, size_t len)
+{
+	std::vector<uint8_t> data(len);
+	size_t size = RecvFrom(address, data.data(), data.size());
+	data.resize(size);
+	return data;
+}
+
+size_t Socket::RecvFrom(Address *&address, uint8_t *buf, size_t len)
+{
+	int n;
+	struct sockaddr_in addr;
+	socklen_t addrlen = sizeof(addr);
+	if((n = recvfrom(socket_descriptor, buf, len, 0, (struct sockaddr*) &addr, &addrlen)) < 0)
+	{
+		std::string err(strerror(errno));
+		throw RecvException("recvfrom error: " + err);
+	}
+	address = new Address(addr);
+	return n;
 }
 
 int Socket::isContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen)

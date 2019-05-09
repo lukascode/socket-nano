@@ -64,8 +64,17 @@ public:
 int main(void)
 {
 
-    TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
-    server->Listen("0.0.0.0", 1234);
+    // TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
+    // server->Listen("0.0.0.0", 1234);
+
+    Socket* socket = Socket::createSocket(SOCK_DGRAM);
+    socket->_bind(new Address(4321));
+
+    Address* client;
+    std::vector<uint8_t> data = socket->RecvFrom(client, 16);
+    std::string datastr(data.begin(), data.end());
+
+    std::cout<<datastr<<" from: "<<client->getIP();
 
     return 0;
 }
