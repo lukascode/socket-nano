@@ -1,13 +1,20 @@
 #pragma once
 
-#include "Server.h"
+#include "Socket.h"
 
-class UdpServer : public Server
+class UdpServer
 {
 public:
-	UdpServer(Address address, ServerConnectionHandlerFactory *connHandlerFactory);
+	UdpServer(); // todo add handler
+	~UdpServer();
+
+	void Listen(short port);
+	void Listen(std::string ip, short port);
 
 protected:
-	virtual Socket *createSocket();
-	virtual int onListen();
+	Socket *socket;
+	short port;
+	std::string ip;
+
+	void _Listen();
 };

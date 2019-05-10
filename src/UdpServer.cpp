@@ -1,22 +1,23 @@
 #include "UdpServer.h"
 
-UdpServer::UdpServer(Address address, ServerConnectionHandlerFactory *connHandlerFactory) : Server(address, connHandlerFactory)
+UdpServer::UdpServer() {}
+
+UdpServer::~UdpServer()
 {
+	if (socket)
+		delete socket;
 }
 
-Socket *UdpServer::createSocket()
+void UdpServer::Listen(short port)
 {
-	Socket *socket;
-	try
-	{
-		socket = new Socket(SOCK_DGRAM);
-	}
-	catch (...)
-	{
-		delete socket;
-		throw;
-	}
-	return socket;
+	Listen("", port);
+}
+
+void UdpServer::Listen(std::string ip, short port)
+{
+	this->ip = ip;
+	this->port = port;
+	_Listen();
 }
 
 int UdpServer::onListen()
