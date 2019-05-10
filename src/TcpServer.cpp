@@ -1,7 +1,7 @@
 #include "TcpServer.h"
 
 static void handleConnection(TcpConnectionHandler *handler);
-static void joinFinishedThreads(std::vector<std::thread *> *connections);
+static void joinFinishedThreads(std::vector<std::thread *> *threads);
 
 TcpServer::TcpServer(TcpConnectionHandlerFactory *connHandlerFactory)
 {
@@ -43,7 +43,7 @@ void TcpServer::_Listen()
 	socket->_listen(20);
 
 	// join connection threads
-	std::thread _wait(joinFinishedThreads, &connections);
+	std::thread _wait(joinFinishedThreads, &threads);
 	for (;;)
 	{
 		Socket *client_socket = socket->_accept();
@@ -54,7 +54,7 @@ void TcpServer::_Listen()
 
 		// handle connection in std::thread
 		std::thread *thread = new std::thread(handleConnection, handler);
-		connections.push_back(thread);
+		threads.push_back(thread);
 	}
 	_wait.join();
 }
@@ -77,15 +77,15 @@ static void handleConnection(TcpConnectionHandler *handler)
 	delete handler;
 }
 
-static void joinFinishedThreads(std::vector<std::thread *> *connections)
+static void joinFinishedThreads(std::vector<std::thread *> *threads)
 {
 	for (;;)
 	{
-		for (size_t i = 0; i < connections->size(); ++i)
+		for (size_t i = 0; i < threads->size(); ++i)
 		{
-			(*connections)[i]->join();
-			delete (*connections)[i];
-			connections->erase(connections->begin() + i);
+			(*threads)[i]->join();
+			delete (*threads)[i];
+			threads->erase(threads->begin() + i);
 		}
 		sleep(1);
 	}

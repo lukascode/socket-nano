@@ -6,6 +6,9 @@
 #include "TcpServer.h"
 #include "TcpConnectionHandler.h"
 #include "TcpConnectionHandlerFactory.h"
+#include "UdpServer.h"
+#include "UdpDatagramHandler.h"
+#include "UdpDatagramHandlerFactory.h"
 
 class TcpConnectionHandlerImpl : public TcpConnectionHandler
 {
@@ -20,7 +23,7 @@ public:
             {
                 auto data = socket->recvuntil("XYZ123\n", 8192);
                 std::string datastr(data.begin(), data.end());
-                std::cout<<datastr;
+                std::cout << datastr;
             }
         }
         catch (std::exception &e)
@@ -61,20 +64,41 @@ public:
     }
 };
 
+class UdpDatagramHandlerImpl : public UdpDatagramHandler
+{
+public:
+    virtual void handleDatagram()
+    {
+        try
+        {
+            std::cout << datagram;
+            sleep(10);
+        }
+        catch (const std::exception &e)
+        {
+            std::cout<<std::string(e.what())<<std::endl;
+        }
+    }
+};
+
+class UdpDatagramHandlerFactoryImpl : public UdpDatagramHandlerFactory
+{
+public:
+    virtual UdpDatagramHandlerImpl *createUdpDatagramHandler()
+    {
+        return new UdpDatagramHandlerImpl();
+    }
+};
+
 int main(void)
 {
 
     // TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
     // server->Listen("0.0.0.0", 1234);
 
-    Socket* socket = Socket::createSocket(SOCK_DGRAM);
-    socket->_bind(new Address(4321));
-
-    Address* client;
-    std::vector<uint8_t> data = socket->RecvFrom(client, 16);
-    std::string datastr(data.begin(), data.end());
-
-    std::cout<<datastr<<" from: "<<client->getIP();
+    UdpServer *server = new UdpServer(new UdpDatagramHandlerFactoryImpl());
+    server->Listen("0.0.0.0", 1234);
+    
 
     return 0;
 }

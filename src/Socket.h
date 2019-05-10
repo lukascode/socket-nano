@@ -34,12 +34,10 @@ public:
 	void sendall(const std::vector<uint8_t> &data);
 	void sendall(const uint8_t *buf, size_t len);
 
-	// TODO
 	void SendTo(Address *address, const std::string &data);
 	void SendTo(Address *address, const std::vector<uint8_t> &data);
 	void SendTo(Address *address, const uint8_t *buf, size_t len);
 
-	// TODO recvfrom
 	std::vector<uint8_t> RecvFrom(Address *&address, size_t len);
 	size_t RecvFrom(Address *&address, uint8_t *buf, size_t len);
 

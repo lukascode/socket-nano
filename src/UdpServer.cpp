@@ -1,9 +1,17 @@
 #include "UdpServer.h"
 
-UdpServer::UdpServer() {}
+static void handleDatagram(UdpDatagramHandler *handler);
+static void joinFinishedThreads(std::vector<std::thread *> *threads);
+
+UdpServer::UdpServer(UdpDatagramHandlerFactory *datagramHandlerFactory)
+{
+	this->datagramHandlerFactory = datagramHandlerFactory;
+}
 
 UdpServer::~UdpServer()
 {
+	if (datagramHandlerFactory)
+		delete datagramHandlerFactory;
 	if (socket)
 		delete socket;
 }
@@ -20,29 +28,45 @@ void UdpServer::Listen(std::string ip, short port)
 	_Listen();
 }
 
-int UdpServer::onListen()
+void UdpServer::_Listen()
 {
+	socket = Socket::createSocket(SOCK_DGRAM);
+	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
+	socket->_bind(address);
 
-	ServerConnectionHandlerFactory *connHandlerFactory = Server::getConnHandlerFactory();
-	Socket *serverSocket = Server::getSocket();
-
-	char buf[BSIZE];
-	struct sockaddr_in client_addr;
-	int numbytes;
-	socklen_t addr_len = sizeof(struct sockaddr);
-	while (1)
+	std::thread _wait(joinFinishedThreads, &threads);
+	for (;;)
 	{
-		if ((numbytes = recvfrom(serverSocket->getDescriptor(), buf, 0, 0, (struct sockaddr *)&client_addr, &addr_len)) == -1)
-		{
-			continue;
-		}
-		Socket *client = new Socket(SOCK_DGRAM); //create new socket client
-		int ret = connect(client->getDescriptor(), (struct sockaddr *)&client_addr, addr_len);
-		if (ret == -1)
-			continue;
-		clients.push_back(client); // TODO
-		ServerConnectionHandler *handler = connHandlerFactory->createServerConnectionHandler();
-		handler->setSocket(client);
+		Address *client;
+		std::vector<uint8_t> datagram = socket->RecvFrom(client, 1024);
+		UdpDatagramHandler *handler = datagramHandlerFactory->createUdpDatagramHandler();
+		handler->setSocket(socket);
+		handler->setDatagram(std::string(datagram.begin(), datagram.end()));
 		handler->setContext(this);
+		handler->setAddress(client);
+		
+		std::thread *thread = new std::thread(handleDatagram, handler);
+		threads.push_back(thread);
+	}
+	_wait.join();
+}
+
+static void handleDatagram(UdpDatagramHandler *handler)
+{
+	handler->handleDatagram();
+	delete handler;
+}
+
+static void joinFinishedThreads(std::vector<std::thread *> *threads)
+{
+	for (;;)
+	{
+		for (size_t i = 0; i < threads->size(); ++i)
+		{
+			(*threads)[i]->join();
+			delete (*threads)[i];
+			threads->erase(threads->begin() + i);
+		}
+		sleep(1);
 	}
 }

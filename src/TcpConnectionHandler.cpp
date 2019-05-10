@@ -2,15 +2,16 @@
 
 TcpConnectionHandler::~TcpConnectionHandler()
 {
-	if(socket) context->removeClient(socket); 
+	if (socket)
+		context->removeClient(socket);
 }
 
-void TcpConnectionHandler::setSocket(Socket* socket) 
+void TcpConnectionHandler::setSocket(Socket *socket)
 {
 	this->socket = socket;
 }
 
-void TcpConnectionHandler::setContext(TcpServer* context) 
+void TcpConnectionHandler::setContext(TcpServer *context)
 {
 	this->context = context;
 }

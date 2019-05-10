@@ -17,7 +17,7 @@ public:
 	bool removeClient(Socket *client);
 
 private:
-	std::vector<std::thread *> connections;
+	std::vector<std::thread *> threads;
 	std::vector<Socket *> clients;
 	TcpConnectionHandlerFactory *connHandlerFactory;
 	Socket *socket;
