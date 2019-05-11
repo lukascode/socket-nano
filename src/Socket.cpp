@@ -62,11 +62,6 @@ void Socket::DisableTimeout()
 	this->timeout = 0;
 }
 
-bool Socket::IsValidDescriptor()
-{
-	return (fcntl(socket_descriptor, F_GETFD) != -1) || (errno != EBADF);
-}
-
 int Socket::GetSocketType()
 {
 	int type;
@@ -169,27 +164,6 @@ void Socket::SendAll(const std::vector<uint8_t> &data)
 	SendAll(data.data(), data.size());
 }
 
-std::vector<uint8_t> Socket::RecvAll(size_t len)
-{
-	std::vector<uint8_t> data(len);
-	RecvAll(data.data(), data.size());
-	return data;
-}
-
-std::vector<uint8_t> Socket::RecvUntil(const std::string pattern, size_t maxlen)
-{
-	return RecvUntil(std::vector<uint8_t>(pattern.begin(), pattern.end()), maxlen);
-}
-
-std::vector<uint8_t> Socket::RecvUntil(const std::vector<uint8_t> &pattern, size_t maxlen)
-{
-	size_t len = 0;
-	std::vector<uint8_t> data(maxlen);
-	RecvUntil(data.data(), data.size(), pattern.data(), pattern.size(), &len);
-	data.resize(len);
-	return data;
-}
-
 void Socket::SendAll(const uint8_t *buf, size_t len)
 {
 	size_t total = 0;
@@ -219,24 +193,11 @@ void Socket::SendAll(const uint8_t *buf, size_t len)
 	}
 }
 
-void Socket::SendTo(Address *address, const std::string &data)
+std::vector<uint8_t> Socket::RecvAll(size_t len)
 {
-	SendTo(address, std::vector<uint8_t>(data.begin(), data.end()));
-}
-
-void Socket::SendTo(Address *address, const std::vector<uint8_t> &data)
-{
-	SendTo(address, data.data(), data.size());
-}
-
-void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
-{
-	struct sockaddr *addr = (struct sockaddr *)address->GetRawAddress();
-	if (sendto(socket_descriptor, buf, len, 0, addr, sizeof(*addr)) < 0)
-	{
-		std::string err(strerror(errno));
-		throw SendException("sendto error: " + err);
-	}
+	std::vector<uint8_t> data(len);
+	RecvAll(data.data(), data.size());
+	return data;
 }
 
 void Socket::RecvAll(uint8_t *buf, size_t len)
@@ -272,6 +233,20 @@ void Socket::RecvAll(uint8_t *buf, size_t len)
 	{
 		throw SocketConnectionClosedException("Connection has been closed");
 	}
+}
+
+std::vector<uint8_t> Socket::RecvUntil(const std::string pattern, size_t maxlen)
+{
+	return RecvUntil(std::vector<uint8_t>(pattern.begin(), pattern.end()), maxlen);
+}
+
+std::vector<uint8_t> Socket::RecvUntil(const std::vector<uint8_t> &pattern, size_t maxlen)
+{
+	size_t len = 0;
+	std::vector<uint8_t> data(maxlen);
+	RecvUntil(data.data(), data.size(), pattern.data(), pattern.size(), &len);
+	data.resize(len);
+	return data;
 }
 
 void Socket::RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len)
@@ -328,6 +303,26 @@ void Socket::RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size
 	*len = total;
 }
 
+void Socket::SendTo(Address *address, const std::string &data)
+{
+	SendTo(address, std::vector<uint8_t>(data.begin(), data.end()));
+}
+
+void Socket::SendTo(Address *address, const std::vector<uint8_t> &data)
+{
+	SendTo(address, data.data(), data.size());
+}
+
+void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
+{
+	struct sockaddr *addr = (struct sockaddr *)address->GetRawAddress();
+	if (sendto(socket_descriptor, buf, len, 0, addr, sizeof(*addr)) < 0)
+	{
+		std::string err(strerror(errno));
+		throw SendException("sendto error: " + err);
+	}
+}
+
 std::vector<uint8_t> Socket::RecvFrom(Address *&address, size_t len)
 {
 	std::vector<uint8_t> data(len);
@@ -348,6 +343,31 @@ size_t Socket::RecvFrom(Address *&address, uint8_t *buf, size_t len)
 	}
 	address = new Address(addr);
 	return n;
+}
+
+void Socket::ApplyRecvTimeout()
+{
+	if (timeout > 0)
+	{
+		fd_set fds;
+		int n;
+		struct timeval tv;
+		FD_ZERO(&fds);
+		FD_SET(socket_descriptor, &fds);
+		tv.tv_sec = timeout;
+		tv.tv_usec = 0;
+		n = select(socket_descriptor + 1, &fds, nullptr, nullptr, &tv);
+		if (n == 0)
+			throw TimeoutException("Waiting time has been exceeded");
+		else if (n == -1)
+			throw RecvException("select error: " + std::string(strerror(errno)));
+	}
+}
+
+int Socket::RecvTimeoutWrapper(void *buf, size_t len, int flags)
+{
+	ApplyRecvTimeout();
+	return recv(socket_descriptor, buf, len, flags);
 }
 
 int Socket::IsContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen)
@@ -374,27 +394,7 @@ int Socket::IsContainPattern(const uint8_t *buf, size_t len, const uint8_t *patt
 	return notfound;
 }
 
-int Socket::RecvTimeoutWrapper(void *buf, size_t len, int flags)
+bool Socket::IsValidDescriptor()
 {
-	ApplyRecvTimeout();
-	return recv(socket_descriptor, buf, len, flags);
-}
-
-void Socket::ApplyRecvTimeout()
-{
-	if (timeout > 0)
-	{
-		fd_set fds;
-		int n;
-		struct timeval tv;
-		FD_ZERO(&fds);
-		FD_SET(socket_descriptor, &fds);
-		tv.tv_sec = timeout;
-		tv.tv_usec = 0;
-		n = select(socket_descriptor + 1, &fds, nullptr, nullptr, &tv);
-		if (n == 0)
-			throw TimeoutException("Waiting time has been exceeded");
-		else if (n == -1)
-			throw RecvException("select error: " + std::string(strerror(errno)));
-	}
+	return (fcntl(socket_descriptor, F_GETFD) != -1) || (errno != EBADF);
 }

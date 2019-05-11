@@ -9,7 +9,7 @@ class UdpDatagramHandler
 {
 public:
     virtual ~UdpDatagramHandler();
-    virtual void handleDatagram() = 0;
+    virtual void HandleDatagram() = 0;
     void SetSocket(Socket *socket);
     void SetContext(UdpServer *context);
     void SetDatagram(std::string datagram);

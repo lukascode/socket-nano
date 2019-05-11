@@ -53,7 +53,7 @@ void UdpServer::_Listen()
 
 static void handleDatagram(UdpDatagramHandler *handler)
 {
-	handler->handleDatagram();
+	handler->HandleDatagram();
 	delete handler;
 }
 

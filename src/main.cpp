@@ -67,7 +67,7 @@ public:
 class UdpDatagramHandlerImpl : public UdpDatagramHandler
 {
 public:
-    virtual void handleDatagram()
+    virtual void HandleDatagram()
     {
         try
         {

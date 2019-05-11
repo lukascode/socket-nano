@@ -15,14 +15,15 @@ public:
 	Socket(const Socket &socket) = delete;
 	~Socket();
 
-	Address GetRemoteAddress();
-	Address *GetBoundAddress();
+	int GetSocket();
+	void SetSocket(int socket_descriptor);
 
 	void EnableTimeout(int timeout);
 	void DisableTimeout();
 
-	int GetSocket();
-	void SetSocket(int socket_descriptor);
+	Address GetRemoteAddress();
+	Address *GetBoundAddress();
+
 	void CloseSocket();
 	int GetSocketType();
 
@@ -31,22 +32,22 @@ public:
 	void Listen(int backlog);
 	Socket *Accept();
 
+	// TCP
 	void SendAll(const std::string &data);
 	void SendAll(const std::vector<uint8_t> &data);
 	void SendAll(const uint8_t *buf, size_t len);
-
-	void SendTo(Address *address, const std::string &data);
-	void SendTo(Address *address, const std::vector<uint8_t> &data);
-	void SendTo(Address *address, const uint8_t *buf, size_t len);
-
-	std::vector<uint8_t> RecvFrom(Address *&address, size_t len);
-	size_t RecvFrom(Address *&address, uint8_t *buf, size_t len);
-
 	std::vector<uint8_t> RecvAll(size_t len);
 	void RecvAll(uint8_t *buf, size_t len);
 	std::vector<uint8_t> RecvUntil(const std::string pattern, size_t maxlen);
 	std::vector<uint8_t> RecvUntil(const std::vector<uint8_t> &pattern, size_t maxlen);
 	void RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len);
+
+	// UDP
+	void SendTo(Address *address, const std::string &data);
+	void SendTo(Address *address, const std::vector<uint8_t> &data);
+	void SendTo(Address *address, const uint8_t *buf, size_t len);
+	std::vector<uint8_t> RecvFrom(Address *&address, size_t len);
+	size_t RecvFrom(Address *&address, uint8_t *buf, size_t len);
 
 private:
 	int socket_descriptor;
