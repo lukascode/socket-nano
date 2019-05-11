@@ -1,6 +1,6 @@
 #include "Socket.h"
 
-Socket *Socket::createSocket(int type)
+Socket *Socket::CreateSocket(int type)
 {
 	int socket_descriptor = socket(AF_INET, type, 0);
 	if (socket_descriptor < 0)
@@ -13,7 +13,7 @@ Socket *Socket::createSocket(int type)
 
 Socket::Socket(int socket_descriptor)
 {
-	setSocket(socket_descriptor);
+	SetSocket(socket_descriptor);
 	boundAddress = nullptr;
 	connectedAddress = nullptr;
 	timeout = 0;
@@ -21,9 +21,9 @@ Socket::Socket(int socket_descriptor)
 
 Socket::~Socket()
 {
-	if (isValidDescriptor())
+	if (IsValidDescriptor())
 	{
-		closeSocket();
+		CloseSocket();
 	}
 	if (boundAddress)
 	{
@@ -35,21 +35,21 @@ Socket::~Socket()
 	}
 }
 
-int Socket::getSocket()
+int Socket::GetSocket()
 {
 	return socket_descriptor;
 }
 
-void Socket::setSocket(int socket_descriptor)
+void Socket::SetSocket(int socket_descriptor)
 {
 	this->socket_descriptor = socket_descriptor;
-	if (!isValidDescriptor())
+	if (!IsValidDescriptor())
 	{
 		throw SocketException("Invalid socket descriptor");
 	}
 }
 
-void Socket::enableTimeout(int timeout)
+void Socket::EnableTimeout(int timeout)
 {
 	if (timeout > 0)
 	{
@@ -57,17 +57,17 @@ void Socket::enableTimeout(int timeout)
 	}
 }
 
-void Socket::disableTimeout()
+void Socket::DisableTimeout()
 {
 	this->timeout = 0;
 }
 
-bool Socket::isValidDescriptor()
+bool Socket::IsValidDescriptor()
 {
 	return (fcntl(socket_descriptor, F_GETFD) != -1) || (errno != EBADF);
 }
 
-int Socket::getSocketType()
+int Socket::GetSocketType()
 {
 	int type;
 	socklen_t length = sizeof(int);
@@ -75,7 +75,7 @@ int Socket::getSocketType()
 	return type;
 }
 
-void Socket::_bind(Address *address)
+void Socket::Bind(Address *address)
 {
 	int yes = 1;
 	if (setsockopt(socket_descriptor, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) < 0)
@@ -87,7 +87,7 @@ void Socket::_bind(Address *address)
 	{
 		throw std::invalid_argument("Param address must not be null");
 	}
-	if (bind(socket_descriptor, (struct sockaddr *)address->getRawAddress(), sizeof(struct sockaddr)) < 0)
+	if (bind(socket_descriptor, (struct sockaddr *)address->GetRawAddress(), sizeof(struct sockaddr)) < 0)
 	{
 		std::string err(strerror(errno));
 		throw SocketException("bind error: " + err);
@@ -101,7 +101,7 @@ void Socket::Connect(Address *address)
 	{
 		throw std::invalid_argument("Param address must not be null");
 	}
-	if (connect(socket_descriptor, (struct sockaddr *)address->getRawAddress(), sizeof(struct sockaddr)) < 0)
+	if (connect(socket_descriptor, (struct sockaddr *)address->GetRawAddress(), sizeof(struct sockaddr)) < 0)
 	{
 		std::string err(strerror(errno));
 		throw SocketException("connect error: " + err);
@@ -109,7 +109,7 @@ void Socket::Connect(Address *address)
 	this->connectedAddress = address;
 }
 
-void Socket::_listen(int backlog)
+void Socket::Listen(int backlog)
 {
 	if (listen(socket_descriptor, backlog) < 0)
 	{
@@ -118,7 +118,7 @@ void Socket::_listen(int backlog)
 	}
 }
 
-Socket *Socket::_accept()
+Socket *Socket::Accept()
 {
 	int socket = accept(socket_descriptor, nullptr, nullptr);
 	if (socket < 0)
@@ -129,7 +129,7 @@ Socket *Socket::_accept()
 	return new Socket(socket);
 }
 
-Address Socket::getRemoteAddress()
+Address Socket::GetRemoteAddress()
 {
 	struct sockaddr_in remote_addr;
 	socklen_t addrlen = sizeof(struct sockaddr);
@@ -145,12 +145,12 @@ Address Socket::getRemoteAddress()
 	}
 }
 
-Address *Socket::getBoundAddress()
+Address *Socket::GetBoundAddress()
 {
 	return boundAddress;
 }
 
-void Socket::closeSocket()
+void Socket::CloseSocket()
 {
 	if (close(socket_descriptor) < 0)
 	{
@@ -159,38 +159,38 @@ void Socket::closeSocket()
 	}
 }
 
-void Socket::sendall(const std::string &data)
+void Socket::SendAll(const std::string &data)
 {
-	sendall(std::vector<uint8_t>(data.begin(), data.end()));
+	SendAll(std::vector<uint8_t>(data.begin(), data.end()));
 }
 
-void Socket::sendall(const std::vector<uint8_t> &data)
+void Socket::SendAll(const std::vector<uint8_t> &data)
 {
-	sendall(data.data(), data.size());
+	SendAll(data.data(), data.size());
 }
 
-std::vector<uint8_t> Socket::recvall(size_t len)
+std::vector<uint8_t> Socket::RecvAll(size_t len)
 {
 	std::vector<uint8_t> data(len);
-	recvall(data.data(), data.size());
+	RecvAll(data.data(), data.size());
 	return data;
 }
 
-std::vector<uint8_t> Socket::recvuntil(const std::string pattern, size_t maxlen)
+std::vector<uint8_t> Socket::RecvUntil(const std::string pattern, size_t maxlen)
 {
-	return recvuntil(std::vector<uint8_t>(pattern.begin(), pattern.end()), maxlen);
+	return RecvUntil(std::vector<uint8_t>(pattern.begin(), pattern.end()), maxlen);
 }
 
-std::vector<uint8_t> Socket::recvuntil(const std::vector<uint8_t> &pattern, size_t maxlen)
+std::vector<uint8_t> Socket::RecvUntil(const std::vector<uint8_t> &pattern, size_t maxlen)
 {
 	size_t len = 0;
 	std::vector<uint8_t> data(maxlen);
-	recvuntil(data.data(), data.size(), pattern.data(), pattern.size(), &len);
+	RecvUntil(data.data(), data.size(), pattern.data(), pattern.size(), &len);
 	data.resize(len);
 	return data;
 }
 
-void Socket::sendall(const uint8_t *buf, size_t len)
+void Socket::SendAll(const uint8_t *buf, size_t len)
 {
 	size_t total = 0;
 	size_t bytesleft = len;
@@ -231,7 +231,7 @@ void Socket::SendTo(Address *address, const std::vector<uint8_t> &data)
 
 void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
 {
-	struct sockaddr *addr = (struct sockaddr *)address->getRawAddress();
+	struct sockaddr *addr = (struct sockaddr *)address->GetRawAddress();
 	if (sendto(socket_descriptor, buf, len, 0, addr, sizeof(*addr)) < 0)
 	{
 		std::string err(strerror(errno));
@@ -239,7 +239,7 @@ void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
 	}
 }
 
-void Socket::recvall(uint8_t *buf, size_t len)
+void Socket::RecvAll(uint8_t *buf, size_t len)
 {
 	size_t total = 0;
 	size_t bytesleft = len;
@@ -248,7 +248,7 @@ void Socket::recvall(uint8_t *buf, size_t len)
 	std::lock_guard<std::mutex> lock(_recv);
 	while (bytesleft > 0)
 	{
-		if ((n = recvtimeoutwrapper(buf + total, bytesleft, 0)) < 0)
+		if ((n = RecvTimeoutWrapper(buf + total, bytesleft, 0)) < 0)
 		{
 			if (errno == EINTR)
 				n = 0;
@@ -274,7 +274,7 @@ void Socket::recvall(uint8_t *buf, size_t len)
 	}
 }
 
-void Socket::recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len)
+void Socket::RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len)
 {
 	size_t total = 0;
 	ssize_t bytesleft = buflen;
@@ -288,7 +288,7 @@ void Socket::recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size
 		{
 			throw std::overflow_error("recvuntil error: Overflow error");
 		}
-		if ((n = recvtimeoutwrapper(buf + total, bytesleft, MSG_PEEK)) < 0)
+		if ((n = RecvTimeoutWrapper(buf + total, bytesleft, MSG_PEEK)) < 0)
 		{
 			if (errno == EINTR)
 				n = 0;
@@ -302,15 +302,15 @@ void Socket::recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size
 			break;
 		if (n > 0)
 		{
-			patternidx = isContainPattern(buf, total + n, pattern, patternlen);
+			patternidx = IsContainPattern(buf, total + n, pattern, patternlen);
 			if (patternidx < 0)
 			{
-				recvall(buf + total, n);
+				RecvAll(buf + total, n);
 			}
 			else
 			{
 				n = patternidx - (total - 1);
-				recvall(buf + total, n);
+				RecvAll(buf + total, n);
 			}
 		}
 		total += n;
@@ -350,7 +350,7 @@ size_t Socket::RecvFrom(Address *&address, uint8_t *buf, size_t len)
 	return n;
 }
 
-int Socket::isContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen)
+int Socket::IsContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen)
 {
 	int notfound = -1;
 	if (len < patternlen)
@@ -374,13 +374,13 @@ int Socket::isContainPattern(const uint8_t *buf, size_t len, const uint8_t *patt
 	return notfound;
 }
 
-int Socket::recvtimeoutwrapper(void *buf, size_t len, int flags)
+int Socket::RecvTimeoutWrapper(void *buf, size_t len, int flags)
 {
-	applyRecvTimeout();
+	ApplyRecvTimeout();
 	return recv(socket_descriptor, buf, len, flags);
 }
 
-void Socket::applyRecvTimeout()
+void Socket::ApplyRecvTimeout()
 {
 	if (timeout > 0)
 	{

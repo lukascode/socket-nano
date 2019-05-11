@@ -8,5 +8,5 @@ class TcpConnectionHandlerFactory
 {
 public:
 	virtual ~TcpConnectionHandlerFactory() {}
-	virtual TcpConnectionHandler *createTcpConnectionHandler() = 0;
+	virtual TcpConnectionHandler *CreateTcpConnectionHandler() = 0;
 };

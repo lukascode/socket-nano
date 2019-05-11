@@ -13,15 +13,15 @@
 class TcpConnectionHandlerImpl : public TcpConnectionHandler
 {
 public:
-    virtual void handleConnection()
+    virtual void HandleConnection()
     {
         try
         {
-            std::cout << "New client connected " << socket->getRemoteAddress().getIP() << std::endl;
-            socket->enableTimeout(15);
+            std::cout << "New client connected " << socket->GetRemoteAddress().GetIP() << std::endl;
+            socket->EnableTimeout(15);
             for (;;)
             {
-                auto data = socket->recvuntil("XYZ123\n", 8192);
+                auto data = socket->RecvUntil("XYZ123\n", 8192);
                 std::string datastr(data.begin(), data.end());
                 std::cout << datastr;
             }
@@ -36,17 +36,17 @@ public:
 class TcpConnectionHandlerImpl2 : public TcpConnectionHandler
 {
 public:
-    virtual void handleConnection()
+    virtual void HandleConnection()
     {
         try
         {
-            std::cout << "New client connected " << socket->getRemoteAddress().getIP() << std::endl;
+            std::cout << "New client connected " << socket->GetRemoteAddress().GetIP() << std::endl;
             std::string data;
             data += "HTTP/1.1 200 OK\r\n";
             data += "Content-Type: text/html\r\n";
             data += "Content-Length: 62\r\n\r\n";
             data += "<h2>Hello world</h2><p>This is simple http server dev test</p>";
-            socket->sendall(data);
+            socket->SendAll(data);
         }
         catch (std::exception &e)
         {
@@ -58,7 +58,7 @@ public:
 class TcpConnectionHandlerFactoryImpl : public TcpConnectionHandlerFactory
 {
 public:
-    virtual TcpConnectionHandler *createTcpConnectionHandler()
+    virtual TcpConnectionHandler *CreateTcpConnectionHandler()
     {
         return new TcpConnectionHandlerImpl();
     }
@@ -84,7 +84,7 @@ public:
 class UdpDatagramHandlerFactoryImpl : public UdpDatagramHandlerFactory
 {
 public:
-    virtual UdpDatagramHandlerImpl *createUdpDatagramHandler()
+    virtual UdpDatagramHandlerImpl *CreateUdpDatagramHandler()
     {
         return new UdpDatagramHandlerImpl();
     }

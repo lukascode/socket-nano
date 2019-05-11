@@ -10,30 +10,30 @@
 class Socket
 {
 public:
-	static Socket *createSocket(int type);
+	static Socket *CreateSocket(int type);
 	Socket(int socket_descriptor);
 	Socket(const Socket &socket) = delete;
 	~Socket();
 
-	Address getRemoteAddress();
-	Address *getBoundAddress();
+	Address GetRemoteAddress();
+	Address *GetBoundAddress();
 
-	void enableTimeout(int timeout);
-	void disableTimeout();
+	void EnableTimeout(int timeout);
+	void DisableTimeout();
 
-	int getSocket();
-	void setSocket(int socket_descriptor);
-	void closeSocket();
-	int getSocketType();
+	int GetSocket();
+	void SetSocket(int socket_descriptor);
+	void CloseSocket();
+	int GetSocketType();
 
-	void _bind(Address *address);
+	void Bind(Address *address);
 	void Connect(Address *address);
-	void _listen(int backlog);
-	Socket *_accept();
+	void Listen(int backlog);
+	Socket *Accept();
 
-	void sendall(const std::string &data);
-	void sendall(const std::vector<uint8_t> &data);
-	void sendall(const uint8_t *buf, size_t len);
+	void SendAll(const std::string &data);
+	void SendAll(const std::vector<uint8_t> &data);
+	void SendAll(const uint8_t *buf, size_t len);
 
 	void SendTo(Address *address, const std::string &data);
 	void SendTo(Address *address, const std::vector<uint8_t> &data);
@@ -42,11 +42,11 @@ public:
 	std::vector<uint8_t> RecvFrom(Address *&address, size_t len);
 	size_t RecvFrom(Address *&address, uint8_t *buf, size_t len);
 
-	std::vector<uint8_t> recvall(size_t len);
-	void recvall(uint8_t *buf, size_t len);
-	std::vector<uint8_t> recvuntil(const std::string pattern, size_t maxlen);
-	std::vector<uint8_t> recvuntil(const std::vector<uint8_t> &pattern, size_t maxlen);
-	void recvuntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len);
+	std::vector<uint8_t> RecvAll(size_t len);
+	void RecvAll(uint8_t *buf, size_t len);
+	std::vector<uint8_t> RecvUntil(const std::string pattern, size_t maxlen);
+	std::vector<uint8_t> RecvUntil(const std::vector<uint8_t> &pattern, size_t maxlen);
+	void RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len);
 
 private:
 	int socket_descriptor;
@@ -55,13 +55,12 @@ private:
 	std::mutex _send;
 	std::mutex _recv;
 	std::mutex _recvuntil;
-
 	int timeout;
 
-	void applyRecvTimeout();
-	int recvtimeoutwrapper(void *buf, size_t len, int flags);
-	int isContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen);
-	bool isValidDescriptor();
+	void ApplyRecvTimeout();
+	int RecvTimeoutWrapper(void *buf, size_t len, int flags);
+	int IsContainPattern(const uint8_t *buf, size_t len, const uint8_t *pattern, size_t patternlen);
+	bool IsValidDescriptor();
 };
 
 class SocketException : public std::runtime_error

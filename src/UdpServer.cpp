@@ -30,21 +30,21 @@ void UdpServer::Listen(std::string ip, short port)
 
 void UdpServer::_Listen()
 {
-	socket = Socket::createSocket(SOCK_DGRAM);
+	socket = Socket::CreateSocket(SOCK_DGRAM);
 	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
-	socket->_bind(address);
+	socket->Bind(address);
 
 	std::thread _wait(joinFinishedThreads, &threads);
 	for (;;)
 	{
 		Address *client;
 		std::vector<uint8_t> datagram = socket->RecvFrom(client, 1024);
-		UdpDatagramHandler *handler = datagramHandlerFactory->createUdpDatagramHandler();
-		handler->setSocket(socket);
-		handler->setDatagram(std::string(datagram.begin(), datagram.end()));
-		handler->setContext(this);
-		handler->setAddress(client);
-		
+		UdpDatagramHandler *handler = datagramHandlerFactory->CreateUdpDatagramHandler();
+		handler->SetSocket(socket);
+		handler->SetDatagram(std::string(datagram.begin(), datagram.end()));
+		handler->SetContext(this);
+		handler->SetAddress(client);
+
 		std::thread *thread = new std::thread(handleDatagram, handler);
 		threads.push_back(thread);
 	}

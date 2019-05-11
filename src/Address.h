@@ -10,13 +10,13 @@ public:
 	Address(struct sockaddr_in addr);
 	Address(const Address& address);
 
-	short getPort() const;
-	std::string getIP() const;
-	std::string toString() const;
-	const struct sockaddr_in* getRawAddress() const;
+	short GetPort() const;
+	std::string GetIP() const;
+	std::string ToString() const;
+	const struct sockaddr_in* GetRawAddress() const;
 
 private:
 	const struct sockaddr_in addr;	
-	static sockaddr_in tempaddr(std::string address, short port);
-	static sockaddr_in tempaddr(short port);
+	static sockaddr_in Tempaddr(std::string address, short port);
+	static sockaddr_in Tempaddr(short port);
 };

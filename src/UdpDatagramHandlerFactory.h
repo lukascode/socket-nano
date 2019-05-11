@@ -8,5 +8,5 @@ class UdpDatagramHandlerFactory
 {
 public:
     virtual ~UdpDatagramHandlerFactory() {}
-    virtual UdpDatagramHandler *createUdpDatagramHandler() = 0;
+    virtual UdpDatagramHandler *CreateUdpDatagramHandler() = 0;
 };

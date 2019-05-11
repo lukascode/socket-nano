@@ -29,9 +29,9 @@
 class NetworkUtils
 {
 public:
-	static std::string getLocalHostName();
-	static std::string getHostByName(std::string name);
-	static void print_stdout(std::string message);
+	static std::string GetLocalHostName();
+	static std::string GetHostByName(std::string name);
+	static void PrintStdout(std::string message);
 };
 
 class DnsLookupException : public std::runtime_error

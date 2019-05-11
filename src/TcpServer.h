@@ -14,7 +14,7 @@ public:
 
 	void Listen(short port);
 	void Listen(std::string ip, short port);
-	bool removeClient(Socket *client);
+	bool RemoveClient(Socket *client);
 
 private:
 	std::vector<std::thread *> threads;

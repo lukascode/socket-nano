@@ -2,45 +2,45 @@
 #include <exception>
 #include <string>
 
-Address::Address(short port): addr(tempaddr(port)) {}
+Address::Address(short port): addr(Tempaddr(port)) {}
 
-Address::Address(std::string address, short port): addr(tempaddr(address, port)) {}
+Address::Address(std::string address, short port): addr(Tempaddr(address, port)) {}
 
 Address::Address(const Address& address): addr(address.addr) {}
 
 Address::Address(struct sockaddr_in addr): addr(addr) {}
 
-short Address::getPort() const
+short Address::GetPort() const
 {
 	return ntohs(addr.sin_port);
 }
 
-std::string Address::getIP() const
+std::string Address::GetIP() const
 {
 	return std::string(inet_ntoa(addr.sin_addr));
 }
 
-std::string Address::toString() const
+std::string Address::ToString() const
 {
-	std::string ip = getIP();
-	std::string port = std::to_string(getPort());
+	std::string ip = GetIP();
+	std::string port = std::to_string(GetPort());
 	return ip + ":" + port;
 }
 
-const struct sockaddr_in* Address::getRawAddress() const
+const struct sockaddr_in* Address::GetRawAddress() const
 {
 	return &addr;
 }
 
-struct sockaddr_in Address::tempaddr(std::string address, short port) 
+struct sockaddr_in Address::Tempaddr(std::string address, short port) 
 {
-	std::string ip = NetworkUtils::getHostByName(address);
-	struct sockaddr_in addr = tempaddr(port);
+	std::string ip = NetworkUtils::GetHostByName(address);
+	struct sockaddr_in addr = Tempaddr(port);
    	addr.sin_addr.s_addr = inet_addr(ip.c_str());
 	return addr;
 }
 
-struct sockaddr_in Address::tempaddr(short port) {
+struct sockaddr_in Address::Tempaddr(short port) {
 	sockaddr_in addr;
 	addr.sin_addr.s_addr = INADDR_ANY;
 	addr.sin_family = AF_INET;

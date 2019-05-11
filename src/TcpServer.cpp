@@ -37,20 +37,20 @@ void TcpServer::Listen(std::string ip, short port)
 
 void TcpServer::_Listen()
 {
-	socket = Socket::createSocket(SOCK_STREAM);
+	socket = Socket::CreateSocket(SOCK_STREAM);
 	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
-	socket->_bind(address);
-	socket->_listen(20);
+	socket->Bind(address);
+	socket->Listen(20);
 
 	// join connection threads
 	std::thread _wait(joinFinishedThreads, &threads);
 	for (;;)
 	{
-		Socket *client_socket = socket->_accept();
+		Socket *client_socket = socket->Accept();
 		clients.push_back(client_socket);
-		TcpConnectionHandler *handler = connHandlerFactory->createTcpConnectionHandler();
-		handler->setSocket(client_socket);
-		handler->setContext(this);
+		TcpConnectionHandler *handler = connHandlerFactory->CreateTcpConnectionHandler();
+		handler->SetSocket(client_socket);
+		handler->SetContext(this);
 
 		// handle connection in std::thread
 		std::thread *thread = new std::thread(handleConnection, handler);
@@ -59,7 +59,7 @@ void TcpServer::_Listen()
 	_wait.join();
 }
 
-bool TcpServer::removeClient(Socket *client)
+bool TcpServer::RemoveClient(Socket *client)
 {
 	auto it = std::find(clients.begin(), clients.end(), client);
 	if (it != clients.end())
@@ -73,7 +73,7 @@ bool TcpServer::removeClient(Socket *client)
 
 static void handleConnection(TcpConnectionHandler *handler)
 {
-	handler->handleConnection();
+	handler->HandleConnection();
 	delete handler;
 }
 

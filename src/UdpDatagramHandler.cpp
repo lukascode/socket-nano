@@ -6,22 +6,22 @@ UdpDatagramHandler::~UdpDatagramHandler()
         delete address;
 }
 
-void UdpDatagramHandler::setSocket(Socket *socket)
+void UdpDatagramHandler::SetSocket(Socket *socket)
 {
     this->socket = socket;
 }
 
-void UdpDatagramHandler::setContext(UdpServer *context)
+void UdpDatagramHandler::SetContext(UdpServer *context)
 {
     this->context = context;
 }
 
-void UdpDatagramHandler::setDatagram(std::string datagram)
+void UdpDatagramHandler::SetDatagram(std::string datagram)
 {
     this->datagram = datagram;
 }
 
-void UdpDatagramHandler::setAddress(Address* address)
+void UdpDatagramHandler::SetAddress(Address* address)
 {
     this->address = address;
 }

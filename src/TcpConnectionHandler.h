@@ -9,9 +9,9 @@ class TcpConnectionHandler
 {
 public:
 	virtual ~TcpConnectionHandler();
-	virtual void handleConnection()=0;
-	void setSocket(Socket* socket);
-	void setContext(TcpServer* context);
+	virtual void HandleConnection()=0;
+	void SetSocket(Socket* socket);
+	void SetContext(TcpServer* context);
 protected:
 	Socket* socket;
 	TcpServer* context;

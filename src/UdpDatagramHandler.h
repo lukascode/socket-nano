@@ -10,10 +10,10 @@ class UdpDatagramHandler
 public:
     virtual ~UdpDatagramHandler();
     virtual void handleDatagram() = 0;
-    void setSocket(Socket *socket);
-    void setContext(UdpServer *context);
-    void setDatagram(std::string datagram);
-    void setAddress(Address* address);
+    void SetSocket(Socket *socket);
+    void SetContext(UdpServer *context);
+    void SetDatagram(std::string datagram);
+    void SetAddress(Address* address);
 protected:
     Socket *socket;
     UdpServer *context;
