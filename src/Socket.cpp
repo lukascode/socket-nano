@@ -15,6 +15,7 @@ Socket::Socket(int socket_descriptor)
 {
 	setSocket(socket_descriptor);
 	boundAddress = nullptr;
+	connectedAddress = nullptr;
 	timeout = 0;
 }
 
@@ -27,6 +28,10 @@ Socket::~Socket()
 	if (boundAddress)
 	{
 		delete boundAddress;
+	}
+	if (connectedAddress)
+	{
+		delete connectedAddress;
 	}
 }
 
@@ -88,6 +93,20 @@ void Socket::_bind(Address *address)
 		throw SocketException("bind error: " + err);
 	}
 	this->boundAddress = address;
+}
+
+void Socket::Connect(Address *address)
+{
+	if (!address)
+	{
+		throw std::invalid_argument("Param address must not be null");
+	}
+	if (connect(socket_descriptor, (struct sockaddr *)address->getRawAddress(), sizeof(struct sockaddr)) < 0)
+	{
+		std::string err(strerror(errno));
+		throw SocketException("connect error: " + err);
+	}
+	this->connectedAddress = address;
 }
 
 void Socket::_listen(int backlog)
@@ -322,7 +341,7 @@ size_t Socket::RecvFrom(Address *&address, uint8_t *buf, size_t len)
 	int n;
 	struct sockaddr_in addr;
 	socklen_t addrlen = sizeof(addr);
-	if((n = recvfrom(socket_descriptor, buf, len, 0, (struct sockaddr*) &addr, &addrlen)) < 0)
+	if ((n = recvfrom(socket_descriptor, buf, len, 0, (struct sockaddr *)&addr, &addrlen)) < 0)
 	{
 		std::string err(strerror(errno));
 		throw RecvException("recvfrom error: " + err);

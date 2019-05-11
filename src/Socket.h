@@ -27,6 +27,7 @@ public:
 	int getSocketType();
 
 	void _bind(Address *address);
+	void Connect(Address *address);
 	void _listen(int backlog);
 	Socket *_accept();
 
@@ -50,6 +51,7 @@ public:
 private:
 	int socket_descriptor;
 	Address *boundAddress;
+	Address *connectedAddress;
 	std::mutex _send;
 	std::mutex _recv;
 	std::mutex _recvuntil;
