@@ -55,12 +55,34 @@ public:
     }
 };
 
+class TcpConnectionHandlerImpl3 : public TcpConnectionHandler
+{
+public:
+    virtual void HandleConnection()
+    {
+        try
+        {
+            std::cout << "New client connected " << socket->GetRemoteAddress().GetIP() << std::endl;
+            std::string data = "Hello world\n";
+            for (;;)
+            {
+                socket->SendAll(data);
+                // sleep(1);
+            }
+        }
+        catch(std::exception &e) {
+            std::cout << std::string(e.what()) << std::endl;
+            std::cout<<errno<<std::endl;
+        }
+    }
+};
+
 class TcpConnectionHandlerFactoryImpl : public TcpConnectionHandlerFactory
 {
 public:
     virtual TcpConnectionHandler *CreateTcpConnectionHandler()
     {
-        return new TcpConnectionHandlerImpl();
+        return new TcpConnectionHandlerImpl3();
     }
 };
 
@@ -76,7 +98,7 @@ public:
         }
         catch (const std::exception &e)
         {
-            std::cout<<std::string(e.what())<<std::endl;
+            std::cout << std::string(e.what()) << std::endl;
         }
     }
 };
@@ -93,12 +115,11 @@ public:
 int main(void)
 {
 
-    // TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
-    // server->Listen("0.0.0.0", 1234);
-
-    UdpServer *server = new UdpServer(new UdpDatagramHandlerFactoryImpl());
+    TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
     server->Listen("0.0.0.0", 1234);
-    
+
+    // UdpServer *server = new UdpServer(new UdpDatagramHandlerFactoryImpl());
+    // server->Listen("0.0.0.0", 1234);
 
     return 0;
 }

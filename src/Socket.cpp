@@ -173,7 +173,7 @@ void Socket::SendAll(const uint8_t *buf, size_t len)
 	std::lock_guard<std::mutex> lock(_send);
 	while (bytesleft > 0)
 	{
-		if ((n = send(socket_descriptor, buf + total, bytesleft, 0)) <= 0)
+		if ((n = send(socket_descriptor, buf + total, bytesleft, MSG_NOSIGNAL)) <= 0)
 		{
 			if (n < 0 && errno == EINTR)
 				n = 0;
@@ -188,6 +188,10 @@ void Socket::SendAll(const uint8_t *buf, size_t len)
 	}
 	if (n < 0)
 	{
+		if (errno == EPIPE || errno == ECONNRESET)
+		{
+			throw SocketConnectionClosedException("Connection has been closed");	
+		}
 		std::string err(strerror(errno));
 		throw SendException("sendall error: " + err);
 	}
