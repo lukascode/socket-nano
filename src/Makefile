@@ -1,34 +1,22 @@
 CC = g++
-OBJS = 	NetworkUtils.o \
+OBJS = 	Socket.o \
 		Address.o \
-	   	Socket.o \
-	   	Server.o \
-	   	TcpServer.o \
-	   	Client.o \
-	   	ServerConnectionHandler.o \
-	   	ClientConnectionHandler.o \
-	   	UdpServer.o \
+		NetworkUtils.o \
+		TcpServer.o \
+		TcpConnectionHandler.o \
+		UdpServer.o \
+		UdpDatagramHandler.o \
 		ThreadPool.o
 
 LFLAGS = -pthread
 CFLAGS = -ggdb -std=c++11 -Wall -Wextra -pedantic
 
-CLIENT =  cli
-SERVER = serv
-LIBNAME = libsockets.a
-
-all: $(CLIENT) $(SERVER)
+LIBNAME = libsocknano.a
 
 lib: $(OBJS)
 	ar rcs $(LIBNAME) $^
 
-$(CLIENT): cli.o $(OBJS)
-	$(CC) $^ -o $@ $(LFLAGS)
-
-$(SERVER): serv.o $(OBJS)
-	$(CC) $^ -o $@ $(LFLAGS)
-
-devtest: main.o Socket.o Address.o NetworkUtils.o TcpConnectionHandler.o TcpServer.o UdpDatagramHandler.o UdpServer.o ThreadPool.o
+devtest: main.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp
@@ -50,8 +38,7 @@ ThreadPool.o: ThreadPool.h
 
 clean:
 	rm -f *.o
-	rm -f cli serv
-	rm -f libsockets.a
+	rm -f socknano.a
 	rm -f devtest
 
 .PHONY: clean all lib devtest
