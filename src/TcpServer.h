@@ -5,6 +5,8 @@
 #include "Address.h"
 #include "TcpConnectionHandlerFactory.h"
 #include "TcpConnectionHandler.h"
+#include "ThreadPool.h"
+#include <functional>
 
 class TcpServer
 {
@@ -15,9 +17,12 @@ public:
 	void Listen(short port);
 	void Listen(std::string ip, short port);
 	bool RemoveClient(Socket *client);
+	void setThreadPoolSize(int size);
 
 private:
-	std::vector<std::thread *> threads;
+	static const int defaultThreadPoolSize = 20;
+	ThreadPool* tp;
+	int tpSize;
 	std::vector<Socket *> clients;
 	TcpConnectionHandlerFactory *connHandlerFactory;
 	Socket *socket;

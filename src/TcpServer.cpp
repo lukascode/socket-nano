@@ -1,10 +1,8 @@
 #include "TcpServer.h"
 
-static void handleConnection(TcpConnectionHandler *handler);
-static void joinFinishedThreads(std::vector<std::thread *> *threads);
-
 TcpServer::TcpServer(TcpConnectionHandlerFactory *connHandlerFactory)
 {
+	tpSize = defaultThreadPoolSize;
 	this->connHandlerFactory = connHandlerFactory;
 }
 
@@ -12,8 +10,12 @@ TcpServer::~TcpServer()
 {
 	if (connHandlerFactory)
 		delete connHandlerFactory;
+
 	if (socket)
 		delete socket;
+
+	if (tp)
+		delete tp;
 
 	for (size_t i = 0; i < clients.size(); ++i)
 	{
@@ -37,13 +39,12 @@ void TcpServer::Listen(std::string ip, short port)
 
 void TcpServer::_Listen()
 {
+	tp = new ThreadPool(tpSize);
 	socket = Socket::CreateSocket(SOCK_STREAM);
 	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
 	socket->Bind(address);
 	socket->Listen(20);
 
-	// join connection threads
-	std::thread _wait(joinFinishedThreads, &threads);
 	for (;;)
 	{
 		Socket *client_socket = socket->Accept();
@@ -52,11 +53,13 @@ void TcpServer::_Listen()
 		handler->SetSocket(client_socket);
 		handler->SetContext(this);
 
-		// handle connection in std::thread
-		std::thread *thread = new std::thread(handleConnection, handler);
-		threads.push_back(thread);
+		// handle connection
+		std::function<void()> task = [handler] {
+			handler->HandleConnection();
+			delete handler;
+		};
+		tp->SubmitTask(task);
 	}
-	_wait.join();
 }
 
 bool TcpServer::RemoveClient(Socket *client)
@@ -71,22 +74,7 @@ bool TcpServer::RemoveClient(Socket *client)
 	return false;
 }
 
-static void handleConnection(TcpConnectionHandler *handler)
+void TcpServer::setThreadPoolSize(int size)
 {
-	handler->HandleConnection();
-	delete handler;
-}
-
-static void joinFinishedThreads(std::vector<std::thread *> *threads)
-{
-	for (;;)
-	{
-		for (size_t i = 0; i < threads->size(); ++i)
-		{
-			(*threads)[i]->join();
-			delete (*threads)[i];
-			threads->erase(threads->begin() + i);
-		}
-		sleep(1);
-	}
+	tpSize = size;
 }

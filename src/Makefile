@@ -7,7 +7,8 @@ OBJS = 	NetworkUtils.o \
 	   	Client.o \
 	   	ServerConnectionHandler.o \
 	   	ClientConnectionHandler.o \
-	   	UdpServer.o
+	   	UdpServer.o \
+		ThreadPool.o
 
 LFLAGS = -pthread
 CFLAGS = -ggdb -std=c++11 -Wall -Wextra -pedantic
@@ -27,7 +28,7 @@ $(CLIENT): cli.o $(OBJS)
 $(SERVER): serv.o $(OBJS)
 	$(CC) $^ -o $@ $(LFLAGS)
 
-devtest: main.o Socket.o Address.o NetworkUtils.o TcpConnectionHandler.o TcpServer.o UdpDatagramHandler.o UdpServer.o
+devtest: main.o Socket.o Address.o NetworkUtils.o TcpConnectionHandler.o TcpServer.o UdpDatagramHandler.o UdpServer.o ThreadPool.o
 	$(CC) $^ -o $@ $(LFLAGS)
 
 %.o: %.cpp
@@ -45,6 +46,7 @@ Client.o: Client.h
 ServerConnectionHandler.o: ServerConnectionHandler.h
 ClientConnectionHandler.o: ClientConnectionHandler.h
 UdpServer.o: UdpServer.h
+ThreadPool.o: ThreadPool.h
 
 clean:
 	rm -f *.o

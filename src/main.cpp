@@ -18,7 +18,7 @@ public:
         try
         {
             std::cout << "New client connected " << socket->GetRemoteAddress().GetIP() << std::endl;
-            socket->EnableTimeout(15);
+            // socket->EnableTimeout(15);
             for (;;)
             {
                 auto data = socket->RecvUntil("XYZ123\n", 8192);
@@ -82,7 +82,7 @@ class TcpConnectionHandlerFactoryImpl : public TcpConnectionHandlerFactory
 public:
     virtual TcpConnectionHandler *CreateTcpConnectionHandler()
     {
-        return new TcpConnectionHandlerImpl3();
+        return new TcpConnectionHandlerImpl();
     }
 };
 
@@ -115,11 +115,12 @@ public:
 int main(void)
 {
 
-    TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
-    server->Listen("0.0.0.0", 1234);
-
-    // UdpServer *server = new UdpServer(new UdpDatagramHandlerFactoryImpl());
+    // TcpServer *server = new TcpServer(new TcpConnectionHandlerFactoryImpl());
     // server->Listen("0.0.0.0", 1234);
+
+    UdpServer *server = new UdpServer(new UdpDatagramHandlerFactoryImpl());
+    server->setThreadPoolSize(29);
+    server->Listen("0.0.0.0", 1234);
 
     return 0;
 }

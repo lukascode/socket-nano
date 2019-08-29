@@ -1,15 +1,15 @@
 #include "UdpServer.h"
 
-static void handleDatagram(UdpDatagramHandler *handler);
-static void joinFinishedThreads(std::vector<std::thread *> *threads);
-
 UdpServer::UdpServer(UdpDatagramHandlerFactory *datagramHandlerFactory)
 {
+	tpSize = defaultThreadPoolSize;
 	this->datagramHandlerFactory = datagramHandlerFactory;
 }
 
 UdpServer::~UdpServer()
 {
+	if (tp)
+		delete tp;
 	if (datagramHandlerFactory)
 		delete datagramHandlerFactory;
 	if (socket)
@@ -30,11 +30,11 @@ void UdpServer::Listen(std::string ip, short port)
 
 void UdpServer::_Listen()
 {
+	tp = new ThreadPool(tpSize);
 	socket = Socket::CreateSocket(SOCK_DGRAM);
 	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
 	socket->Bind(address);
 
-	std::thread _wait(joinFinishedThreads, &threads);
 	for (;;)
 	{
 		Address *client;
@@ -45,28 +45,16 @@ void UdpServer::_Listen()
 		handler->SetContext(this);
 		handler->SetAddress(client);
 
-		std::thread *thread = new std::thread(handleDatagram, handler);
-		threads.push_back(thread);
+		// handle datagram
+		std::function<void()> task = [handler] {
+			handler->HandleDatagram();
+			delete handler;
+		};
+		tp->SubmitTask(task);
 	}
-	_wait.join();
 }
 
-static void handleDatagram(UdpDatagramHandler *handler)
+void UdpServer::setThreadPoolSize(int size)
 {
-	handler->HandleDatagram();
-	delete handler;
-}
-
-static void joinFinishedThreads(std::vector<std::thread *> *threads)
-{
-	for (;;)
-	{
-		for (size_t i = 0; i < threads->size(); ++i)
-		{
-			(*threads)[i]->join();
-			delete (*threads)[i];
-			threads->erase(threads->begin() + i);
-		}
-		sleep(1);
-	}
+	tpSize = size;
 }
