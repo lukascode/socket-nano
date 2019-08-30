@@ -11,12 +11,22 @@
 class TcpServer
 {
 public:
+	
+	/// Creates tcp server 
 	TcpServer(TcpConnectionHandlerFactory *connHandlerFactory);
+
 	~TcpServer();
 
+	/// Bind to all interfaces on the provided port and listen on incoming connections
 	void Listen(short port);
+
+	/// Bind to interface provided by ip on the provided port
 	void Listen(std::string ip, short port);
+
+	/// Removes client socket
 	bool RemoveClient(Socket *client);
+
+	/// Sets number of threads in the pool which are used for handling incoming connections
 	void setThreadPoolSize(int size);
 
 private:

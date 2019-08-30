@@ -29,8 +29,13 @@
 class NetworkUtils
 {
 public:
+
+	/// Gets the name of this host 
 	static std::string GetLocalHostName();
+
+	/// Changes domain name to an ip address
 	static std::string GetHostByName(std::string name);
+
 	static void PrintStdout(std::string message);
 };
 

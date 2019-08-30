@@ -9,9 +9,14 @@
 
 class ThreadPool {
 public:
+    /// Creates the thread pool with provided size.
     ThreadPool(int size);
     ~ThreadPool();
+
+    /// Submits task to thread pool.
     void SubmitTask(std::function<void()> task);
+
+    /// Shutdown thread pool. When there are some tasks on the task queue the will be completed firts.
     void Shutdown();
 private:
 

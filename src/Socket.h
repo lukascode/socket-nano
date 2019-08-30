@@ -10,15 +10,24 @@
 class Socket
 {
 public:
+	/// Creates tcp/udp socket object base on type (SOCK_STREAM / SOCK_DGRAM)
 	static Socket *CreateSocket(int type);
+
+	/// Creates socket object using provided existing descriptor
 	Socket(int socket_descriptor);
 	Socket(const Socket &socket) = delete;
 	~Socket();
 
+	/// Gets the socket low level descriptor
 	int GetSocket();
+
+	/// Sets the socket low level descriptor
 	void SetSocket(int socket_descriptor);
 
+	/// Enables read timeout in secons
 	void EnableTimeout(int timeout);
+
+	/// Disables read timeout
 	void DisableTimeout();
 
 	Address GetRemoteAddress();
@@ -30,6 +39,8 @@ public:
 	void Bind(Address *address);
 	void Connect(Address *address);
 	void Listen(int backlog);
+
+	/// Accept incoming connection and return back client socket
 	Socket *Accept();
 
 	// TCP
