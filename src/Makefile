@@ -8,6 +8,11 @@ OBJS = 	Socket.o \
 		UdpDatagramHandler.o \
 		ThreadPool.o
 
+TESTOBJS = ./tests/TestRunner.o \
+		   ./tests/TestCase1.o
+
+TESTRUNNER = ./tests/TestRunner
+
 LFLAGS = -pthread
 CFLAGS = -ggdb -std=c++11 -Wall -Wextra -pedantic
 
@@ -16,8 +21,12 @@ LIBNAME = libsocknano.a
 lib: $(OBJS)
 	ar rcs $(LIBNAME) $^
 
-devtest: main.o $(OBJS)
-	$(CC) $^ -o $@ $(LFLAGS)
+test: lib $(TESTOBJS)
+	$(CC) $(LIBNAME) $(TESTOBJS) $(OBJS) -o $(TESTRUNNER) $(LFLAGS)
+	$(TESTRUNNER)
+
+./tests/%.o: ./tests/%.cpp
+	$(CC) -c $< $(CFLAGS) -o $@
 
 %.o: %.cpp
 	$(CC) -c $< $(CFLAGS)
@@ -37,8 +46,7 @@ UdpServer.o: UdpServer.h
 ThreadPool.o: ThreadPool.h
 
 clean:
-	rm -f *.o
-	rm -f socknano.a
-	rm -f devtest
+	rm -f *.o $(LIBNAME)
+	rm -f ./tests/*.o ./tests/libsocknano.a $(TESTRUNNER)
 
-.PHONY: clean all lib devtest
+.PHONY: clean test lib

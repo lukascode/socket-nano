@@ -6,6 +6,8 @@
 #include "TcpServer.h"
 #include "UdpServer.h"
 #include "TcpConnectionHandler.h"
+#include "TcpConnectionHandlerFactory.h"
 #include "UdpServer.h"
 #include "UdpDatagramHandler.h"
+#include "UdpDatagramHandlerFactory.h"
 #include "ThreadPool.h"
