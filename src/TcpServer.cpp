@@ -1,6 +1,6 @@
 #include "TcpServer.h"
 
-TcpServer::TcpServer(TcpConnectionHandlerFactory *connHandlerFactory)
+TcpServer::TcpServer(std::function<TcpConnectionHandler*()> connHandlerFactory)
 {
 	tpSize = defaultThreadPoolSize;
 	this->connHandlerFactory = connHandlerFactory;
@@ -8,9 +8,6 @@ TcpServer::TcpServer(TcpConnectionHandlerFactory *connHandlerFactory)
 
 TcpServer::~TcpServer()
 {
-	if (connHandlerFactory)
-		delete connHandlerFactory;
-
 	if (socket)
 		delete socket;
 
@@ -49,7 +46,7 @@ void TcpServer::_Listen()
 	{
 		Socket *client_socket = socket->Accept();
 		clients.push_back(client_socket);
-		TcpConnectionHandler *handler = connHandlerFactory->CreateTcpConnectionHandler();
+		TcpConnectionHandler *handler = connHandlerFactory();
 		handler->SetSocket(client_socket);
 		handler->SetContext(this);
 

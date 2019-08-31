@@ -34,14 +34,10 @@ test: lib $(TESTOBJS)
 NetworkUtils.o: NetworkUtils.h
 Address.o: Address.h
 Socket.o: Socket.h
-Server.o: Server.h
 TcpServer.o: TcpServer.h
 TcpConnectionHandler.o: TcpConnectionHandler.h
 UdpServer.o: UdpServer.h
 UdpDatagramHandler.o: UdpDatagramHandler.h
-Client.o: Client.h
-ServerConnectionHandler.o: ServerConnectionHandler.h
-ClientConnectionHandler.o: ClientConnectionHandler.h
 UdpServer.o: UdpServer.h
 ThreadPool.o: ThreadPool.h
 

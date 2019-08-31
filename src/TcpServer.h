@@ -3,7 +3,6 @@
 #include <thread>
 #include <algorithm>
 #include "Address.h"
-#include "TcpConnectionHandlerFactory.h"
 #include "TcpConnectionHandler.h"
 #include "ThreadPool.h"
 #include <functional>
@@ -13,7 +12,7 @@ class TcpServer
 public:
 	
 	/// Creates tcp server 
-	TcpServer(TcpConnectionHandlerFactory *connHandlerFactory);
+	TcpServer(std::function<TcpConnectionHandler*()> connHandlerFactory);
 
 	~TcpServer();
 
@@ -34,7 +33,7 @@ private:
 	ThreadPool* tp;
 	int tpSize;
 	std::vector<Socket *> clients;
-	TcpConnectionHandlerFactory *connHandlerFactory;
+	std::function<TcpConnectionHandler*()> connHandlerFactory;
 	Socket *socket;
 	short port;
 	std::string ip;

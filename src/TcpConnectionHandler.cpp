@@ -1,4 +1,5 @@
 #include "TcpConnectionHandler.h"
+#include "TcpServer.h"
 
 TcpConnectionHandler::~TcpConnectionHandler()
 {

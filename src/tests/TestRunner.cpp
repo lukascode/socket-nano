@@ -24,15 +24,6 @@ public:
 	}
 };
 
-class TcpConnectionHandlerFactoryImpl : public TcpConnectionHandlerFactory
-{
-public:
-	virtual TcpConnectionHandler *CreateTcpConnectionHandler()
-	{
-		return new TcpConnectionHandlerImpl();
-	}
-};
-
 class TcpConnectionHandlerImpl2 : public TcpConnectionHandler
 {
 public:
@@ -73,21 +64,17 @@ public:
     }
 };
 
-class UdpDatagramHandlerFactoryImpl : public UdpDatagramHandlerFactory
+int main()
 {
-public:
-    virtual UdpDatagramHandlerImpl *CreateUdpDatagramHandler()
-    {
-        return new UdpDatagramHandlerImpl();
-    }
-};
+	// TcpServer server([]{ return new TcpConnectionHandlerImpl(); });
 
-int
-main()
-{
-	TcpServer server(new TcpConnectionHandlerFactoryImpl());
+	UdpServer server([] { return new UdpDatagramHandlerImpl(); });
 
 	server.Listen(8080);
+
+
+
+
 
 	return 0;
 }

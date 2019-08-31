@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Socket.h"
-#include "UdpServer.h"
 
 class UdpServer;
 

@@ -1,4 +1,5 @@
 #include "UdpDatagramHandler.h"
+#include "UdpServer.h"
 
 UdpDatagramHandler::~UdpDatagramHandler()
 {

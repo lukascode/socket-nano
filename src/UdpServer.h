@@ -3,15 +3,15 @@
 #include<thread>
 #include<functional>
 #include "Socket.h"
-#include "UdpDatagramHandlerFactory.h"
 #include "ThreadPool.h"
+#include "UdpDatagramHandler.h"
 
 class UdpServer
 {
 public:
 
 	/// Creates udp server 
-	UdpServer(UdpDatagramHandlerFactory *datagramHandlerFactory);
+	UdpServer(std::function<UdpDatagramHandler*()> datagramHandlerFactory);
 	~UdpServer();
 
 	/// Bind to all interfaces on the provided port and listen on incoming datagrams
@@ -30,7 +30,7 @@ private:
 	Socket *socket;
 	short port;
 	std::string ip;
-	UdpDatagramHandlerFactory *datagramHandlerFactory;
+	std::function<UdpDatagramHandler*()> datagramHandlerFactory;
 	
 	void _Listen();
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Socket.h"
-#include "TcpServer.h"
 
 class TcpServer;
 
