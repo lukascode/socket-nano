@@ -9,7 +9,8 @@ OBJS = 	Socket.o \
 		ThreadPool.o
 
 TESTOBJS = ./tests/TestRunner.o \
-		   ./tests/TestCase1.o
+		   ./tests/AddressTest.o \
+		   ./tests/SocketTest.o
 
 TESTRUNNER = ./tests/TestRunner
 
