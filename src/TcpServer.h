@@ -25,6 +25,9 @@ public:
 	/// Removes client socket
 	bool RemoveClient(Socket *client);
 
+	/// Sends data to all clients
+	void Broadcast(std::string &data) const; 
+
 	/// Sets number of threads in the pool which are used for handling incoming connections
 	void setThreadPoolSize(int size);
 

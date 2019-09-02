@@ -1,6 +1,6 @@
 #include "TcpServer.h"
 
-TcpServer::TcpServer(std::function<TcpConnectionHandler*()> connHandlerFactory)
+TcpServer::TcpServer(std::function<TcpConnectionHandler *()> connHandlerFactory)
 {
 	tpSize = defaultThreadPoolSize;
 	this->connHandlerFactory = connHandlerFactory;
@@ -69,6 +69,17 @@ bool TcpServer::RemoveClient(Socket *client)
 		return true;
 	}
 	return false;
+}
+
+void TcpServer::Broadcast(std::string &data) const
+{
+	for (size_t i = 0; i < clients.size(); ++i)
+	{
+		if (clients[i])
+		{
+			clients[i]->SendAll(data);
+		}
+	}
 }
 
 void TcpServer::setThreadPoolSize(int size)

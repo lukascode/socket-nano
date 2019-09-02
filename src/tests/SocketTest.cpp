@@ -1,7 +1,6 @@
 #include "catch.hpp"
 #include "../socknano.h"
 #include <functional>
-#include <iostream>
 
 TEST_CASE("should create tcp socket", "[socket]")
 {
