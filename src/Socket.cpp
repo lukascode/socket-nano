@@ -21,10 +21,7 @@ Socket::Socket(int socket_descriptor)
 
 Socket::~Socket()
 {
-	if (IsValidDescriptor())
-	{
-		CloseSocket();
-	}
+	Close();
 	if (boundAddress)
 	{
 		delete boundAddress;
@@ -145,12 +142,27 @@ Address *Socket::GetBoundAddress()
 	return boundAddress;
 }
 
-void Socket::CloseSocket()
+void Socket::Close()
 {
-	if (close(socket_descriptor) < 0)
+	if (IsValidDescriptor())
 	{
-		std::string err(strerror(errno));
-		throw SocketException("close: " + err);
+		if (close(socket_descriptor) < 0)
+		{
+			std::string err(strerror(errno));
+			throw SocketException("close: " + err);
+		}
+	}
+}
+
+void Socket::Shutdown()
+{
+	if (IsValidDescriptor())
+	{
+		if (shutdown(socket_descriptor, SHUT_RDWR) < 0)
+		{
+			std::string err(strerror(errno));
+			throw SocketException("shutdown: " + err);
+		}
 	}
 }
 
@@ -190,7 +202,7 @@ void Socket::SendAll(const uint8_t *buf, size_t len)
 	{
 		if (errno == EPIPE || errno == ECONNRESET)
 		{
-			throw SocketConnectionClosedException("Connection has been closed");	
+			throw SocketConnectionClosedException("Connection has been closed");
 		}
 		std::string err(strerror(errno));
 		throw SendException("sendall error: " + err);

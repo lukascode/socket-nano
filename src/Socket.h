@@ -1,11 +1,14 @@
 #pragma once
 
-#include "NetworkUtils.h"
-#include "Address.h"
 #include <exception>
+#include <stdexcept>
 #include <vector>
 #include <mutex>
 #include <cstddef>
+#include <string>
+#include "NetworkUtils.h"
+#include "Address.h"
+#include "NanoException.h"
 
 class Socket
 {
@@ -33,7 +36,9 @@ public:
 	Address GetRemoteAddress();
 	Address *GetBoundAddress();
 
-	void CloseSocket();
+	void Close();
+	void Shutdown();
+
 	int GetSocketType();
 
 	void Bind(Address *address);
@@ -75,10 +80,10 @@ private:
 	bool IsValidDescriptor();
 };
 
-class SocketException : public std::runtime_error
+class SocketException : public NanoException
 {
 public:
-	SocketException(std::string msg) : std::runtime_error(msg) {}
+	SocketException(std::string msg) : NanoException(msg) {}
 };
 
 class SendException : public SocketException

@@ -11,7 +11,8 @@ OBJS = 	Socket.o \
 TESTOBJS = ./tests/TestRunner.o \
 		   ./tests/AddressTest.o \
 		   ./tests/SocketTest.o \
-		   ./tests/NetworkUtilsTest.o
+		   ./tests/NetworkUtilsTest.o \
+		   ./tests/TcpServerTest.o
 
 TESTRUNNER = ./tests/TestRunner
 

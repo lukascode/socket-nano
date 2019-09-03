@@ -4,7 +4,7 @@
 TcpConnectionHandler::~TcpConnectionHandler()
 {
 	if (socket)
-		context->RemoveClient(socket);
+		server->Disconnect(socket);
 }
 
 void TcpConnectionHandler::SetSocket(Socket *socket)
@@ -12,7 +12,7 @@ void TcpConnectionHandler::SetSocket(Socket *socket)
 	this->socket = socket;
 }
 
-void TcpConnectionHandler::SetContext(TcpServer *context)
+void TcpConnectionHandler::SetServer(TcpServer *server)
 {
-	this->context = context;
+	this->server = server;
 }

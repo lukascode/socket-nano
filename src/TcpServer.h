@@ -6,6 +6,7 @@
 #include "TcpConnectionHandler.h"
 #include "ThreadPool.h"
 #include <functional>
+#include "NanoException.h"
 
 class TcpServer
 {
@@ -22,14 +23,20 @@ public:
 	/// Bind to interface provided by ip on the provided port
 	void Listen(std::string ip, short port);
 
-	/// Removes client socket
-	bool RemoveClient(Socket *client);
+	/// Check whether the server is already in listen mode
+	bool isListening();
+
+	/// Disconnect client socket
+	bool Disconnect(Socket *client);
 
 	/// Sends data to all clients
 	void Broadcast(std::string &data) const; 
 
 	/// Sets number of threads in the pool which are used for handling incoming connections
 	void setThreadPoolSize(int size);
+
+	/// Stops tcp server
+	void Stop();
 
 private:
 	static const int defaultThreadPoolSize = 20;
@@ -40,6 +47,16 @@ private:
 	Socket *socket;
 	short port;
 	std::string ip;
+	std::atomic<bool> halted;
+	std::atomic<bool> listening;
 
 	void _Listen();
+
+	void Clean();
+};
+
+class TcpServerException: public NanoException
+{
+public:
+	TcpServerException(std::string msg): NanoException(msg) {}
 };

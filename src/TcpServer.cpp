@@ -2,24 +2,14 @@
 
 TcpServer::TcpServer(std::function<TcpConnectionHandler *()> connHandlerFactory)
 {
+	listening = false;
 	tpSize = defaultThreadPoolSize;
 	this->connHandlerFactory = connHandlerFactory;
 }
 
 TcpServer::~TcpServer()
 {
-	if (socket)
-		delete socket;
-
-	if (tp)
-		delete tp;
-
-	for (size_t i = 0; i < clients.size(); ++i)
-	{
-		if (clients[i])
-			delete clients[i];
-	}
-	clients.clear();
+	Clean();
 }
 
 void TcpServer::Listen(short port)
@@ -36,19 +26,31 @@ void TcpServer::Listen(std::string ip, short port)
 
 void TcpServer::_Listen()
 {
+	if (listening)
+	{
+		throw TcpServerException("Already listening");
+	}
 	tp = new ThreadPool(tpSize);
 	socket = Socket::CreateSocket(SOCK_STREAM);
 	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
+	ip = address->GetIP();
 	socket->Bind(address);
 	socket->Listen(20);
 
-	for (;;)
+	listening = true;
+	halted = false;
+
+	while (!halted.load())
 	{
 		Socket *client_socket = socket->Accept();
+
+		if (halted.load())
+			break;
+
 		clients.push_back(client_socket);
 		TcpConnectionHandler *handler = connHandlerFactory();
 		handler->SetSocket(client_socket);
-		handler->SetContext(this);
+		handler->SetServer(this);
 
 		// handle connection
 		std::function<void()> task = [handler] {
@@ -57,9 +59,28 @@ void TcpServer::_Listen()
 		};
 		tp->SubmitTask(task);
 	}
+	Clean();
 }
 
-bool TcpServer::RemoveClient(Socket *client)
+void TcpServer::Clean()
+{
+	if (socket)
+		delete socket;
+
+	listening = false;
+
+	if (tp)
+		delete tp;
+
+	for (size_t i = 0; i < clients.size(); ++i)
+	{
+		if (clients[i])
+			delete clients[i];
+	}
+	clients.clear();
+}
+
+bool TcpServer::Disconnect(Socket *client)
 {
 	auto it = std::find(clients.begin(), clients.end(), client);
 	if (it != clients.end())
@@ -85,4 +106,28 @@ void TcpServer::Broadcast(std::string &data) const
 void TcpServer::setThreadPoolSize(int size)
 {
 	tpSize = size;
+}
+
+void TcpServer::Stop()
+{
+	halted = true;
+
+	// Disconnect all connections
+	for (size_t i = 0; i < clients.size(); ++i)
+	{
+		if (clients[i])
+		{
+			clients[i]->Shutdown();
+		}
+	}
+
+	// Connect to this server to unblock accept syscall
+	Socket *s = Socket::CreateSocket(SOCK_STREAM);
+	s->Connect(new Address(this->ip, this->port));
+	delete s;
+}
+
+bool TcpServer::isListening()
+{
+	return listening.load();
 }

@@ -16,7 +16,7 @@ public:
     /// Submits task to thread pool.
     void SubmitTask(std::function<void()> task);
 
-    /// Shutdown thread pool. When there are some tasks on the task queue the will be completed firts.
+    /// Shutdown thread pool. When there are some tasks on the task queue the these will be completed first.
     void Shutdown();
 private:
 

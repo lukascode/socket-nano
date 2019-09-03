@@ -7,8 +7,7 @@ ThreadPool::ThreadPool(int size) : halted(false)
 
 ThreadPool::~ThreadPool()
 {
-    if (!halted)
-        Shutdown();
+    Shutdown();
 }
 
 void ThreadPool::SubmitTask(std::function<void()> task)
@@ -22,11 +21,14 @@ void ThreadPool::SubmitTask(std::function<void()> task)
 
 void ThreadPool::Shutdown()
 {
-    halted = true;
-    cond.notify_all();
-    for (size_t i = 0; i < workers.size(); ++i)
+    if (!halted)
     {
-        workers[i].join();
+        halted = true;
+        cond.notify_all();
+        for (size_t i = 0; i < workers.size(); ++i)
+        {
+            workers[i].join();
+        }
     }
 }
 

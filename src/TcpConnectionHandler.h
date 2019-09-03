@@ -16,8 +16,8 @@ public:
 	void SetSocket(Socket* socket);
 
 	/// Sets TcpServer object as context for handler
-	void SetContext(TcpServer* context);
+	void SetServer(TcpServer* server);
 protected:
 	Socket* socket;
-	TcpServer* context;
+	TcpServer* server;
 };
