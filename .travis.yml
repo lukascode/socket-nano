@@ -1,0 +1,9 @@
+language: cpp
+compiler: g++
+os: 
+  - linux
+before_script: cd src
+script: make clean && make test
+branches:
+  only:
+    - master
