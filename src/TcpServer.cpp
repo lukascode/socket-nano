@@ -108,6 +108,11 @@ void TcpServer::setThreadPoolSize(int size)
 	tpSize = size;
 }
 
+size_t TcpServer::getNumberOfConnections()
+{
+	return clients.size();
+}
+
 void TcpServer::Stop()
 {
 	halted = true;

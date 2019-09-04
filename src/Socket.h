@@ -27,6 +27,9 @@ public:
 	/// Sets the socket low level descriptor
 	void SetSocket(int socket_descriptor);
 
+	/// Checks if socket is valid
+	bool Valid();
+
 	/// Enables read timeout in secons
 	void EnableTimeout(int timeout);
 

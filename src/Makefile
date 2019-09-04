@@ -12,7 +12,8 @@ TESTOBJS = ./tests/TestRunner.o \
 		   ./tests/AddressTest.o \
 		   ./tests/SocketTest.o \
 		   ./tests/NetworkUtilsTest.o \
-		   ./tests/TcpServerTest.o
+		   ./tests/TcpServerTest.o \
+		   ./tests/ThreadPoolTest.o
 
 TESTRUNNER = ./tests/TestRunner
 

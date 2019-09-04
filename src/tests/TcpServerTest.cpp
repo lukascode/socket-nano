@@ -24,32 +24,32 @@ public:
 
 TEST_CASE("tcp server test", "[tcp-server]")
 {   
-    std::cout<<"tcp server test"<<std::endl;
-    TcpServer *server = new TcpServer([] { return new TcpConnectionHandlerImpl(); });
+    // std::cout<<"tcp server test"<<std::endl;
+    // TcpServer *server = new TcpServer([] { return new TcpConnectionHandlerImpl(); });
 
-    std::thread t1([server] {
+    // std::thread t1([server] {
         
-        std::cout<<"Start listening"<<std::endl;
+    //     std::cout<<"Start listening"<<std::endl;
 
-        server->Listen(4444);
+    //     server->Listen(4444);
 
-        std::cout<<"Stop listening"<<std::endl;
+    //     std::cout<<"Stop listening"<<std::endl;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(8*1000));
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(8*1000));
 
-        std::cout<<"Start listening again"<<std::endl;
+    //     std::cout<<"Start listening again"<<std::endl;
 
-        server->Listen(4444);
+    //     server->Listen(4444);
 
-    });
-    t1.detach();
+    // });
+    // t1.detach();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(15*1000));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(15*1000));
 
-    std::cout<<"Calling server->Stop()"<<std::endl;
-    server->Stop();
+    // std::cout<<"Calling server->Stop()"<<std::endl;
+    // server->Stop();
 
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(180*1000));
+    // std::this_thread::sleep_for(std::chrono::milliseconds(180*1000));
 
 }

@@ -16,8 +16,11 @@ public:
     /// Submits task to thread pool.
     void SubmitTask(std::function<void()> task);
 
-    /// Shutdown thread pool. When there are some tasks on the task queue the these will be completed first.
+    /// Shutdown thread pool. When there are some tasks on the task queue these will be completed first.
     void Shutdown();
+
+    bool isHalted();
+
 private:
 
 std::vector<std::thread> workers;

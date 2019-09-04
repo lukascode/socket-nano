@@ -46,6 +46,11 @@ void Socket::SetSocket(int socket_descriptor)
 	}
 }
 
+bool Socket::Valid()
+{
+	return IsValidDescriptor();
+}
+
 void Socket::EnableTimeout(int timeout)
 {
 	if (timeout > 0)

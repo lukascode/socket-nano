@@ -32,8 +32,11 @@ public:
 	/// Sends data to all clients
 	void Broadcast(std::string &data) const; 
 
-	/// Sets number of threads in the pool which are used for handling incoming connections
+	/// Sets the number of threads in the pool which are used for handling incoming connections
 	void setThreadPoolSize(int size);
+
+	/// Gets the number of tcp connections
+	size_t getNumberOfConnections();
 
 	/// Stops tcp server
 	void Stop();

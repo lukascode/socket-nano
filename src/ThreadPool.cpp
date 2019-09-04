@@ -21,7 +21,7 @@ void ThreadPool::SubmitTask(std::function<void()> task)
 
 void ThreadPool::Shutdown()
 {
-    if (!halted)
+    if (!halted.load())
     {
         halted = true;
         cond.notify_all();
@@ -30,6 +30,11 @@ void ThreadPool::Shutdown()
             workers[i].join();
         }
     }
+}
+
+bool ThreadPool::isHalted()
+{
+    return halted.load();
 }
 
 void ThreadPool::createThreadPool(int size)
