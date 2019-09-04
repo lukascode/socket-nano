@@ -1,6 +1,5 @@
 # sockets-lib
-C++ network library based on C posix system calls
 
-generate docs: 
-- install doxygen and graphviz
-- doxygen docs/Doxyfile
+C++ network library
+
+[![Build Status](https://travis-ci.org/lukascode/socket-nano.svg?branch=master)](https://travis-ci.org/lukascode/socket-nano)
