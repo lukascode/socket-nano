@@ -26,7 +26,7 @@ void TcpServer::Listen(std::string ip, short port)
 
 void TcpServer::_Listen()
 {
-	if (listening)
+	if (listening.load())
 	{
 		throw TcpServerException("Already listening");
 	}
