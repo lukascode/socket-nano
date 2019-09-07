@@ -17,7 +17,7 @@ std::string NetworkUtils::GetHostByName(std::string name)
 	if (!h)
 	{
 		std::string err(hstrerror(h_errno));
-		throw DnsLookupException("gethostbyname error: " + err);
+		throw DnsLookupException("gethostbyname error (name: " + name + "): " + err);
 	}
 	return std::string(inet_ntoa(*((struct in_addr *)h->h_addr)));
 }

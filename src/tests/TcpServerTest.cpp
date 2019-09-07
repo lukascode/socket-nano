@@ -27,31 +27,27 @@ TEST_CASE("tcp server general test", "[tcp-server]")
 
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    
-    // TODO (address check localhost)
-    // try
-    // {
-    //     server->Listen(port);
-    //     FAIL_CHECK("Expected TcpServerException");
-    // }
-    // catch (TcpServerException &e)
-    // {
-    //     REQUIRE(std::string(e.what()) == "Already listening");
-    // }
+
+    try {
+        server->Listen(port);
+        FAIL_CHECK("Expected TcpServerException");
+    } catch(TcpServerException& e) {
+        REQUIRE(std::string(e.what()) == "Already listening");
+    }   
 
     Socket *socket = Socket::CreateSocket(SOCK_STREAM);
     socket->Connect(new Address(port));
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    REQUIRE(server->isListening());
+    REQUIRE(server->IsListening());
     REQUIRE(handlerStarted.load());
 
     server->Stop();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    REQUIRE(!server->isListening());
+    REQUIRE(!server->IsListening());
 }
 
 TEST_CASE("should transfer data", "[tcp-server]")
@@ -84,7 +80,7 @@ TEST_CASE("should transfer data", "[tcp-server]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    REQUIRE(server->isListening());
+    REQUIRE(server->IsListening());
 
     Socket *socket = Socket::CreateSocket(SOCK_STREAM);
     socket->Connect(new Address(port));
@@ -102,7 +98,7 @@ TEST_CASE("should transfer data", "[tcp-server]")
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    REQUIRE(!server->isListening());
+    REQUIRE(!server->IsListening());
 }
 
 TEST_CASE("should broadcast", "[tcp-server]")
@@ -131,7 +127,7 @@ TEST_CASE("should broadcast", "[tcp-server]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    REQUIRE(server->isListening());
+    REQUIRE(server->IsListening());
 
     Socket *client1 = Socket::CreateSocket(SOCK_STREAM);
     Socket *client2 = Socket::CreateSocket(SOCK_STREAM);
@@ -141,7 +137,7 @@ TEST_CASE("should broadcast", "[tcp-server]")
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    REQUIRE(server->getNumberOfConnections() == 2);
+    REQUIRE(server->GetNumberOfConnections() == 2);
 
     server->Broadcast(messageToBroadcast);
 
@@ -153,11 +149,11 @@ TEST_CASE("should broadcast", "[tcp-server]")
 
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
-    REQUIRE(server->getNumberOfConnections() == 0);
+    REQUIRE(server->GetNumberOfConnections() == 0);
 
     server->Stop();
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-    REQUIRE(!server->isListening());
+    REQUIRE(!server->IsListening());
 }

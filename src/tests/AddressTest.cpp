@@ -19,6 +19,14 @@ TEST_CASE("should create address with ip and port provided", "[address]") {
     REQUIRE(addr.ToString() == "192.168.1.1:80"); 
 }
 
+TEST_CASE("should create address by hostname and port provided", "[address]") {
+    Address addr("localhost", 80);
+
+    REQUIRE(addr.GetPort() == 80);
+    REQUIRE(addr.GetIP() == "127.0.0.1");
+    REQUIRE(addr.ToString() == "127.0.0.1:80"); 
+}
+
 TEST_CASE("should create address by copy constructor", "[address]") {
 
     Address addr1(1234);

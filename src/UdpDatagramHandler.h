@@ -16,7 +16,7 @@ public:
     void SetSocket(Socket *socket);
 
     /// Sets UdpServer object as context for handler
-    void SetContext(UdpServer *context);
+    void SetServer(UdpServer *server);
 
     /// Sets datagram as incoming data
     void SetDatagram(std::string datagram);
@@ -25,7 +25,7 @@ public:
     void SetAddress(Address* address);
 protected:
     Socket *socket;
-    UdpServer *context;
+    UdpServer *server;
     std::string datagram;
     Address* address;
 };

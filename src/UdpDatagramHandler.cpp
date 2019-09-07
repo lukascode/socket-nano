@@ -12,9 +12,9 @@ void UdpDatagramHandler::SetSocket(Socket *socket)
     this->socket = socket;
 }
 
-void UdpDatagramHandler::SetContext(UdpServer *context)
+void UdpDatagramHandler::SetServer(UdpServer *server)
 {
-    this->context = context;
+    this->server = server;
 }
 
 void UdpDatagramHandler::SetDatagram(std::string datagram)
