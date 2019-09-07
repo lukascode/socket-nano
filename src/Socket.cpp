@@ -227,6 +227,9 @@ void Socket::RecvAll(uint8_t *buf, size_t len)
 	size_t bytesleft = len;
 	ssize_t n;
 
+	if (len == 0)
+		return;
+
 	std::lock_guard<std::mutex> lock(_recv);
 	while (bytesleft > 0)
 	{
