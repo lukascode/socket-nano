@@ -66,7 +66,7 @@ TEST_CASE("should create udp socket based on another one", "[socket]")
 
 TEST_CASE("should establish tcp connection", "[socket]")
 {
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     std::thread tcpServer([port] {
         try
         {
@@ -101,7 +101,7 @@ TEST_CASE("should establish tcp connection", "[socket]")
 
 TEST_CASE("should throw timeout exception", "[socket]")
 {
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     std::thread tcpServer([port] {
         try
         {
@@ -137,7 +137,7 @@ TEST_CASE("should throw timeout exception", "[socket]")
 
 TEST_CASE("recv until test", "[socket]")
 {
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     std::thread tcpServer([port] {
         try
         {
@@ -166,7 +166,7 @@ TEST_CASE("recv until test", "[socket]")
 
 TEST_CASE("recv until test expect buffer overflow", "[socket]")
 {
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     std::thread tcpServer([port] {
         try
         {
@@ -201,7 +201,7 @@ TEST_CASE("recv until test expect buffer overflow", "[socket]")
 
 TEST_CASE("should send and recv datagram", "[socket]")
 {
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     std::thread udpServer([port] {
         try
         {

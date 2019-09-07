@@ -1,0 +1,10 @@
+<map id="SocketException" name="SocketException">
+<area shape="rect" id="node1" title=" " alt="" coords="261,381,403,459"/>
+<area shape="rect" id="node5" href="$class_recv_exception.html" title=" " alt="" coords="5,507,136,584"/>
+<area shape="rect" id="node6" href="$class_send_exception.html" title=" " alt="" coords="160,507,291,584"/>
+<area shape="rect" id="node7" href="$class_socket_connection_closed_exception.html" title=" " alt="" coords="315,507,563,584"/>
+<area shape="rect" id="node8" href="$class_timeout_exception.html" title=" " alt="" coords="587,507,733,584"/>
+<area shape="rect" id="node2" href="$class_nano_exception.html" title=" " alt="" coords="267,256,397,333"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="270,131,394,208"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="280,5,384,83"/>
+</map>

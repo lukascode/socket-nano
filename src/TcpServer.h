@@ -18,10 +18,10 @@ public:
 	~TcpServer();
 
 	/// Bind to all interfaces on the provided port and listen on incoming connections
-	void Listen(short port);
+	void Listen(uint16_t port);
 
 	/// Bind to interface provided by ip on the provided port
-	void Listen(std::string ip, short port);
+	void Listen(std::string ip, uint16_t port);
 
 	/// Check whether the server is already in listen mode
 	bool IsListening();
@@ -30,7 +30,10 @@ public:
 	bool Disconnect(Socket *client);
 
 	/// Sends data to all clients
-	void Broadcast(std::string &data) const; 
+	void Broadcast(std::string &data) const;
+
+	/// Sends data to all clients except provided socket
+	void Broadcast(std::string &data, Socket* socket) const;
 
 	/// Sets the number of threads in the pool which are used for handling incoming connections
 	void SetThreadPoolSize(int size);
@@ -48,7 +51,7 @@ private:
 	std::vector<Socket *> clients;
 	std::function<TcpConnectionHandler*()> connHandlerFactory;
 	Socket *socket;
-	short port;
+	uint16_t port;
 	std::string ip;
 	std::atomic<bool> halted;
 	std::atomic<bool> listening;

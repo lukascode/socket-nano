@@ -12,12 +12,12 @@ TcpServer::~TcpServer()
 	Clean();
 }
 
-void TcpServer::Listen(short port)
+void TcpServer::Listen(uint16_t port)
 {
 	Listen("", port);
 }
 
-void TcpServer::Listen(std::string ip, short port)
+void TcpServer::Listen(std::string ip, uint16_t port)
 {
 	if (IsListening())
 	{
@@ -94,9 +94,14 @@ bool TcpServer::Disconnect(Socket *client)
 
 void TcpServer::Broadcast(std::string &data) const
 {
+	Broadcast(data, nullptr);
+}
+
+void TcpServer::Broadcast(std::string &data, Socket *socket) const
+{
 	for (size_t i = 0; i < clients.size(); ++i)
 	{
-		if (clients[i])
+		if (clients[i] && (!socket || clients[i] != socket))
 		{
 			clients[i]->SendAll(data);
 		}

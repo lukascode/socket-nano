@@ -17,7 +17,7 @@ TEST_CASE("tcp server general test", "[tcp-server]")
 
     std::atomic<bool> handlerStarted(false);
 
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     TcpServer *server = new TcpServer([&handlerStarted] { return new Handler(handlerStarted); });
 
     std::thread serverThread([server, port] {
@@ -68,7 +68,7 @@ TEST_CASE("should transfer data", "[tcp-server]")
         }
     };
 
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     std::string dataReceivedByServer;
     TcpServer *server = new TcpServer([&dataReceivedByServer] { return new Handler(dataReceivedByServer); });
 
@@ -116,7 +116,7 @@ TEST_CASE("should broadcast", "[tcp-server]")
         }
     };
 
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     TcpServer *server = new TcpServer([] { return new Handler(); });
 
     std::thread serverThread([server, port] {

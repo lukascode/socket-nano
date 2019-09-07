@@ -7,10 +7,10 @@ class Address
 public:
 
 	/// Creates address object using provided port
-	Address(short port);
+	Address(uint16_t port);
 
 	/// Creates address object using provided address and port
-	Address(std::string address, short port);
+	Address(std::string address, uint16_t port);
 
 	/// Creates address object using provided low level address structure  
 	Address(struct sockaddr_in addr);
@@ -19,7 +19,7 @@ public:
 	Address(const Address& address);
 
 	/// Gets the assign port to the address 
-	short GetPort() const;
+	uint16_t GetPort() const;
 
 	/// Gets the assign ip to the address
 	std::string GetIP() const;
@@ -32,6 +32,6 @@ public:
 
 private:
 	const struct sockaddr_in addr;	
-	static sockaddr_in Tempaddr(std::string address, short port);
-	static sockaddr_in Tempaddr(short port);
+	static sockaddr_in Tempaddr(std::string address, uint16_t port);
+	static sockaddr_in Tempaddr(uint16_t port);
 };

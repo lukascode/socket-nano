@@ -15,10 +15,10 @@ public:
 	~UdpServer();
 
 	/// Bind to all interfaces on the provided port and listen on incoming datagrams
-	void Listen(short port);
+	void Listen(uint16_t port);
 
 	/// Bind to interface provided by ip on the provided port
-	void Listen(std::string ip, short port);
+	void Listen(std::string ip, uint16_t port);
 
 	/// Check whether the server is already in listen mode
 	bool IsListening();
@@ -33,7 +33,7 @@ private:
 	ThreadPool* tp;
 	int tpSize;
 	Socket *socket;
-	short port;
+	uint16_t port;
 	std::string ip;
 	std::function<UdpDatagramHandler*()> datagramHandlerFactory;
 	std::atomic<bool> halted;

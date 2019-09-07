@@ -12,12 +12,12 @@ UdpServer::~UdpServer()
 	Clean();
 }
 
-void UdpServer::Listen(short port)
+void UdpServer::Listen(uint16_t port)
 {
 	Listen("", port);
 }
 
-void UdpServer::Listen(std::string ip, short port)
+void UdpServer::Listen(std::string ip, uint16_t port)
 {
 	if (IsListening())
 	{

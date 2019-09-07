@@ -2,7 +2,7 @@
 
 #include <random>
 
-extern inline short RandomPort()
+extern inline uint16_t RandomPort()
 {
-    return (short)((std::rand() % (65535 - 1024 + 1)) + 1024);
+    return (std::rand() % (65535 - 1024 + 1)) + 1024;
 }

@@ -16,7 +16,7 @@ TEST_CASE("udp server general test", "[udp-server]")
 
     std::atomic<bool> handlerStarted(false);
 
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     UdpServer* server = new UdpServer([&handlerStarted] { return new Handler(handlerStarted); });
 
     std::thread serverThread([server, port] {
@@ -65,7 +65,7 @@ TEST_CASE("should transfer datagram properly", "[udp-server]")
     };   
 
     std::string receivedDatagramByServer;
-    short port = RandomPort();
+    uint16_t port = RandomPort();
     UdpServer* server = new UdpServer([&receivedDatagramByServer] { return new Handler(receivedDatagramByServer); });
 
     std::thread serverThread([server, port] {

@@ -1,0 +1,12 @@
+<map id="NanoException" name="NanoException">
+<area shape="rect" id="node1" title=" " alt="" coords="441,256,572,333"/>
+<area shape="rect" id="node4" href="$class_socket_exception.html" title=" " alt="" coords="261,381,403,459"/>
+<area shape="rect" id="node9" href="$class_tcp_server_exception.html" title=" " alt="" coords="427,381,587,459"/>
+<area shape="rect" id="node10" href="$class_udp_server_exception.html" title=" " alt="" coords="611,381,773,459"/>
+<area shape="rect" id="node2" title="STL class." alt="" coords="445,131,569,208"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="455,5,559,83"/>
+<area shape="rect" id="node5" href="$class_recv_exception.html" title=" " alt="" coords="5,507,136,584"/>
+<area shape="rect" id="node6" href="$class_send_exception.html" title=" " alt="" coords="160,507,291,584"/>
+<area shape="rect" id="node7" href="$class_socket_connection_closed_exception.html" title=" " alt="" coords="315,507,563,584"/>
+<area shape="rect" id="node8" href="$class_timeout_exception.html" title=" " alt="" coords="587,507,733,584"/>
+</map>
