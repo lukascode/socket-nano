@@ -19,6 +19,10 @@ void TcpServer::Listen(short port)
 
 void TcpServer::Listen(std::string ip, short port)
 {
+	if (IsListening())
+	{
+		throw TcpServerException("Already listening");
+	}
 	this->ip = ip;
 	this->port = port;
 	_Listen();
@@ -26,10 +30,6 @@ void TcpServer::Listen(std::string ip, short port)
 
 void TcpServer::_Listen()
 {
-	if (listening.load())
-	{
-		throw TcpServerException("Already listening");
-	}
 	tp = new ThreadPool(tpSize);
 	socket = Socket::CreateSocket(SOCK_STREAM);
 	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
@@ -103,12 +103,12 @@ void TcpServer::Broadcast(std::string &data) const
 	}
 }
 
-void TcpServer::setThreadPoolSize(int size)
+void TcpServer::SetThreadPoolSize(int size)
 {
 	tpSize = size;
 }
 
-size_t TcpServer::getNumberOfConnections()
+size_t TcpServer::GetNumberOfConnections()
 {
 	return clients.size();
 }
@@ -132,7 +132,7 @@ void TcpServer::Stop()
 	delete s;
 }
 
-bool TcpServer::isListening()
+bool TcpServer::IsListening()
 {
 	return listening.load();
 }

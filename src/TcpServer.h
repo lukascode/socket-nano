@@ -24,7 +24,7 @@ public:
 	void Listen(std::string ip, short port);
 
 	/// Check whether the server is already in listen mode
-	bool isListening();
+	bool IsListening();
 
 	/// Disconnect client socket
 	bool Disconnect(Socket *client);
@@ -33,10 +33,10 @@ public:
 	void Broadcast(std::string &data) const; 
 
 	/// Sets the number of threads in the pool which are used for handling incoming connections
-	void setThreadPoolSize(int size);
+	void SetThreadPoolSize(int size);
 
 	/// Gets the number of tcp connections
-	size_t getNumberOfConnections();
+	size_t GetNumberOfConnections();
 
 	/// Stops tcp server
 	void Stop();
