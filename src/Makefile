@@ -22,9 +22,9 @@ LFLAGS = -pthread
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
-	CCFLAGS = -ggdb -Wall -Wextra -pedantic
+	CCFLAGS = -ggdb -Wall -Wextra -pedantic -std=c++14
 else
-	CCFLAGS = -O3 -Wall -Wextra -pedantic
+	CCFLAGS = -O3 -Wall -Wextra -pedantic -std=c++14
 endif
 
 LIBNAME = libsocknano.a
