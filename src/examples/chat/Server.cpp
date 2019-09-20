@@ -1,5 +1,6 @@
 #include "../../socknano.h"
 #include <iostream>
+#include <unistd.h>
 
 #define PORT 4437
 
@@ -50,7 +51,6 @@ public:
 
 int main()
 {
-
     TcpServer server([] { return new ChatHandler(); });
 
     server.Listen(PORT);
