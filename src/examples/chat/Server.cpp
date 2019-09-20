@@ -15,7 +15,7 @@ public:
         {
             // user sets nickname
             {
-                socket->EnableTimeout(60);
+                socket->EnableTimeout(15);
                 auto data = socket->RecvUntil("\n", 32);
                 nick = std::string(data.begin(), data.end());
                 nick = nick.substr(0, nick.size() - 1);
@@ -38,7 +38,7 @@ public:
         }
         catch (std::exception &e)
         {
-            std::cerr << std::string(e.what());
+            std::cerr << std::string(e.what()) << std::endl;
         }
         if (!nick.empty())
         {

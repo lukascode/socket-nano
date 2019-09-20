@@ -9,6 +9,7 @@
 #include "NetworkUtils.h"
 #include "Address.h"
 #include "NanoException.h"
+#include <poll.h>
 
 class Socket
 {
