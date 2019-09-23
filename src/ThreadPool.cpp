@@ -12,10 +12,8 @@ ThreadPool::~ThreadPool()
 
 void ThreadPool::SubmitTask(std::function<void()> task)
 {
-    {
-        std::unique_lock<std::mutex> lock(task_queue_mtx);
-        task_queue.push(task);
-    }
+    std::unique_lock<std::mutex> lock(task_queue_mtx);
+    task_queue.push(task);
     cond.notify_one();
 }
 
