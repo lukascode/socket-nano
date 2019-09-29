@@ -51,9 +51,9 @@ public:
 
 int main()
 {
-    TcpServer server([] { return new ChatHandler(); });
+    auto server = TcpServer::Create([] { return std::make_shared<ChatHandler>(); });
 
-    server.Listen(PORT);
+    server->Listen(PORT);
 
     return 0;
 }

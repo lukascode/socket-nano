@@ -7,12 +7,12 @@ TcpConnectionHandler::~TcpConnectionHandler()
 		server->Disconnect(socket);
 }
 
-void TcpConnectionHandler::SetSocket(Socket *socket)
+void TcpConnectionHandler::SetSocket(std::shared_ptr<Socket> socket)
 {
 	this->socket = socket;
 }
 
-void TcpConnectionHandler::SetServer(TcpServer *server)
+void TcpConnectionHandler::SetServer(std::shared_ptr<TcpServer> server)
 {
 	this->server = server;
 }

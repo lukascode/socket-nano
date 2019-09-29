@@ -1,28 +1,22 @@
 #include "UdpDatagramHandler.h"
 #include "UdpServer.h"
 
-UdpDatagramHandler::~UdpDatagramHandler()
-{
-    if (address)
-        delete address;
-}
-
-void UdpDatagramHandler::SetSocket(Socket *socket)
+void UdpDatagramHandler::SetSocket(std::shared_ptr<Socket> socket)
 {
     this->socket = socket;
 }
 
-void UdpDatagramHandler::SetServer(UdpServer *server)
+void UdpDatagramHandler::SetServer(std::shared_ptr<UdpServer> server)
 {
     this->server = server;
+}
+
+void UdpDatagramHandler::SetAddress(std::shared_ptr<Address> address)
+{
+    this->address = address;
 }
 
 void UdpDatagramHandler::SetDatagram(std::string datagram)
 {
     this->datagram = datagram;
-}
-
-void UdpDatagramHandler::SetAddress(Address* address)
-{
-    this->address = address;
 }

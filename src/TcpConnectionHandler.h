@@ -4,20 +4,21 @@
 
 class TcpServer;
 
-class TcpConnectionHandler 
+class TcpConnectionHandler
 {
 public:
 	virtual ~TcpConnectionHandler();
 
 	/// Handles one particular connection
-	virtual void HandleConnection()=0;
+	virtual void HandleConnection() = 0;
 
 	/// Sets the socket of tcp connection
-	void SetSocket(Socket* socket);
+	void SetSocket(std::shared_ptr<Socket> socket);
 
 	/// Sets TcpServer object as context for handler
-	void SetServer(TcpServer* server);
+	void SetServer(std::shared_ptr<TcpServer> server);
+
 protected:
-	Socket* socket;
-	TcpServer* server;
+	std::shared_ptr<Socket> socket;
+	std::shared_ptr<TcpServer> server;
 };

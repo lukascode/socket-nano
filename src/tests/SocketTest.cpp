@@ -6,25 +6,21 @@
 TEST_CASE("should create tcp socket", "[socket]")
 {
 
-    Socket *socket = Socket::CreateSocket(SOCK_STREAM);
+    auto socket = Socket::Create(SOCK_STREAM);
 
     REQUIRE(socket->GetSocket() > 0);
     REQUIRE(socket->Valid());
     REQUIRE(socket->GetSocketType() == SOCK_STREAM);
-
-    delete socket;
 }
 
 TEST_CASE("should create udp socket", "[socket]")
 {
 
-    Socket *socket = Socket::CreateSocket(SOCK_DGRAM);
+    auto socket = Socket::Create(SOCK_DGRAM);
 
     REQUIRE(socket->GetSocket() > 0);
     REQUIRE(socket->Valid());
     REQUIRE(socket->GetSocketType() == SOCK_DGRAM);
-
-    delete socket;
 }
 
 TEST_CASE("should throw when provided fd by constructor is broken", "[socket]")
@@ -42,25 +38,23 @@ TEST_CASE("should throw when provided fd by constructor is broken", "[socket]")
 
 TEST_CASE("should create tcp socket based on another one", "[socket]")
 {
-    Socket *s1 = Socket::CreateSocket(SOCK_STREAM);
+    auto s1 = Socket::Create(SOCK_STREAM);
     Socket *s2 = new Socket(s1->GetSocket());
 
     REQUIRE(s2->GetSocketType() == SOCK_STREAM);
     REQUIRE(s2->Valid());
 
-    delete s1;
     delete s2;
 }
 
 TEST_CASE("should create udp socket based on another one", "[socket]")
 {
-    Socket *s1 = Socket::CreateSocket(SOCK_DGRAM);
+    auto s1 = Socket::Create(SOCK_DGRAM);
     Socket *s2 = new Socket(s1->GetSocket());
 
     REQUIRE(s2->GetSocketType() == SOCK_DGRAM);
     REQUIRE(s2->Valid());
 
-    delete s1;
     delete s2;
 }
 
@@ -70,12 +64,11 @@ TEST_CASE("should establish tcp connection", "[socket]")
     std::thread tcpServer([port] {
         try
         {
-            Socket *servSocket = Socket::CreateSocket(SOCK_STREAM);
-            servSocket->Bind(new Address(port));
+            auto servSocket = Socket::Create(SOCK_STREAM);
+            servSocket->Bind(std::make_shared<Address>(port));
             servSocket->Listen(20);
-            Socket *cliSocket = servSocket->Accept();
+            auto cliSocket = servSocket->Accept();
             cliSocket->SendAll("HELLO");
-            delete servSocket;
         }
         catch (std::exception &e)
         {
@@ -87,16 +80,14 @@ TEST_CASE("should establish tcp connection", "[socket]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    Socket *socket = Socket::CreateSocket(SOCK_STREAM);
+    auto socket = Socket::Create(SOCK_STREAM);
     socket->EnableTimeout(2);
-    socket->Connect(new Address(port));
+    socket->Connect(std::make_shared<Address>(port));
     auto data = socket->RecvAll(5);
     std::string dataStr = std::string(data.begin(), data.end());
 
     REQUIRE(data.size() == 5);
     REQUIRE(dataStr == "HELLO");
-
-    delete socket;
 }
 
 TEST_CASE("should throw timeout exception", "[socket]")
@@ -105,10 +96,10 @@ TEST_CASE("should throw timeout exception", "[socket]")
     std::thread tcpServer([port] {
         try
         {
-            Socket *servSocket = Socket::CreateSocket(SOCK_STREAM);
-            servSocket->Bind(new Address(port));
+            auto servSocket = Socket::Create(SOCK_STREAM);
+            servSocket->Bind(std::make_shared<Address>(port));
             servSocket->Listen(20);
-            servSocket->Accept();
+            auto cliSocket = servSocket->Accept();
             std::this_thread::sleep_for(std::chrono::milliseconds(10000));
         }
         catch (std::exception &e)
@@ -123,9 +114,9 @@ TEST_CASE("should throw timeout exception", "[socket]")
 
     try
     {
-        Socket *socket = Socket::CreateSocket(SOCK_STREAM);
+        auto socket = Socket::Create(SOCK_STREAM);
         socket->EnableTimeout(5);
-        socket->Connect(new Address(port));
+        socket->Connect(std::make_shared<Address>(port));
         socket->RecvAll(32);
         FAIL_CHECK("Expected TimeoutException");
     }
@@ -141,10 +132,10 @@ TEST_CASE("recv until test", "[socket]")
     std::thread tcpServer([port] {
         try
         {
-            Socket *servSocket = Socket::CreateSocket(SOCK_STREAM);
-            servSocket->Bind(new Address(port));
+            auto servSocket = Socket::Create(SOCK_STREAM);
+            servSocket->Bind(std::make_shared<Address>(port));
             servSocket->Listen(20);
-            Socket *socket = servSocket->Accept();
+            auto socket = servSocket->Accept();
             socket->SendAll("ggw9gijskgjb0943AA\r\n5gbnlklsjfb");
         }
         catch (std::exception &e)
@@ -157,8 +148,8 @@ TEST_CASE("recv until test", "[socket]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    Socket *socket = Socket::CreateSocket(SOCK_STREAM);
-    socket->Connect(new Address(port));
+    auto socket = Socket::Create(SOCK_STREAM);
+    socket->Connect(std::make_shared<Address>(port));
     auto data = socket->RecvUntil("AA\r\n", 128);
 
     REQUIRE(std::string(data.begin(), data.end()) == "ggw9gijskgjb0943AA\r\n");
@@ -170,10 +161,10 @@ TEST_CASE("recv until test expect buffer overflow", "[socket]")
     std::thread tcpServer([port] {
         try
         {
-            Socket *servSocket = Socket::CreateSocket(SOCK_STREAM);
-            servSocket->Bind(new Address(port));
+            auto servSocket = Socket::Create(SOCK_STREAM);
+            servSocket->Bind(std::make_shared<Address>(port));
             servSocket->Listen(20);
-            Socket *socket = servSocket->Accept();
+            auto socket = servSocket->Accept();
             socket->SendAll("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\r\n\r\n");
         }
         catch (std::exception &e)
@@ -188,8 +179,8 @@ TEST_CASE("recv until test expect buffer overflow", "[socket]")
 
     try
     {
-        Socket *socket = Socket::CreateSocket(SOCK_STREAM);
-        socket->Connect(new Address(port));
+        auto socket = Socket::Create(SOCK_STREAM);
+        socket->Connect(std::make_shared<Address>(port));
         auto data = socket->RecvUntil("\r\n\r\n", 16);
         FAIL_CHECK("Expected std::overflow_error");
     }
@@ -205,17 +196,15 @@ TEST_CASE("should send and recv datagram", "[socket]")
     std::thread udpServer([port] {
         try
         {
-            Socket *servSocket = Socket::CreateSocket(SOCK_DGRAM);
-            servSocket->Bind(new Address(port));
+            auto servSocket = Socket::Create(SOCK_DGRAM);
+            servSocket->Bind(std::make_shared<Address>(port));
 
-            Address *clientAddr;
+            std::shared_ptr<Address> clientAddr;
             auto datagram = servSocket->RecvFrom(clientAddr, 4);
             std::string datagramStr = std::string(datagram.begin(), datagram.end());
             REQUIRE(datagramStr == "PING");
 
             servSocket->SendTo(clientAddr, "PONG");
-
-            delete servSocket;
         }
         catch (std::exception &e)
         {
@@ -227,9 +216,9 @@ TEST_CASE("should send and recv datagram", "[socket]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    Address *address = new Address(port);
+    auto address = std::make_shared<Address>(port);
 
-    Socket *socket = Socket::CreateSocket(SOCK_DGRAM);
+    auto socket = Socket::Create(SOCK_DGRAM);
     socket->SendTo(address, "PING");
 
     socket->EnableTimeout(2);
@@ -237,6 +226,4 @@ TEST_CASE("should send and recv datagram", "[socket]")
     auto datagram = socket->RecvFrom(address, 4);
     std::string datagramStr = std::string(datagram.begin(), datagram.end());
     REQUIRE(datagramStr == "PONG");
-
-    delete socket;
 }

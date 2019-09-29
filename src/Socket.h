@@ -10,12 +10,13 @@
 #include "Address.h"
 #include "NanoException.h"
 #include <poll.h>
+#include <memory>
 
 class Socket
 {
 public:
 	/// Creates tcp/udp socket object base on type (SOCK_STREAM / SOCK_DGRAM)
-	static Socket *CreateSocket(int type);
+	static std::shared_ptr<Socket> Create(int type);
 
 	/// Creates socket object using provided existing descriptor
 	Socket(int socket_descriptor);
@@ -38,19 +39,19 @@ public:
 	void DisableTimeout();
 
 	Address GetRemoteAddress();
-	Address *GetBoundAddress();
+	std::shared_ptr<Address> GetBoundAddress();
 
 	void Close();
 	void Shutdown();
 
 	int GetSocketType();
 
-	void Bind(Address *address);
-	void Connect(Address *address);
+	void Bind(std::shared_ptr<Address> address);
+	void Connect(std::shared_ptr<Address> address);
 	void Listen(int backlog);
 
 	/// Accept incoming connection and return back client socket
-	Socket *Accept();
+	std::shared_ptr<Socket> Accept();
 
 	// TCP
 	void SendAll(const std::string &data);
@@ -63,16 +64,16 @@ public:
 	void RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len);
 
 	// UDP
-	void SendTo(Address *address, const std::string &data);
-	void SendTo(Address *address, const std::vector<uint8_t> &data);
-	void SendTo(Address *address, const uint8_t *buf, size_t len);
-	std::vector<uint8_t> RecvFrom(Address *&address, size_t len);
-	size_t RecvFrom(Address *&address, uint8_t *buf, size_t len);
+	void SendTo(const std::shared_ptr<Address> address, const std::string &data);
+	void SendTo(const std::shared_ptr<Address> address, const std::vector<uint8_t> &data);
+	void SendTo(const std::shared_ptr<Address> address, const uint8_t *buf, size_t len);
+	std::vector<uint8_t> RecvFrom(std::shared_ptr<Address> &address, size_t len);
+	size_t RecvFrom(std::shared_ptr<Address> &address, uint8_t *buf, size_t len);
 
 private:
 	int socket_descriptor;
-	Address *boundAddress;
-	Address *connectedAddress;
+	std::shared_ptr<Address> boundAddress;
+	std::shared_ptr<Address> connectedAddress;
 	std::mutex _send;
 	std::mutex _recv;
 	std::mutex _recvuntil;

@@ -18,7 +18,7 @@ TEST_CASE("tcp server general test", "[tcp-server]")
     std::atomic<bool> handlerStarted(false);
 
     uint16_t port = RandomPort();
-    TcpServer *server = new TcpServer([&handlerStarted] { return new Handler(handlerStarted); });
+    auto server = TcpServer::Create([&handlerStarted] { return std::make_shared<Handler>(handlerStarted); });
 
     std::thread serverThread([server, port] {
         server->Listen(port);
@@ -28,15 +28,18 @@ TEST_CASE("tcp server general test", "[tcp-server]")
     // wait for server
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-    try {
+    try
+    {
         server->Listen(port);
         FAIL_CHECK("Expected TcpServerException");
-    } catch(TcpServerException& e) {
+    }
+    catch (TcpServerException &e)
+    {
         REQUIRE(std::string(e.what()) == "Already listening");
-    }   
+    }
 
-    Socket *socket = Socket::CreateSocket(SOCK_STREAM);
-    socket->Connect(new Address(port));
+    auto socket = Socket::Create(SOCK_STREAM);
+    socket->Connect(std::make_shared<Address>(port));
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
@@ -70,7 +73,7 @@ TEST_CASE("should transfer data", "[tcp-server]")
 
     uint16_t port = RandomPort();
     std::string dataReceivedByServer;
-    TcpServer *server = new TcpServer([&dataReceivedByServer] { return new Handler(dataReceivedByServer); });
+    auto server = TcpServer::Create([&dataReceivedByServer] { return std::make_shared<Handler>(dataReceivedByServer); });
 
     std::thread serverThread([server, port] {
         server->Listen(port);
@@ -82,8 +85,8 @@ TEST_CASE("should transfer data", "[tcp-server]")
 
     REQUIRE(server->IsListening());
 
-    Socket *socket = Socket::CreateSocket(SOCK_STREAM);
-    socket->Connect(new Address(port));
+    auto socket = Socket::Create(SOCK_STREAM);
+    socket->Connect(std::make_shared<Address>(port));
     socket->SendAll(PING);
 
     auto data = socket->RecvAll(4);
@@ -117,7 +120,7 @@ TEST_CASE("should broadcast", "[tcp-server]")
     };
 
     uint16_t port = RandomPort();
-    TcpServer *server = new TcpServer([] { return new Handler(); });
+    auto server = TcpServer::Create([] { return std::make_shared<Handler>(); });
 
     std::thread serverThread([server, port] {
         server->Listen(port);
@@ -129,11 +132,11 @@ TEST_CASE("should broadcast", "[tcp-server]")
 
     REQUIRE(server->IsListening());
 
-    Socket *client1 = Socket::CreateSocket(SOCK_STREAM);
-    Socket *client2 = Socket::CreateSocket(SOCK_STREAM);
+    auto client1 = Socket::Create(SOCK_STREAM);
+    auto client2 = Socket::Create(SOCK_STREAM);
 
-    client1->Connect(new Address(port));
-    client2->Connect(new Address(port));
+    client1->Connect(std::make_shared<Address>(port));
+    client2->Connect(std::make_shared<Address>(port));
 
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
