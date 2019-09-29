@@ -9,6 +9,7 @@ For now, only Linux is supported, but windows support is planned in the future.
 ```cpp
 #include "include/socknano.h"
 #include <iostream>
+#include <memory>
 
 class HttpRequestHandler : public TcpConnectionHandler
 {
@@ -29,7 +30,7 @@ public:
 
 int main()
 {
-    auto server = TcpServer::Create([] { return new HttpRequestHandler(); });
+    auto server = TcpServer::Create([] { std::make_shared<HttpRequestHandler>(); });
 
     server->Listen(8080);
 
