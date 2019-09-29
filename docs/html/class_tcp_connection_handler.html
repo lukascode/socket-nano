@@ -74,8 +74,9 @@ Inheritance diagram for TcpConnectionHandler:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tcp_connection_handler__inherit__graph.png" border="0" usemap="#_tcp_connection_handler_inherit__map" alt="Inheritance graph"/></div>
 <map name="_tcp_connection_handler_inherit__map" id="_tcp_connection_handler_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,5,188,141"/>
-<area shape="rect" href="class_chat_handler.html" title=" " alt="" coords="22,189,171,267"/>
+<area shape="rect" title=" " alt="" coords="75,5,258,141"/>
+<area shape="rect" href="class_chat_handler.html" title=" " alt="" coords="5,189,155,267"/>
+<area shape="rect" href="class_reverse_shell_handler.html" title=" " alt="" coords="179,189,328,267"/>
 </map>
 </div>
 <div class="dynheader">
@@ -83,20 +84,26 @@ Collaboration diagram for TcpConnectionHandler:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tcp_connection_handler__coll__graph.png" border="0" usemap="#_tcp_connection_handler_coll__map" alt="Collaboration graph"/></div>
 <map name="_tcp_connection_handler_coll__map" id="_tcp_connection_handler_coll__map">
-<area shape="rect" title=" " alt="" coords="601,1761,784,1883"/>
-<area shape="rect" href="class_socket.html" title=" " alt="" coords="687,432,853,1067"/>
-<area shape="rect" href="class_tcp_server.html" title=" " alt="" coords="488,1372,684,1699"/>
-<area shape="rect" title=" " alt="" coords="507,1181,665,1258"/>
-<area shape="rect" href="class_address.html" title=" " alt="" coords="701,145,839,355"/>
-<area shape="rect" title="STL class." alt="" coords="444,211,560,289"/>
-<area shape="rect" title=" " alt="" coords="347,711,518,788"/>
-<area shape="rect" title=" " alt="" coords="329,5,368,83"/>
-<area shape="rect" title="STL class." alt="" coords="167,211,282,289"/>
-<area shape="rect" title="STL class." alt="" coords="134,1181,214,1258"/>
-<area shape="rect" title="STL class." alt="" coords="5,703,132,795"/>
-<area shape="rect" href="class_thread_pool.html" title=" " alt="" coords="343,1129,483,1309"/>
-<area shape="rect" title=" " alt="" coords="156,703,323,795"/>
-<area shape="rect" title="STL class." alt="" coords="336,211,420,289"/>
+<area shape="rect" title=" " alt="" coords="121,2137,303,2259"/>
+<area shape="rect" title=" " alt="" coords="206,1997,399,2075"/>
+<area shape="rect" href="class_tcp_server.html" title=" " alt="" coords="365,1593,561,1935"/>
+<area shape="rect" title=" " alt="" coords="557,1439,723,1531"/>
+<area shape="rect" title=" " alt="" coords="119,1291,294,1369"/>
+<area shape="rect" title=" " alt="" coords="302,1439,463,1531"/>
+<area shape="rect" href="class_socket.html" title=" " alt="" coords="101,587,267,1221"/>
+<area shape="rect" title=" " alt="" coords="93,425,275,502"/>
+<area shape="rect" href="class_address.html" title=" " alt="" coords="173,145,312,355"/>
+<area shape="rect" title="STL class." alt="" coords="8,211,149,289"/>
+<area shape="rect" title=" " alt="" coords="463,1291,662,1369"/>
+<area shape="rect" title=" " alt="" coords="427,5,466,83"/>
+<area shape="rect" title="STL class." alt="" coords="672,211,787,289"/>
+<area shape="rect" title="STL class." alt="" coords="389,211,505,289"/>
+<area shape="rect" title="STL class." alt="" coords="748,1446,828,1523"/>
+<area shape="rect" title="STL class." alt="" coords="725,1284,851,1376"/>
+<area shape="rect" href="class_thread_pool.html" title=" " alt="" coords="563,814,703,994"/>
+<area shape="rect" title=" " alt="" coords="659,417,826,509"/>
+<area shape="rect" title=" " alt="" coords="464,425,635,502"/>
+<area shape="rect" title="STL class." alt="" coords="550,211,634,289"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -106,23 +113,23 @@ Public Member Functions</h2></td></tr>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_connection_handler.html#a79e8afdd419bee30e4656dfa3afe21e5">HandleConnection</a> ()=0</td></tr>
 <tr class="memdesc:a79e8afdd419bee30e4656dfa3afe21e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles one particular connection. <br /></td></tr>
 <tr class="separator:a79e8afdd419bee30e4656dfa3afe21e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08f68b04e6cc1e0a72417c17559f419f"><td class="memItemLeft" align="right" valign="top"><a id="a08f68b04e6cc1e0a72417c17559f419f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_connection_handler.html#a08f68b04e6cc1e0a72417c17559f419f">SetSocket</a> (<a class="el" href="class_socket.html">Socket</a> *socket)</td></tr>
-<tr class="memdesc:a08f68b04e6cc1e0a72417c17559f419f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the socket of tcp connection. <br /></td></tr>
-<tr class="separator:a08f68b04e6cc1e0a72417c17559f419f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a911c5b5ece381545b02ea0961e5a82bc"><td class="memItemLeft" align="right" valign="top"><a id="a911c5b5ece381545b02ea0961e5a82bc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_connection_handler.html#a911c5b5ece381545b02ea0961e5a82bc">SetServer</a> (<a class="el" href="class_tcp_server.html">TcpServer</a> *server)</td></tr>
-<tr class="memdesc:a911c5b5ece381545b02ea0961e5a82bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <a class="el" href="class_tcp_server.html">TcpServer</a> object as context for handler. <br /></td></tr>
-<tr class="separator:a911c5b5ece381545b02ea0961e5a82bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a196f8303a104bc30a66aba3a60e17c86"><td class="memItemLeft" align="right" valign="top"><a id="a196f8303a104bc30a66aba3a60e17c86"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_connection_handler.html#a196f8303a104bc30a66aba3a60e17c86">SetSocket</a> (std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt; socket)</td></tr>
+<tr class="memdesc:a196f8303a104bc30a66aba3a60e17c86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the socket of tcp connection. <br /></td></tr>
+<tr class="separator:a196f8303a104bc30a66aba3a60e17c86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a532475cd7e469f447110c468854a9087"><td class="memItemLeft" align="right" valign="top"><a id="a532475cd7e469f447110c468854a9087"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_connection_handler.html#a532475cd7e469f447110c468854a9087">SetServer</a> (std::shared_ptr&lt; <a class="el" href="class_tcp_server.html">TcpServer</a> &gt; server)</td></tr>
+<tr class="memdesc:a532475cd7e469f447110c468854a9087"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets <a class="el" href="class_tcp_server.html">TcpServer</a> object as context for handler. <br /></td></tr>
+<tr class="separator:a532475cd7e469f447110c468854a9087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aebbc32ea9faa45cc98f4995d07553250"><td class="memItemLeft" align="right" valign="top"><a id="aebbc32ea9faa45cc98f4995d07553250"></a>
-<a class="el" href="class_socket.html">Socket</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>socket</b></td></tr>
-<tr class="separator:aebbc32ea9faa45cc98f4995d07553250"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af675580f9d68ee62d97f8a0ac1ba1c48"><td class="memItemLeft" align="right" valign="top"><a id="af675580f9d68ee62d97f8a0ac1ba1c48"></a>
-<a class="el" href="class_tcp_server.html">TcpServer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>server</b></td></tr>
-<tr class="separator:af675580f9d68ee62d97f8a0ac1ba1c48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8c531902379bc64fa02ec8cbffad00e"><td class="memItemLeft" align="right" valign="top"><a id="af8c531902379bc64fa02ec8cbffad00e"></a>
+std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>socket</b></td></tr>
+<tr class="separator:af8c531902379bc64fa02ec8cbffad00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d1944e0cf6476402cbbe8eb0abd7a55"><td class="memItemLeft" align="right" valign="top"><a id="a4d1944e0cf6476402cbbe8eb0abd7a55"></a>
+std::shared_ptr&lt; <a class="el" href="class_tcp_server.html">TcpServer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>server</b></td></tr>
+<tr class="separator:a4d1944e0cf6476402cbbe8eb0abd7a55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>/home/lukaszs/github/socket-nano/src/<a class="el" href="_tcp_connection_handler_8h_source.html">TcpConnectionHandler.h</a></li>

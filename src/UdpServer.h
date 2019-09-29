@@ -1,17 +1,17 @@
 #pragma once
 
-#include<thread>
-#include<functional>
+#include <thread>
+#include <functional>
 #include "Socket.h"
 #include "ThreadPool.h"
 #include "UdpDatagramHandler.h"
 
-class UdpServer
+class UdpServer : public std::enable_shared_from_this<UdpServer>
 {
 public:
+	/// Creates udp server
+	static std::shared_ptr<UdpServer> Create(std::function<std::shared_ptr<UdpDatagramHandler>()> datagramHandlerFactory);
 
-	/// Creates udp server 
-	UdpServer(std::function<UdpDatagramHandler*()> datagramHandlerFactory);
 	~UdpServer();
 
 	/// Bind to all interfaces on the provided port and listen on incoming datagrams
@@ -30,22 +30,24 @@ public:
 
 private:
 	static const int defaultThreadPoolSize = 20;
-	ThreadPool* tp;
+	std::shared_ptr<ThreadPool> tp;
+	std::shared_ptr<Socket> socket;
+	std::function<std::shared_ptr<UdpDatagramHandler>()> datagramHandlerFactory;
 	int tpSize;
-	Socket *socket;
 	uint16_t port;
 	std::string ip;
-	std::function<UdpDatagramHandler*()> datagramHandlerFactory;
 	std::atomic<bool> halted;
 	std::atomic<bool> listening;
-	
+
 	void _Listen();
 
 	void Clean();
+
+	UdpServer(std::function<std::shared_ptr<UdpDatagramHandler>()> datagramHandlerFactory);
 };
 
-class UdpServerException: public NanoException
+class UdpServerException : public NanoException
 {
 public:
-	UdpServerException(std::string msg): NanoException(msg) {}
+	UdpServerException(std::string msg) : NanoException(msg) {}
 };

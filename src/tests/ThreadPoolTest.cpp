@@ -8,7 +8,7 @@ TEST_CASE("should run task", "[tp]")
     ThreadPool tp(1);
 
     std::atomic<bool> started(false);
-    tp.SubmitTask([&started]{ started = true; });
+    tp.SubmitTask([&started] { started = true; });
 
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     tp.Shutdown();
@@ -22,7 +22,7 @@ TEST_CASE("should wait until task finish work", "[tp]")
     ThreadPool tp(1);
 
     std::atomic<bool> completed(false);
-    tp.SubmitTask([&completed]{ 
+    tp.SubmitTask([&completed] {
         std::this_thread::sleep_for(std::chrono::milliseconds(4000));
         completed = true;
     });
@@ -39,14 +39,14 @@ TEST_CASE("should start eventually", "[tp]")
 
     ThreadPool tp(n);
 
-    for(int i=0; i<n; ++i)
+    for (int i = 0; i < n; ++i)
     {
-        tp.SubmitTask([]{ std::this_thread::sleep_for(std::chrono::milliseconds(5000)); });
+        tp.SubmitTask([] { std::this_thread::sleep_for(std::chrono::milliseconds(5000)); });
     }
 
     std::atomic<bool> started(false);
 
-    std::function<void()> task = [&started]{ started = true; };
+    std::function<void()> task = [&started] { started = true; };
 
     tp.SubmitTask(task);
 

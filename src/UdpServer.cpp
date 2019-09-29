@@ -1,6 +1,11 @@
 #include "UdpServer.h"
 
-UdpServer::UdpServer(std::function<UdpDatagramHandler *()> datagramHandlerFactory)
+std::shared_ptr<UdpServer> UdpServer::Create(std::function<std::shared_ptr<UdpDatagramHandler>()> datagramHandlerFactory)
+{
+	return std::shared_ptr<UdpServer>(new UdpServer(datagramHandlerFactory));
+}
+
+UdpServer::UdpServer(std::function<std::shared_ptr<UdpDatagramHandler>()> datagramHandlerFactory)
 {
 	listening = false;
 	tpSize = defaultThreadPoolSize;
@@ -30,9 +35,9 @@ void UdpServer::Listen(std::string ip, uint16_t port)
 
 void UdpServer::_Listen()
 {
-	tp = new ThreadPool(tpSize);
-	socket = Socket::CreateSocket(SOCK_DGRAM);
-	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
+	tp = std::make_shared<ThreadPool>(tpSize);
+	socket = Socket::Create(SOCK_DGRAM);
+	auto address = ip.empty() ? std::make_shared<Address>(port) : std::make_shared<Address>(ip, port);
 	ip = address->GetIP();
 	socket->Bind(address);
 
@@ -41,22 +46,21 @@ void UdpServer::_Listen()
 
 	while (!halted.load())
 	{
-		Address *client;
+		std::shared_ptr<Address> client;
 		std::vector<uint8_t> datagram = socket->RecvFrom(client, 1024);
 
 		if (halted.load())
 			break;
 
-		UdpDatagramHandler *handler = datagramHandlerFactory();
+		auto handler = datagramHandlerFactory();
 		handler->SetSocket(socket);
 		handler->SetDatagram(std::string(datagram.begin(), datagram.end()));
-		handler->SetServer(this);
+		handler->SetServer(shared_from_this());
 		handler->SetAddress(client);
 
 		// handle datagram
 		std::function<void()> task = [handler] {
 			handler->HandleDatagram();
-			delete handler;
 		};
 		tp->SubmitTask(task);
 	}
@@ -76,12 +80,12 @@ bool UdpServer::IsListening()
 void UdpServer::Clean()
 {
 	if (socket)
-		delete socket;
+		socket.reset();
 
 	listening = false;
-	
+
 	if (tp)
-		delete tp;
+		tp.reset();
 }
 
 void UdpServer::Stop()
@@ -89,7 +93,6 @@ void UdpServer::Stop()
 	halted = true;
 
 	// Send datagram to this server to unblock recvfrom syscall
-	Socket *s = Socket::CreateSocket(SOCK_DGRAM);
-	s->SendTo(new Address(this->ip, this->port), "Stop");
-	delete s;
+	auto s = Socket::Create(SOCK_DGRAM);
+	s->SendTo(std::make_shared<Address>(this->ip, this->port), "Stop");
 }

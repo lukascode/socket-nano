@@ -1,5 +1,6 @@
 #include "../../socknano.h"
 #include <iostream>
+#include <unistd.h>
 
 #define PORT 4437
 
@@ -50,10 +51,9 @@ public:
 
 int main()
 {
+    auto server = TcpServer::Create([] { return std::make_shared<ChatHandler>(); });
 
-    TcpServer server([] { return new ChatHandler(); });
-
-    server.Listen(PORT);
+    server->Listen(PORT);
 
     return 0;
 }

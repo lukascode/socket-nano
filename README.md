@@ -29,9 +29,9 @@ public:
 
 int main()
 {
-    TcpServer server([] { return new HttpRequestHandler(); });
+    auto server = TcpServer::Create([] { return new HttpRequestHandler(); });
 
-    server.Listen(8080);
+    server->Listen(8080);
 
     return 0;
 }.

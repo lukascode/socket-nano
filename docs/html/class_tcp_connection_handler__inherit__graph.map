@@ -1,4 +1,5 @@
 <map id="TcpConnectionHandler" name="TcpConnectionHandler">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,188,141"/>
-<area shape="rect" id="node2" href="$class_chat_handler.html" title=" " alt="" coords="22,189,171,267"/>
+<area shape="rect" id="node1" title=" " alt="" coords="75,5,258,141"/>
+<area shape="rect" id="node2" href="$class_chat_handler.html" title=" " alt="" coords="5,189,155,267"/>
+<area shape="rect" id="node3" href="$class_reverse_shell_handler.html" title=" " alt="" coords="179,189,328,267"/>
 </map>

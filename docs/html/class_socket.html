@@ -76,8 +76,11 @@ Collaboration diagram for Socket:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_socket__coll__graph.png" border="0" usemap="#_socket_coll__map" alt="Collaboration graph"/></div>
 <map name="_socket_coll__map" id="_socket_coll__map">
-<area shape="rect" title=" " alt="" coords="5,292,171,927"/>
-<area shape="rect" href="class_address.html" title=" " alt="" coords="19,5,157,215"/>
+<area shape="rect" title=" " alt="" coords="47,572,212,1207"/>
+<area shape="rect" title=" " alt="" coords="39,417,220,495"/>
+<area shape="rect" href="class_address.html" title=" " alt="" coords="5,145,144,355"/>
+<area shape="rect" title="STL class." alt="" coords="168,211,309,289"/>
+<area shape="rect" title=" " alt="" coords="219,5,258,83"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -113,9 +116,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memitem:ae01e9a1b7923c24456adb0d98a79257c"><td class="memItemLeft" align="right" valign="top"><a id="ae01e9a1b7923c24456adb0d98a79257c"></a>
 <a class="el" href="class_address.html">Address</a>&#160;</td><td class="memItemRight" valign="bottom"><b>GetRemoteAddress</b> ()</td></tr>
 <tr class="separator:ae01e9a1b7923c24456adb0d98a79257c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36598c6ef15c0620afad647a2f40f0f6"><td class="memItemLeft" align="right" valign="top"><a id="a36598c6ef15c0620afad647a2f40f0f6"></a>
-<a class="el" href="class_address.html">Address</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetBoundAddress</b> ()</td></tr>
-<tr class="separator:a36598c6ef15c0620afad647a2f40f0f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d0f4e9eaf5bca0cc3a124b88ed54207"><td class="memItemLeft" align="right" valign="top"><a id="a6d0f4e9eaf5bca0cc3a124b88ed54207"></a>
+std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetBoundAddress</b> ()</td></tr>
+<tr class="separator:a6d0f4e9eaf5bca0cc3a124b88ed54207"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c8ced9a8ce58834191b3b4f2033b173"><td class="memItemLeft" align="right" valign="top"><a id="a4c8ced9a8ce58834191b3b4f2033b173"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Close</b> ()</td></tr>
 <tr class="separator:a4c8ced9a8ce58834191b3b4f2033b173"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,19 +128,19 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>Shutdown</b> ()</td><
 <tr class="memitem:aaa49b3fd981e0658e693e9f2b34ff7c5"><td class="memItemLeft" align="right" valign="top"><a id="aaa49b3fd981e0658e693e9f2b34ff7c5"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>GetSocketType</b> ()</td></tr>
 <tr class="separator:aaa49b3fd981e0658e693e9f2b34ff7c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51f47b640135ef26753c1740e2b4beba"><td class="memItemLeft" align="right" valign="top"><a id="a51f47b640135ef26753c1740e2b4beba"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Bind</b> (<a class="el" href="class_address.html">Address</a> *address)</td></tr>
-<tr class="separator:a51f47b640135ef26753c1740e2b4beba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e80465e2801052c43f3d37d61cbd1e3"><td class="memItemLeft" align="right" valign="top"><a id="a2e80465e2801052c43f3d37d61cbd1e3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Connect</b> (<a class="el" href="class_address.html">Address</a> *address)</td></tr>
-<tr class="separator:a2e80465e2801052c43f3d37d61cbd1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0a69866847b1ea2a3664f9bbc11a203"><td class="memItemLeft" align="right" valign="top"><a id="ab0a69866847b1ea2a3664f9bbc11a203"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Bind</b> (std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; address)</td></tr>
+<tr class="separator:ab0a69866847b1ea2a3664f9bbc11a203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad204323f4d17764fc559ae21f6844fe2"><td class="memItemLeft" align="right" valign="top"><a id="ad204323f4d17764fc559ae21f6844fe2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Connect</b> (std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; address)</td></tr>
+<tr class="separator:ad204323f4d17764fc559ae21f6844fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d476d11854d7acb17b8d196c8171865"><td class="memItemLeft" align="right" valign="top"><a id="a4d476d11854d7acb17b8d196c8171865"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Listen</b> (int backlog)</td></tr>
 <tr class="separator:a4d476d11854d7acb17b8d196c8171865"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a150be0c9ea8d101204a577b722bf8a1d"><td class="memItemLeft" align="right" valign="top"><a id="a150be0c9ea8d101204a577b722bf8a1d"></a>
-<a class="el" href="class_socket.html">Socket</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_socket.html#a150be0c9ea8d101204a577b722bf8a1d">Accept</a> ()</td></tr>
-<tr class="memdesc:a150be0c9ea8d101204a577b722bf8a1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept incoming connection and return back client socket. <br /></td></tr>
-<tr class="separator:a150be0c9ea8d101204a577b722bf8a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa8554c490cc97c4f6191b818b6f9a49"><td class="memItemLeft" align="right" valign="top"><a id="aaa8554c490cc97c4f6191b818b6f9a49"></a>
+std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_socket.html#aaa8554c490cc97c4f6191b818b6f9a49">Accept</a> ()</td></tr>
+<tr class="memdesc:aaa8554c490cc97c4f6191b818b6f9a49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Accept incoming connection and return back client socket. <br /></td></tr>
+<tr class="separator:aaa8554c490cc97c4f6191b818b6f9a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3dc58ee804656c5d8335a38d86ad768"><td class="memItemLeft" align="right" valign="top"><a id="ab3dc58ee804656c5d8335a38d86ad768"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>SendAll</b> (const std::string &amp;data)</td></tr>
 <tr class="separator:ab3dc58ee804656c5d8335a38d86ad768"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -162,28 +165,28 @@ std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memitem:a55d03dea5f3b2ecde39093d15519e8de"><td class="memItemLeft" align="right" valign="top"><a id="a55d03dea5f3b2ecde39093d15519e8de"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>RecvUntil</b> (uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len)</td></tr>
 <tr class="separator:a55d03dea5f3b2ecde39093d15519e8de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a37b447c0e9704115bc763cb88f3f76"><td class="memItemLeft" align="right" valign="top"><a id="a8a37b447c0e9704115bc763cb88f3f76"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SendTo</b> (<a class="el" href="class_address.html">Address</a> *address, const std::string &amp;data)</td></tr>
-<tr class="separator:a8a37b447c0e9704115bc763cb88f3f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad055c507150d2b63cac4b1b631779aec"><td class="memItemLeft" align="right" valign="top"><a id="ad055c507150d2b63cac4b1b631779aec"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SendTo</b> (<a class="el" href="class_address.html">Address</a> *address, const std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
-<tr class="separator:ad055c507150d2b63cac4b1b631779aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a250a97d279042da911e18b2964930ab2"><td class="memItemLeft" align="right" valign="top"><a id="a250a97d279042da911e18b2964930ab2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SendTo</b> (<a class="el" href="class_address.html">Address</a> *address, const uint8_t *buf, size_t len)</td></tr>
-<tr class="separator:a250a97d279042da911e18b2964930ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa90dd5bb3385d3281ac395c29cbe667"><td class="memItemLeft" align="right" valign="top"><a id="aaa90dd5bb3385d3281ac395c29cbe667"></a>
-std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>RecvFrom</b> (<a class="el" href="class_address.html">Address</a> *&amp;address, size_t len)</td></tr>
-<tr class="separator:aaa90dd5bb3385d3281ac395c29cbe667"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3f059234ec9764b3db59405a2bb3057"><td class="memItemLeft" align="right" valign="top"><a id="ae3f059234ec9764b3db59405a2bb3057"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>RecvFrom</b> (<a class="el" href="class_address.html">Address</a> *&amp;address, uint8_t *buf, size_t len)</td></tr>
-<tr class="separator:ae3f059234ec9764b3db59405a2bb3057"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc8caffa0b778b5fec1c84540766647"><td class="memItemLeft" align="right" valign="top"><a id="a2cc8caffa0b778b5fec1c84540766647"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SendTo</b> (const std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; address, const std::string &amp;data)</td></tr>
+<tr class="separator:a2cc8caffa0b778b5fec1c84540766647"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a059d6ca6b10e134a52a60be942cf586e"><td class="memItemLeft" align="right" valign="top"><a id="a059d6ca6b10e134a52a60be942cf586e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SendTo</b> (const std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; address, const std::vector&lt; uint8_t &gt; &amp;data)</td></tr>
+<tr class="separator:a059d6ca6b10e134a52a60be942cf586e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50d0604a5ea3d89afb5ac7112a068662"><td class="memItemLeft" align="right" valign="top"><a id="a50d0604a5ea3d89afb5ac7112a068662"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SendTo</b> (const std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; address, const uint8_t *buf, size_t len)</td></tr>
+<tr class="separator:a50d0604a5ea3d89afb5ac7112a068662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a290b59f147bfe53577621875d70abf8a"><td class="memItemLeft" align="right" valign="top"><a id="a290b59f147bfe53577621875d70abf8a"></a>
+std::vector&lt; uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>RecvFrom</b> (std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; &amp;address, size_t len)</td></tr>
+<tr class="separator:a290b59f147bfe53577621875d70abf8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff3497ff0282822d98eda36b1f667ee3"><td class="memItemLeft" align="right" valign="top"><a id="aff3497ff0282822d98eda36b1f667ee3"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>RecvFrom</b> (std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt; &amp;address, uint8_t *buf, size_t len)</td></tr>
+<tr class="separator:aff3497ff0282822d98eda36b1f667ee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a8a9e5a2aface67ef79e3c98451faf806"><td class="memItemLeft" align="right" valign="top"><a id="a8a9e5a2aface67ef79e3c98451faf806"></a>
-static <a class="el" href="class_socket.html">Socket</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_socket.html#a8a9e5a2aface67ef79e3c98451faf806">CreateSocket</a> (int type)</td></tr>
-<tr class="memdesc:a8a9e5a2aface67ef79e3c98451faf806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates tcp/udp socket object base on type (SOCK_STREAM / SOCK_DGRAM) <br /></td></tr>
-<tr class="separator:a8a9e5a2aface67ef79e3c98451faf806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0eb03e2fd8c46286bf6092b6bd0b3c3"><td class="memItemLeft" align="right" valign="top"><a id="ad0eb03e2fd8c46286bf6092b6bd0b3c3"></a>
+static std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_socket.html#ad0eb03e2fd8c46286bf6092b6bd0b3c3">Create</a> (int type)</td></tr>
+<tr class="memdesc:ad0eb03e2fd8c46286bf6092b6bd0b3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates tcp/udp socket object base on type (SOCK_STREAM / SOCK_DGRAM) <br /></td></tr>
+<tr class="separator:ad0eb03e2fd8c46286bf6092b6bd0b3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -205,12 +208,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a0d32147164d46576afcf45eecedfeba4"><td class="memItemLeft" align="right" valign="top"><a id="a0d32147164d46576afcf45eecedfeba4"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>socket_descriptor</b></td></tr>
 <tr class="separator:a0d32147164d46576afcf45eecedfeba4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa85242cb394c52fd49925427d1ec121c"><td class="memItemLeft" align="right" valign="top"><a id="aa85242cb394c52fd49925427d1ec121c"></a>
-<a class="el" href="class_address.html">Address</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>boundAddress</b></td></tr>
-<tr class="separator:aa85242cb394c52fd49925427d1ec121c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1254a949c16e865703310084bb1d2bd3"><td class="memItemLeft" align="right" valign="top"><a id="a1254a949c16e865703310084bb1d2bd3"></a>
-<a class="el" href="class_address.html">Address</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>connectedAddress</b></td></tr>
-<tr class="separator:a1254a949c16e865703310084bb1d2bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42ee63fcfab1909730d5139a16def512"><td class="memItemLeft" align="right" valign="top"><a id="a42ee63fcfab1909730d5139a16def512"></a>
+std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>boundAddress</b></td></tr>
+<tr class="separator:a42ee63fcfab1909730d5139a16def512"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a10ba21ae6a4b34e1d5d4bad9910d21"><td class="memItemLeft" align="right" valign="top"><a id="a9a10ba21ae6a4b34e1d5d4bad9910d21"></a>
+std::shared_ptr&lt; <a class="el" href="class_address.html">Address</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>connectedAddress</b></td></tr>
+<tr class="separator:a9a10ba21ae6a4b34e1d5d4bad9910d21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21377d38e7f386817de5924104483543"><td class="memItemLeft" align="right" valign="top"><a id="a21377d38e7f386817de5924104483543"></a>
 std::mutex&#160;</td><td class="memItemRight" valign="bottom"><b>_send</b></td></tr>
 <tr class="separator:a21377d38e7f386817de5924104483543"><td class="memSeparator" colspan="2">&#160;</td></tr>

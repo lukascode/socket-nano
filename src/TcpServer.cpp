@@ -1,6 +1,11 @@
 #include "TcpServer.h"
 
-TcpServer::TcpServer(std::function<TcpConnectionHandler *()> connHandlerFactory)
+std::shared_ptr<TcpServer> TcpServer::Create(std::function<std::shared_ptr<TcpConnectionHandler>()> connHandlerFactory)
+{
+	return std::shared_ptr<TcpServer>(new TcpServer(connHandlerFactory));
+}
+
+TcpServer::TcpServer(std::function<std::shared_ptr<TcpConnectionHandler>()> connHandlerFactory)
 {
 	listening = false;
 	tpSize = defaultThreadPoolSize;
@@ -30,10 +35,11 @@ void TcpServer::Listen(std::string ip, uint16_t port)
 
 void TcpServer::_Listen()
 {
-	tp = new ThreadPool(tpSize);
-	socket = Socket::CreateSocket(SOCK_STREAM);
-	Address *address = ip.empty() ? new Address(port) : new Address(ip, port);
+	tp = std::make_shared<ThreadPool>(tpSize);
+	socket = Socket::Create(SOCK_STREAM);
+	auto address = ip.empty() ? std::make_shared<Address>(port) : std::make_shared<Address>(ip, port);
 	ip = address->GetIP();
+
 	socket->Bind(address);
 	socket->Listen(20);
 
@@ -42,20 +48,19 @@ void TcpServer::_Listen()
 
 	while (!halted.load())
 	{
-		Socket *client_socket = socket->Accept();
+		auto client_socket = socket->Accept();
 
 		if (halted.load())
 			break;
 
 		clients.push_back(client_socket);
-		TcpConnectionHandler *handler = connHandlerFactory();
+		auto handler = connHandlerFactory();
 		handler->SetSocket(client_socket);
-		handler->SetServer(this);
+		handler->SetServer(shared_from_this());
 
 		// handle connection
 		std::function<void()> task = [handler] {
 			handler->HandleConnection();
-			delete handler;
 		};
 		tp->SubmitTask(task);
 	}
@@ -65,28 +70,22 @@ void TcpServer::_Listen()
 void TcpServer::Clean()
 {
 	if (socket)
-		delete socket;
+		socket.reset();
 
 	listening = false;
 
 	if (tp)
-		delete tp;
+		tp.reset();
 
-	for (size_t i = 0; i < clients.size(); ++i)
-	{
-		if (clients[i])
-			delete clients[i];
-	}
 	clients.clear();
 }
 
-bool TcpServer::Disconnect(Socket *client)
+bool TcpServer::Disconnect(std::shared_ptr<Socket> client)
 {
 	auto it = std::find(clients.begin(), clients.end(), client);
 	if (it != clients.end())
 	{
 		clients.erase(it);
-		delete client;
 		return true;
 	}
 	return false;
@@ -97,7 +96,7 @@ void TcpServer::Broadcast(std::string &data) const
 	Broadcast(data, nullptr);
 }
 
-void TcpServer::Broadcast(std::string &data, Socket *socket) const
+void TcpServer::Broadcast(std::string &data, std::shared_ptr<Socket> socket) const
 {
 	for (size_t i = 0; i < clients.size(); ++i)
 	{
@@ -132,9 +131,8 @@ void TcpServer::Stop()
 	}
 
 	// Connect to this server to unblock accept syscall
-	Socket *s = Socket::CreateSocket(SOCK_STREAM);
-	s->Connect(new Address(this->ip, this->port));
-	delete s;
+	auto s = Socket::Create(SOCK_STREAM);
+	s->Connect(std::make_shared<Address>(this->ip, this->port));
 }
 
 bool TcpServer::IsListening()

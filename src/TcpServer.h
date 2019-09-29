@@ -8,12 +8,11 @@
 #include <functional>
 #include "NanoException.h"
 
-class TcpServer
+class TcpServer : public std::enable_shared_from_this<TcpServer>
 {
 public:
-	
-	/// Creates tcp server 
-	TcpServer(std::function<TcpConnectionHandler*()> connHandlerFactory);
+	/// Creates tcp server
+	static std::shared_ptr<TcpServer> Create(std::function<std::shared_ptr<TcpConnectionHandler>()> connHandlerFactory);
 
 	~TcpServer();
 
@@ -27,13 +26,13 @@ public:
 	bool IsListening();
 
 	/// Disconnect client socket
-	bool Disconnect(Socket *client);
+	bool Disconnect(std::shared_ptr<Socket> client);
 
 	/// Sends data to all clients
 	void Broadcast(std::string &data) const;
 
 	/// Sends data to all clients except provided socket
-	void Broadcast(std::string &data, Socket* socket) const;
+	void Broadcast(std::string &data, std::shared_ptr<Socket> socket) const;
 
 	/// Sets the number of threads in the pool which are used for handling incoming connections
 	void SetThreadPoolSize(int size);
@@ -46,11 +45,11 @@ public:
 
 private:
 	static const int defaultThreadPoolSize = 20;
-	ThreadPool* tp;
 	int tpSize;
-	std::vector<Socket *> clients;
-	std::function<TcpConnectionHandler*()> connHandlerFactory;
-	Socket *socket;
+	std::shared_ptr<ThreadPool> tp;
+	std::shared_ptr<Socket> socket;
+	std::vector<std::shared_ptr<Socket>> clients;
+	std::function<std::shared_ptr<TcpConnectionHandler>()> connHandlerFactory;
 	uint16_t port;
 	std::string ip;
 	std::atomic<bool> halted;
@@ -59,10 +58,12 @@ private:
 	void _Listen();
 
 	void Clean();
+
+	TcpServer(std::function<std::shared_ptr<TcpConnectionHandler>()> connHandlerFactory);
 };
 
-class TcpServerException: public NanoException
+class TcpServerException : public NanoException
 {
 public:
-	TcpServerException(std::string msg): NanoException(msg) {}
+	TcpServerException(std::string msg) : NanoException(msg) {}
 };

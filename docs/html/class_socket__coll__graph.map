@@ -1,4 +1,7 @@
 <map id="Socket" name="Socket">
-<area shape="rect" id="node1" title=" " alt="" coords="5,292,171,927"/>
-<area shape="rect" id="node2" href="$class_address.html" title=" " alt="" coords="19,5,157,215"/>
+<area shape="rect" id="node1" title=" " alt="" coords="47,572,212,1207"/>
+<area shape="rect" id="node2" title=" " alt="" coords="39,417,220,495"/>
+<area shape="rect" id="node3" href="$class_address.html" title=" " alt="" coords="5,145,144,355"/>
+<area shape="rect" id="node4" title="STL class." alt="" coords="168,211,309,289"/>
+<area shape="rect" id="node5" title=" " alt="" coords="219,5,258,83"/>
 </map>

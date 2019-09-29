@@ -63,6 +63,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
@@ -72,31 +73,41 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
+Inheritance diagram for UdpServer:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_udp_server__inherit__graph.png" border="0" usemap="#_udp_server_inherit__map" alt="Inheritance graph"/></div>
+<map name="_udp_server_inherit__map" id="_udp_server_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,145,179,472"/>
+<area shape="rect" title=" " alt="" coords="7,5,177,97"/>
+</map>
+</div>
+<div class="dynheader">
 Collaboration diagram for UdpServer:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_udp_server__coll__graph.png" border="0" usemap="#_udp_server_coll__map" alt="Collaboration graph"/></div>
 <map name="_udp_server_coll__map" id="_udp_server_coll__map">
-<area shape="rect" title=" " alt="" coords="153,1269,327,1537"/>
-<area shape="rect" href="class_socket.html" title=" " alt="" coords="5,572,171,1207"/>
-<area shape="rect" href="class_address.html" title=" " alt="" coords="13,285,152,495"/>
-<area shape="rect" title="STL class." alt="" coords="200,851,280,928"/>
-<area shape="rect" title="STL class." alt="" coords="177,344,303,436"/>
-<area shape="rect" href="class_thread_pool.html" title=" " alt="" coords="341,799,481,979"/>
-<area shape="rect" title=" " alt="" coords="327,344,494,436"/>
-<area shape="rect" title="STL class." alt="" coords="364,145,479,223"/>
-<area shape="rect" title=" " alt="" coords="471,5,510,83"/>
-<area shape="rect" title="STL class." alt="" coords="523,145,639,223"/>
-<area shape="rect" title=" " alt="" coords="519,351,689,429"/>
-<area shape="rect" title="STL class." alt="" coords="674,145,758,223"/>
+<area shape="rect" title=" " alt="" coords="305,1439,478,1721"/>
+<area shape="rect" title=" " alt="" coords="5,1284,175,1376"/>
+<area shape="rect" title=" " alt="" coords="199,1291,373,1369"/>
+<area shape="rect" href="class_socket.html" title=" " alt="" coords="71,587,237,1221"/>
+<area shape="rect" title=" " alt="" coords="51,425,233,502"/>
+<area shape="rect" href="class_address.html" title=" " alt="" coords="61,145,199,355"/>
+<area shape="rect" title="STL class." alt="" coords="254,211,395,289"/>
+<area shape="rect" title=" " alt="" coords="397,1291,596,1369"/>
+<area shape="rect" title=" " alt="" coords="472,5,511,83"/>
+<area shape="rect" title="STL class." alt="" coords="434,211,549,289"/>
+<area shape="rect" title="STL class." alt="" coords="595,211,711,289"/>
+<area shape="rect" title="STL class." alt="" coords="623,1291,703,1369"/>
+<area shape="rect" title="STL class." alt="" coords="603,858,729,950"/>
+<area shape="rect" href="class_thread_pool.html" title=" " alt="" coords="439,814,579,994"/>
+<area shape="rect" title=" " alt="" coords="424,417,591,509"/>
+<area shape="rect" title=" " alt="" coords="615,425,786,502"/>
+<area shape="rect" title="STL class." alt="" coords="755,211,839,289"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8c92cddacde367de9946efb8368096dc"><td class="memItemLeft" align="right" valign="top"><a id="a8c92cddacde367de9946efb8368096dc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_udp_server.html#a8c92cddacde367de9946efb8368096dc">UdpServer</a> (std::function&lt; <a class="el" href="class_udp_datagram_handler.html">UdpDatagramHandler</a> *()&gt; datagramHandlerFactory)</td></tr>
-<tr class="memdesc:a8c92cddacde367de9946efb8368096dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates udp server. <br /></td></tr>
-<tr class="separator:a8c92cddacde367de9946efb8368096dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a966cb8994190d4a92fa7b06a711f4574"><td class="memItemLeft" align="right" valign="top"><a id="a966cb8994190d4a92fa7b06a711f4574"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_udp_server.html#a966cb8994190d4a92fa7b06a711f4574">Listen</a> (uint16_t port)</td></tr>
 <tr class="memdesc:a966cb8994190d4a92fa7b06a711f4574"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to all interfaces on the provided port and listen on incoming datagrams. <br /></td></tr>
@@ -117,6 +128,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Stop</b> ()</td></tr>
 <tr class="separator:a66082d0fa9f83d63d276332942d33f90"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a0a943a7f2110d0c7d21b4d218e5978aa"><td class="memItemLeft" align="right" valign="top"><a id="a0a943a7f2110d0c7d21b4d218e5978aa"></a>
+static std::shared_ptr&lt; <a class="el" href="class_udp_server.html">UdpServer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_udp_server.html#a0a943a7f2110d0c7d21b4d218e5978aa">Create</a> (std::function&lt; std::shared_ptr&lt; <a class="el" href="class_udp_datagram_handler.html">UdpDatagramHandler</a> &gt;()&gt; datagramHandlerFactory)</td></tr>
+<tr class="memdesc:a0a943a7f2110d0c7d21b4d218e5978aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates udp server. <br /></td></tr>
+<tr class="separator:a0a943a7f2110d0c7d21b4d218e5978aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a20ffffbb6134c43e43b9c13db1c3c9f2"><td class="memItemLeft" align="right" valign="top"><a id="a20ffffbb6134c43e43b9c13db1c3c9f2"></a>
@@ -125,27 +143,30 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>_Listen</b> ()</td></
 <tr class="memitem:ad8824c5d9ca16309d8cfbc04a9e886bc"><td class="memItemLeft" align="right" valign="top"><a id="ad8824c5d9ca16309d8cfbc04a9e886bc"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Clean</b> ()</td></tr>
 <tr class="separator:ad8824c5d9ca16309d8cfbc04a9e886bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1754447363fcd0ccf2bd3d9f6878f8d"><td class="memItemLeft" align="right" valign="top"><a id="aa1754447363fcd0ccf2bd3d9f6878f8d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>UdpServer</b> (std::function&lt; std::shared_ptr&lt; <a class="el" href="class_udp_datagram_handler.html">UdpDatagramHandler</a> &gt;()&gt; datagramHandlerFactory)</td></tr>
+<tr class="separator:aa1754447363fcd0ccf2bd3d9f6878f8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ab11e8b90fa01756550bc5aa45e8c5aec"><td class="memItemLeft" align="right" valign="top"><a id="ab11e8b90fa01756550bc5aa45e8c5aec"></a>
-<a class="el" href="class_thread_pool.html">ThreadPool</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>tp</b></td></tr>
-<tr class="separator:ab11e8b90fa01756550bc5aa45e8c5aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63a057681e8a17fa88426a96790a93e8"><td class="memItemLeft" align="right" valign="top"><a id="a63a057681e8a17fa88426a96790a93e8"></a>
+std::shared_ptr&lt; <a class="el" href="class_thread_pool.html">ThreadPool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tp</b></td></tr>
+<tr class="separator:a63a057681e8a17fa88426a96790a93e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0731a3b4989caced6f9f09c1caa4e6c4"><td class="memItemLeft" align="right" valign="top"><a id="a0731a3b4989caced6f9f09c1caa4e6c4"></a>
+std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>socket</b></td></tr>
+<tr class="separator:a0731a3b4989caced6f9f09c1caa4e6c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f6fd39c6fd8b438d4e2e80e2412cd65"><td class="memItemLeft" align="right" valign="top"><a id="a2f6fd39c6fd8b438d4e2e80e2412cd65"></a>
+std::function&lt; std::shared_ptr&lt; <a class="el" href="class_udp_datagram_handler.html">UdpDatagramHandler</a> &gt;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>datagramHandlerFactory</b></td></tr>
+<tr class="separator:a2f6fd39c6fd8b438d4e2e80e2412cd65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26b1db8d785f63eba5a96f122f74c5d7"><td class="memItemLeft" align="right" valign="top"><a id="a26b1db8d785f63eba5a96f122f74c5d7"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>tpSize</b></td></tr>
 <tr class="separator:a26b1db8d785f63eba5a96f122f74c5d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b0a49655e443882f95672d02425ec3b"><td class="memItemLeft" align="right" valign="top"><a id="a8b0a49655e443882f95672d02425ec3b"></a>
-<a class="el" href="class_socket.html">Socket</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>socket</b></td></tr>
-<tr class="separator:a8b0a49655e443882f95672d02425ec3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a76b5b0c75303c67b675afc3729aa224e"><td class="memItemLeft" align="right" valign="top"><a id="a76b5b0c75303c67b675afc3729aa224e"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>port</b></td></tr>
 <tr class="separator:a76b5b0c75303c67b675afc3729aa224e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38b0ab3eca9cbc951d008e13bb650933"><td class="memItemLeft" align="right" valign="top"><a id="a38b0ab3eca9cbc951d008e13bb650933"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>ip</b></td></tr>
 <tr class="separator:a38b0ab3eca9cbc951d008e13bb650933"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6fb9282bc7f7e283e8a54462e692b72"><td class="memItemLeft" align="right" valign="top"><a id="af6fb9282bc7f7e283e8a54462e692b72"></a>
-std::function&lt; <a class="el" href="class_udp_datagram_handler.html">UdpDatagramHandler</a> *()&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>datagramHandlerFactory</b></td></tr>
-<tr class="separator:af6fb9282bc7f7e283e8a54462e692b72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeebd1bcc56b529f4437b2305fa20fd38"><td class="memItemLeft" align="right" valign="top"><a id="aeebd1bcc56b529f4437b2305fa20fd38"></a>
 std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>halted</b></td></tr>
 <tr class="separator:aeebd1bcc56b529f4437b2305fa20fd38"><td class="memSeparator" colspan="2">&#160;</td></tr>

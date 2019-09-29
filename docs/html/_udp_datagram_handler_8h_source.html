@@ -78,33 +78,30 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_udp_datagram_handler.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_udp_datagram_handler.html">UdpDatagramHandler</a></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_udp_datagram_handler.html">UdpDatagramHandler</a>();</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#a2e75f1a0250eed8e900ffea3e5d1fcc9">HandleDatagram</a>() = 0;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#a26b8ac56f61f4fbe9f4a99cc5752a505">SetSocket</a>(<a class="code" href="class_socket.html">Socket</a> *socket);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#abb78f69c83e0a5674482621507a5e326">SetServer</a>(<a class="code" href="class_udp_server.html">UdpServer</a> *server);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#ad7db927b26500d72398bc0ecdf17d8bf">SetDatagram</a>(std::string datagram);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#aa7da09b6b24d4d06911f8812f28f31d8">SetAddress</a>(<a class="code" href="class_address.html">Address</a>* address);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_socket.html">Socket</a> *socket;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="class_udp_server.html">UdpServer</a> *server;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#a2e75f1a0250eed8e900ffea3e5d1fcc9">HandleDatagram</a>() = 0;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#a7d0173c0bf07697c87026923af0d8b79">SetSocket</a>(std::shared_ptr&lt;Socket&gt; socket);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#a8da409d1dfe9b7aa1b7d1010c9199560">SetServer</a>(std::shared_ptr&lt;UdpServer&gt; server);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#a0b051cab368cce5f1f6d87787e4acddc">SetAddress</a>(std::shared_ptr&lt;Address&gt; address);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_udp_datagram_handler.html#ad7db927b26500d72398bc0ecdf17d8bf">SetDatagram</a>(std::string datagram);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    std::shared_ptr&lt;Socket&gt; socket;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    std::shared_ptr&lt;UdpServer&gt; server;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    std::shared_ptr&lt;Address&gt; address;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    std::string datagram;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="class_address.html">Address</a>* address;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;};</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_udp_server_html"><div class="ttname"><a href="class_udp_server.html">UdpServer</a></div><div class="ttdef"><b>Definition:</b> UdpServer.h:9</div></div>
-<div class="ttc" id="aclass_address_html"><div class="ttname"><a href="class_address.html">Address</a></div><div class="ttdef"><b>Definition:</b> Address.h:5</div></div>
-<div class="ttc" id="aclass_udp_datagram_handler_html_a26b8ac56f61f4fbe9f4a99cc5752a505"><div class="ttname"><a href="class_udp_datagram_handler.html#a26b8ac56f61f4fbe9f4a99cc5752a505">UdpDatagramHandler::SetSocket</a></div><div class="ttdeci">void SetSocket(Socket *socket)</div><div class="ttdoc">Sets udp client socket.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:10</div></div>
 <div class="ttc" id="aclass_udp_datagram_handler_html"><div class="ttname"><a href="class_udp_datagram_handler.html">UdpDatagramHandler</a></div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.h:7</div></div>
-<div class="ttc" id="aclass_udp_datagram_handler_html_aa7da09b6b24d4d06911f8812f28f31d8"><div class="ttname"><a href="class_udp_datagram_handler.html#aa7da09b6b24d4d06911f8812f28f31d8">UdpDatagramHandler::SetAddress</a></div><div class="ttdeci">void SetAddress(Address *address)</div><div class="ttdoc">Sets client address.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:25</div></div>
-<div class="ttc" id="aclass_udp_datagram_handler_html_abb78f69c83e0a5674482621507a5e326"><div class="ttname"><a href="class_udp_datagram_handler.html#abb78f69c83e0a5674482621507a5e326">UdpDatagramHandler::SetServer</a></div><div class="ttdeci">void SetServer(UdpServer *server)</div><div class="ttdoc">Sets UdpServer object as context for handler.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:15</div></div>
-<div class="ttc" id="aclass_socket_html"><div class="ttname"><a href="class_socket.html">Socket</a></div><div class="ttdef"><b>Definition:</b> Socket.h:13</div></div>
+<div class="ttc" id="aclass_udp_datagram_handler_html_a7d0173c0bf07697c87026923af0d8b79"><div class="ttname"><a href="class_udp_datagram_handler.html#a7d0173c0bf07697c87026923af0d8b79">UdpDatagramHandler::SetSocket</a></div><div class="ttdeci">void SetSocket(std::shared_ptr&lt; Socket &gt; socket)</div><div class="ttdoc">Sets udp client socket.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:4</div></div>
+<div class="ttc" id="aclass_udp_datagram_handler_html_a0b051cab368cce5f1f6d87787e4acddc"><div class="ttname"><a href="class_udp_datagram_handler.html#a0b051cab368cce5f1f6d87787e4acddc">UdpDatagramHandler::SetAddress</a></div><div class="ttdeci">void SetAddress(std::shared_ptr&lt; Address &gt; address)</div><div class="ttdoc">Sets client address.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:14</div></div>
 <div class="ttc" id="aclass_udp_datagram_handler_html_a2e75f1a0250eed8e900ffea3e5d1fcc9"><div class="ttname"><a href="class_udp_datagram_handler.html#a2e75f1a0250eed8e900ffea3e5d1fcc9">UdpDatagramHandler::HandleDatagram</a></div><div class="ttdeci">virtual void HandleDatagram()=0</div><div class="ttdoc">Handles incoming datagram.</div></div>
-<div class="ttc" id="aclass_udp_datagram_handler_html_ad7db927b26500d72398bc0ecdf17d8bf"><div class="ttname"><a href="class_udp_datagram_handler.html#ad7db927b26500d72398bc0ecdf17d8bf">UdpDatagramHandler::SetDatagram</a></div><div class="ttdeci">void SetDatagram(std::string datagram)</div><div class="ttdoc">Sets datagram as incoming data.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:20</div></div>
+<div class="ttc" id="aclass_udp_datagram_handler_html_a8da409d1dfe9b7aa1b7d1010c9199560"><div class="ttname"><a href="class_udp_datagram_handler.html#a8da409d1dfe9b7aa1b7d1010c9199560">UdpDatagramHandler::SetServer</a></div><div class="ttdeci">void SetServer(std::shared_ptr&lt; UdpServer &gt; server)</div><div class="ttdoc">Sets UdpServer object as context for handler.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:9</div></div>
+<div class="ttc" id="aclass_udp_datagram_handler_html_ad7db927b26500d72398bc0ecdf17d8bf"><div class="ttname"><a href="class_udp_datagram_handler.html#ad7db927b26500d72398bc0ecdf17d8bf">UdpDatagramHandler::SetDatagram</a></div><div class="ttdeci">void SetDatagram(std::string datagram)</div><div class="ttdoc">Sets datagram as incoming data.</div><div class="ttdef"><b>Definition:</b> UdpDatagramHandler.cpp:19</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

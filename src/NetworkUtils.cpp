@@ -13,13 +13,17 @@ std::string NetworkUtils::GetLocalHostName()
 
 std::string NetworkUtils::GetHostByName(std::string name)
 {
-	hostent *h = gethostbyname(name.c_str());
-	if (!h)
+	int status, err;
+	struct hostent h;
+	struct hostent *result;
+	char buf[1024];
+	status = gethostbyname_r(name.c_str(), &h, buf, sizeof(buf), &result, &err);
+	if (status != 0 || !result)
 	{
 		std::string err(hstrerror(h_errno));
-		throw DnsLookupException("gethostbyname error (name: " + name + "): " + err);
+		throw DnsLookupException("gethostbyname_r error (name: ) " + name + "): " + err);
 	}
-	return std::string(inet_ntoa(*((struct in_addr *)h->h_addr)));
+	return std::string(inet_ntoa(*((struct in_addr *)(&h)->h_addr)));
 }
 
 void NetworkUtils::PrintStdout(std::string message)

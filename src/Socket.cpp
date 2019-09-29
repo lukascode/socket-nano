@@ -1,6 +1,6 @@
 #include "Socket.h"
 
-Socket *Socket::CreateSocket(int type)
+std::shared_ptr<Socket> Socket::Create(int type)
 {
     int socket_descriptor = socket(AF_INET, type, 0);
     if (socket_descriptor < 0)
@@ -8,7 +8,7 @@ Socket *Socket::CreateSocket(int type)
         std::string err(strerror(errno));
         throw SocketException("socket error: " + err);
     }
-    return new Socket(socket_descriptor);
+    return std::make_shared<Socket>(socket_descriptor);
 }
 
 Socket::Socket(int socket_descriptor)
@@ -22,14 +22,6 @@ Socket::Socket(int socket_descriptor)
 Socket::~Socket()
 {
     Close();
-    if (boundAddress)
-    {
-        delete boundAddress;
-    }
-    if (connectedAddress)
-    {
-        delete connectedAddress;
-    }
 }
 
 int Socket::GetSocket()
@@ -72,7 +64,7 @@ int Socket::GetSocketType()
     return type;
 }
 
-void Socket::Bind(Address *address)
+void Socket::Bind(std::shared_ptr<Address> address)
 {
     int yes = 1;
     if (setsockopt(socket_descriptor, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) < 0)
@@ -92,7 +84,7 @@ void Socket::Bind(Address *address)
     this->boundAddress = address;
 }
 
-void Socket::Connect(Address *address)
+void Socket::Connect(std::shared_ptr<Address> address)
 {
     if (!address)
     {
@@ -115,7 +107,7 @@ void Socket::Listen(int backlog)
     }
 }
 
-Socket *Socket::Accept()
+std::shared_ptr<Socket> Socket::Accept()
 {
     int socket = accept(socket_descriptor, nullptr, nullptr);
     if (socket < 0)
@@ -123,7 +115,7 @@ Socket *Socket::Accept()
         std::string err(strerror(errno));
         throw SocketException("accept error: " + err);
     }
-    return new Socket(socket);
+    return std::make_shared<Socket>(socket);
 }
 
 Address Socket::GetRemoteAddress()
@@ -142,7 +134,7 @@ Address Socket::GetRemoteAddress()
     }
 }
 
-Address *Socket::GetBoundAddress()
+std::shared_ptr<Address> Socket::GetBoundAddress()
 {
     return boundAddress;
 }
@@ -327,17 +319,17 @@ void Socket::RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size
     *len = total;
 }
 
-void Socket::SendTo(Address *address, const std::string &data)
+void Socket::SendTo(const std::shared_ptr<Address> address, const std::string &data)
 {
     SendTo(address, std::vector<uint8_t>(data.begin(), data.end()));
 }
 
-void Socket::SendTo(Address *address, const std::vector<uint8_t> &data)
+void Socket::SendTo(const std::shared_ptr<Address> address, const std::vector<uint8_t> &data)
 {
     SendTo(address, data.data(), data.size());
 }
 
-void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
+void Socket::SendTo(const std::shared_ptr<Address> address, const uint8_t *buf, size_t len)
 {
     struct sockaddr *addr = (struct sockaddr *)address->GetRawAddress();
     if (sendto(socket_descriptor, buf, len, 0, addr, sizeof(*addr)) < 0)
@@ -347,7 +339,7 @@ void Socket::SendTo(Address *address, const uint8_t *buf, size_t len)
     }
 }
 
-std::vector<uint8_t> Socket::RecvFrom(Address *&address, size_t len)
+std::vector<uint8_t> Socket::RecvFrom(std::shared_ptr<Address> &address, size_t len)
 {
     std::vector<uint8_t> data(len);
     size_t size = RecvFrom(address, data.data(), data.size());
@@ -355,7 +347,7 @@ std::vector<uint8_t> Socket::RecvFrom(Address *&address, size_t len)
     return data;
 }
 
-size_t Socket::RecvFrom(Address *&address, uint8_t *buf, size_t len)
+size_t Socket::RecvFrom(std::shared_ptr<Address> &address, uint8_t *buf, size_t len)
 {
     int n;
     struct sockaddr_in addr;
@@ -365,7 +357,7 @@ size_t Socket::RecvFrom(Address *&address, uint8_t *buf, size_t len)
         std::string err(strerror(errno));
         throw RecvException("recvfrom error: " + err);
     }
-    address = new Address(addr);
+    address = std::make_shared<Address>(addr);
     return n;
 }
 
@@ -377,7 +369,7 @@ void Socket::ApplyRecvTimeout()
         pfd.fd = socket_descriptor;
         pfd.events = POLLIN;
         int n = poll(&pfd, 1, timeout * 1000);
-        if(n == 0)
+        if (n == 0)
             throw TimeoutException("Waiting time has been exceeded");
         else if (n == -1)
             throw RecvException("select error: " + std::string(strerror(errno)));

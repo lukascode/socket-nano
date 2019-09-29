@@ -7,25 +7,24 @@ class UdpServer;
 class UdpDatagramHandler
 {
 public:
-    virtual ~UdpDatagramHandler();
-
-    /// Handles incoming datagram 
+    /// Handles incoming datagram
     virtual void HandleDatagram() = 0;
 
     /// Sets udp client socket
-    void SetSocket(Socket *socket);
+    void SetSocket(std::shared_ptr<Socket> socket);
 
     /// Sets UdpServer object as context for handler
-    void SetServer(UdpServer *server);
+    void SetServer(std::shared_ptr<UdpServer> server);
+
+    /// Sets client address
+    void SetAddress(std::shared_ptr<Address> address);
 
     /// Sets datagram as incoming data
     void SetDatagram(std::string datagram);
 
-    /// Sets client address
-    void SetAddress(Address* address);
 protected:
-    Socket *socket;
-    UdpServer *server;
+    std::shared_ptr<Socket> socket;
+    std::shared_ptr<UdpServer> server;
+    std::shared_ptr<Address> address;
     std::string datagram;
-    Address* address;
 };

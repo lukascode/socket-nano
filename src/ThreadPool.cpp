@@ -12,19 +12,19 @@ ThreadPool::~ThreadPool()
 
 void ThreadPool::SubmitTask(std::function<void()> task)
 {
-    {
-        std::unique_lock<std::mutex> lock(task_queue_mtx);
-        task_queue.push(task);
-    }
+    std::unique_lock<std::mutex> lock(task_queue_mtx);
+    task_queue.push(task);
     cond.notify_one();
 }
 
 void ThreadPool::Shutdown()
 {
+    std::unique_lock<std::mutex> lock(task_queue_mtx);
     if (!halted.load())
-    {
-        halted = true;
+    {   
+        halted.store(true);
         cond.notify_all();
+        lock.unlock();
         for (size_t i = 0; i < workers.size(); ++i)
         {
             workers[i].join();
@@ -47,8 +47,8 @@ void ThreadPool::createThreadPool(int size)
                 std::function<void()> task;
                 {
                     std::unique_lock<std::mutex> lock(task_queue_mtx);
-                    cond.wait(lock, [this] { return halted || !task_queue.empty(); });
-                    if (halted && task_queue.empty())
+                    cond.wait(lock, [this] { return halted.load() || !task_queue.empty(); });
+                    if (halted.load() && task_queue.empty())
                         break;
                     task = std::move(task_queue.front());
                     task_queue.pop();

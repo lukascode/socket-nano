@@ -63,6 +63,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#pri-static-attribs">Static Private Attributes</a> &#124;
@@ -72,32 +73,42 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
+Inheritance diagram for TcpServer:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_tcp_server__inherit__graph.png" border="0" usemap="#_tcp_server_inherit__map" alt="Inheritance graph"/></div>
+<map name="_tcp_server_inherit__map" id="_tcp_server_inherit__map">
+<area shape="rect" title=" " alt="" coords="5,145,201,545"/>
+<area shape="rect" title=" " alt="" coords="20,5,187,97"/>
+</map>
+</div>
+<div class="dynheader">
 Collaboration diagram for TcpServer:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_tcp_server__coll__graph.png" border="0" usemap="#_tcp_server_coll__map" alt="Collaboration graph"/></div>
 <map name="_tcp_server_coll__map" id="_tcp_server_coll__map">
-<area shape="rect" title=" " alt="" coords="214,1372,410,1699"/>
-<area shape="rect" href="class_socket.html" title=" " alt="" coords="5,432,171,1067"/>
-<area shape="rect" title=" " alt="" coords="161,1181,319,1258"/>
-<area shape="rect" href="class_address.html" title=" " alt="" coords="17,145,156,355"/>
-<area shape="rect" title="STL class." alt="" coords="386,211,502,289"/>
-<area shape="rect" title=" " alt="" coords="475,711,645,788"/>
-<area shape="rect" title=" " alt="" coords="566,5,605,83"/>
-<area shape="rect" title="STL class." alt="" coords="669,211,784,289"/>
-<area shape="rect" title="STL class." alt="" coords="345,1181,425,1258"/>
-<area shape="rect" title="STL class." alt="" coords="323,703,450,795"/>
-<area shape="rect" href="class_thread_pool.html" title=" " alt="" coords="490,1129,630,1309"/>
-<area shape="rect" title=" " alt="" coords="670,703,837,795"/>
-<area shape="rect" title="STL class." alt="" coords="526,211,610,289"/>
+<area shape="rect" title=" " alt="" coords="357,1593,553,1935"/>
+<area shape="rect" title=" " alt="" coords="86,1439,253,1531"/>
+<area shape="rect" title=" " alt="" coords="183,1291,358,1369"/>
+<area shape="rect" title=" " alt="" coords="374,1439,535,1531"/>
+<area shape="rect" href="class_socket.html" title=" " alt="" coords="25,587,191,1221"/>
+<area shape="rect" title=" " alt="" coords="5,425,187,502"/>
+<area shape="rect" href="class_address.html" title=" " alt="" coords="15,145,153,355"/>
+<area shape="rect" title="STL class." alt="" coords="249,211,391,289"/>
+<area shape="rect" title=" " alt="" coords="491,1291,690,1369"/>
+<area shape="rect" title=" " alt="" coords="455,5,494,83"/>
+<area shape="rect" title="STL class." alt="" coords="700,211,815,289"/>
+<area shape="rect" title="STL class." alt="" coords="417,211,533,289"/>
+<area shape="rect" title="STL class." alt="" coords="684,1446,764,1523"/>
+<area shape="rect" title="STL class." alt="" coords="714,1284,841,1376"/>
+<area shape="rect" href="class_thread_pool.html" title=" " alt="" coords="591,814,731,994"/>
+<area shape="rect" title=" " alt="" coords="687,417,854,509"/>
+<area shape="rect" title=" " alt="" coords="492,425,663,502"/>
+<area shape="rect" title="STL class." alt="" coords="578,211,662,289"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab62f1f90046896992a1b210ecc3ef65e"><td class="memItemLeft" align="right" valign="top"><a id="ab62f1f90046896992a1b210ecc3ef65e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#ab62f1f90046896992a1b210ecc3ef65e">TcpServer</a> (std::function&lt; <a class="el" href="class_tcp_connection_handler.html">TcpConnectionHandler</a> *()&gt; connHandlerFactory)</td></tr>
-<tr class="memdesc:ab62f1f90046896992a1b210ecc3ef65e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates tcp server. <br /></td></tr>
-<tr class="separator:ab62f1f90046896992a1b210ecc3ef65e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b62a8e8e0573f58eea828dab13c9b46"><td class="memItemLeft" align="right" valign="top"><a id="a5b62a8e8e0573f58eea828dab13c9b46"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#a5b62a8e8e0573f58eea828dab13c9b46">Listen</a> (uint16_t port)</td></tr>
 <tr class="memdesc:a5b62a8e8e0573f58eea828dab13c9b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bind to all interfaces on the provided port and listen on incoming connections. <br /></td></tr>
@@ -110,18 +121,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#a902d2534d073a5c5713330af28423a3a">IsListening</a> ()</td></tr>
 <tr class="memdesc:a902d2534d073a5c5713330af28423a3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check whether the server is already in listen mode. <br /></td></tr>
 <tr class="separator:a902d2534d073a5c5713330af28423a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6877aa8c7724392306bc88198252a01"><td class="memItemLeft" align="right" valign="top"><a id="ad6877aa8c7724392306bc88198252a01"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#ad6877aa8c7724392306bc88198252a01">Disconnect</a> (<a class="el" href="class_socket.html">Socket</a> *client)</td></tr>
-<tr class="memdesc:ad6877aa8c7724392306bc88198252a01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect client socket. <br /></td></tr>
-<tr class="separator:ad6877aa8c7724392306bc88198252a01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84a21f571c71988dec54bac865a7576c"><td class="memItemLeft" align="right" valign="top"><a id="a84a21f571c71988dec54bac865a7576c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#a84a21f571c71988dec54bac865a7576c">Disconnect</a> (std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt; client)</td></tr>
+<tr class="memdesc:a84a21f571c71988dec54bac865a7576c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disconnect client socket. <br /></td></tr>
+<tr class="separator:a84a21f571c71988dec54bac865a7576c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa09232effdfb391582d73aaa1a0f80aa"><td class="memItemLeft" align="right" valign="top"><a id="aa09232effdfb391582d73aaa1a0f80aa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#aa09232effdfb391582d73aaa1a0f80aa">Broadcast</a> (std::string &amp;data) const</td></tr>
 <tr class="memdesc:aa09232effdfb391582d73aaa1a0f80aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends data to all clients. <br /></td></tr>
 <tr class="separator:aa09232effdfb391582d73aaa1a0f80aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56fe45d381660d05ef643fbbaf0420d9"><td class="memItemLeft" align="right" valign="top"><a id="a56fe45d381660d05ef643fbbaf0420d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#a56fe45d381660d05ef643fbbaf0420d9">Broadcast</a> (std::string &amp;data, <a class="el" href="class_socket.html">Socket</a> *socket) const</td></tr>
-<tr class="memdesc:a56fe45d381660d05ef643fbbaf0420d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends data to all clients except provided socket. <br /></td></tr>
-<tr class="separator:a56fe45d381660d05ef643fbbaf0420d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42f6c8f7ca1c929fd3307cc4816f529c"><td class="memItemLeft" align="right" valign="top"><a id="a42f6c8f7ca1c929fd3307cc4816f529c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#a42f6c8f7ca1c929fd3307cc4816f529c">Broadcast</a> (std::string &amp;data, std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt; socket) const</td></tr>
+<tr class="memdesc:a42f6c8f7ca1c929fd3307cc4816f529c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends data to all clients except provided socket. <br /></td></tr>
+<tr class="separator:a42f6c8f7ca1c929fd3307cc4816f529c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab036465e8d8ee2e83d1f65e6be6a1219"><td class="memItemLeft" align="right" valign="top"><a id="ab036465e8d8ee2e83d1f65e6be6a1219"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#ab036465e8d8ee2e83d1f65e6be6a1219">SetThreadPoolSize</a> (int size)</td></tr>
 <tr class="memdesc:ab036465e8d8ee2e83d1f65e6be6a1219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the number of threads in the pool which are used for handling incoming connections. <br /></td></tr>
@@ -135,6 +146,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="memdesc:a19a0db0999f82c4addba261b9c3e918a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stops tcp server. <br /></td></tr>
 <tr class="separator:a19a0db0999f82c4addba261b9c3e918a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a4f1cfe8c0920492e41cb24954e19bdff"><td class="memItemLeft" align="right" valign="top"><a id="a4f1cfe8c0920492e41cb24954e19bdff"></a>
+static std::shared_ptr&lt; <a class="el" href="class_tcp_server.html">TcpServer</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_tcp_server.html#a4f1cfe8c0920492e41cb24954e19bdff">Create</a> (std::function&lt; std::shared_ptr&lt; <a class="el" href="class_tcp_connection_handler.html">TcpConnectionHandler</a> &gt;()&gt; connHandlerFactory)</td></tr>
+<tr class="memdesc:a4f1cfe8c0920492e41cb24954e19bdff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates tcp server. <br /></td></tr>
+<tr class="separator:a4f1cfe8c0920492e41cb24954e19bdff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a1e35bd92538e07e38dc72271337352ba"><td class="memItemLeft" align="right" valign="top"><a id="a1e35bd92538e07e38dc72271337352ba"></a>
@@ -143,24 +161,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>_Listen</b> ()</td></
 <tr class="memitem:ace85b5cee595cb2f17f5255219d1637c"><td class="memItemLeft" align="right" valign="top"><a id="ace85b5cee595cb2f17f5255219d1637c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Clean</b> ()</td></tr>
 <tr class="separator:ace85b5cee595cb2f17f5255219d1637c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f332981eaf407ba853aab42ec923c32"><td class="memItemLeft" align="right" valign="top"><a id="a0f332981eaf407ba853aab42ec923c32"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TcpServer</b> (std::function&lt; std::shared_ptr&lt; <a class="el" href="class_tcp_connection_handler.html">TcpConnectionHandler</a> &gt;()&gt; connHandlerFactory)</td></tr>
+<tr class="separator:a0f332981eaf407ba853aab42ec923c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ac6a59112bca1d5fb7727bebf336682fb"><td class="memItemLeft" align="right" valign="top"><a id="ac6a59112bca1d5fb7727bebf336682fb"></a>
-<a class="el" href="class_thread_pool.html">ThreadPool</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>tp</b></td></tr>
-<tr class="separator:ac6a59112bca1d5fb7727bebf336682fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa7795be2119f3621f0566001905ad23"><td class="memItemLeft" align="right" valign="top"><a id="aaa7795be2119f3621f0566001905ad23"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>tpSize</b></td></tr>
 <tr class="separator:aaa7795be2119f3621f0566001905ad23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a361b28cb59939c3184e09eaaeb6721ad"><td class="memItemLeft" align="right" valign="top"><a id="a361b28cb59939c3184e09eaaeb6721ad"></a>
-std::vector&lt; <a class="el" href="class_socket.html">Socket</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>clients</b></td></tr>
-<tr class="separator:a361b28cb59939c3184e09eaaeb6721ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5db9889a26c896ea8b655b4303410f4"><td class="memItemLeft" align="right" valign="top"><a id="ab5db9889a26c896ea8b655b4303410f4"></a>
-std::function&lt; <a class="el" href="class_tcp_connection_handler.html">TcpConnectionHandler</a> *()&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>connHandlerFactory</b></td></tr>
-<tr class="separator:ab5db9889a26c896ea8b655b4303410f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3808f61c7469eb27da5bca9168054f3"><td class="memItemLeft" align="right" valign="top"><a id="af3808f61c7469eb27da5bca9168054f3"></a>
-<a class="el" href="class_socket.html">Socket</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>socket</b></td></tr>
-<tr class="separator:af3808f61c7469eb27da5bca9168054f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9084b1e9e716c2265d35692ad3c58873"><td class="memItemLeft" align="right" valign="top"><a id="a9084b1e9e716c2265d35692ad3c58873"></a>
+std::shared_ptr&lt; <a class="el" href="class_thread_pool.html">ThreadPool</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tp</b></td></tr>
+<tr class="separator:a9084b1e9e716c2265d35692ad3c58873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70dcfa0a3ac1ededff10b3119c26bad8"><td class="memItemLeft" align="right" valign="top"><a id="a70dcfa0a3ac1ededff10b3119c26bad8"></a>
+std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>socket</b></td></tr>
+<tr class="separator:a70dcfa0a3ac1ededff10b3119c26bad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ce87917ac6c2054c78241e144db03ff"><td class="memItemLeft" align="right" valign="top"><a id="a5ce87917ac6c2054c78241e144db03ff"></a>
+std::vector&lt; std::shared_ptr&lt; <a class="el" href="class_socket.html">Socket</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>clients</b></td></tr>
+<tr class="separator:a5ce87917ac6c2054c78241e144db03ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c08bf25b69301e2bb72fd06bd9bf82c"><td class="memItemLeft" align="right" valign="top"><a id="a8c08bf25b69301e2bb72fd06bd9bf82c"></a>
+std::function&lt; std::shared_ptr&lt; <a class="el" href="class_tcp_connection_handler.html">TcpConnectionHandler</a> &gt;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>connHandlerFactory</b></td></tr>
+<tr class="separator:a8c08bf25b69301e2bb72fd06bd9bf82c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b87df8cc5bc82f62ec482f9c257a9b0"><td class="memItemLeft" align="right" valign="top"><a id="a4b87df8cc5bc82f62ec482f9c257a9b0"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>port</b></td></tr>
 <tr class="separator:a4b87df8cc5bc82f62ec482f9c257a9b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
