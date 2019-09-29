@@ -75,28 +75,27 @@ $(function() {
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span><a class="code" href="class_tcp_server.html">TcpServer</a>;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_tcp_connection_handler.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_tcp_connection_handler.html">TcpConnectionHandler</a> </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="class_tcp_connection_handler.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_tcp_connection_handler.html">TcpConnectionHandler</a></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="class_tcp_connection_handler.html">TcpConnectionHandler</a>();</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_tcp_connection_handler.html#a79e8afdd419bee30e4656dfa3afe21e5">HandleConnection</a>()=0;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="class_tcp_connection_handler.html#a79e8afdd419bee30e4656dfa3afe21e5">HandleConnection</a>() = 0;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_tcp_connection_handler.html#a08f68b04e6cc1e0a72417c17559f419f">SetSocket</a>(<a class="code" href="class_socket.html">Socket</a>* socket);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_tcp_connection_handler.html#a196f8303a104bc30a66aba3a60e17c86">SetSocket</a>(std::shared_ptr&lt;Socket&gt; socket);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_tcp_connection_handler.html#a911c5b5ece381545b02ea0961e5a82bc">SetServer</a>(<a class="code" href="class_tcp_server.html">TcpServer</a>* server);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="class_socket.html">Socket</a>* socket;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="class_tcp_server.html">TcpServer</a>* server;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;};</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_tcp_connection_handler.html#a532475cd7e469f447110c468854a9087">SetServer</a>(std::shared_ptr&lt;TcpServer&gt; server);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    std::shared_ptr&lt;Socket&gt; socket;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    std::shared_ptr&lt;TcpServer&gt; server;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_tcp_server_html"><div class="ttname"><a href="class_tcp_server.html">TcpServer</a></div><div class="ttdef"><b>Definition:</b> TcpServer.h:11</div></div>
-<div class="ttc" id="aclass_tcp_connection_handler_html_a08f68b04e6cc1e0a72417c17559f419f"><div class="ttname"><a href="class_tcp_connection_handler.html#a08f68b04e6cc1e0a72417c17559f419f">TcpConnectionHandler::SetSocket</a></div><div class="ttdeci">void SetSocket(Socket *socket)</div><div class="ttdoc">Sets the socket of tcp connection.</div><div class="ttdef"><b>Definition:</b> TcpConnectionHandler.cpp:10</div></div>
 <div class="ttc" id="aclass_tcp_connection_handler_html_a79e8afdd419bee30e4656dfa3afe21e5"><div class="ttname"><a href="class_tcp_connection_handler.html#a79e8afdd419bee30e4656dfa3afe21e5">TcpConnectionHandler::HandleConnection</a></div><div class="ttdeci">virtual void HandleConnection()=0</div><div class="ttdoc">Handles one particular connection.</div></div>
 <div class="ttc" id="aclass_tcp_connection_handler_html"><div class="ttname"><a href="class_tcp_connection_handler.html">TcpConnectionHandler</a></div><div class="ttdef"><b>Definition:</b> TcpConnectionHandler.h:7</div></div>
-<div class="ttc" id="aclass_tcp_connection_handler_html_a911c5b5ece381545b02ea0961e5a82bc"><div class="ttname"><a href="class_tcp_connection_handler.html#a911c5b5ece381545b02ea0961e5a82bc">TcpConnectionHandler::SetServer</a></div><div class="ttdeci">void SetServer(TcpServer *server)</div><div class="ttdoc">Sets TcpServer object as context for handler.</div><div class="ttdef"><b>Definition:</b> TcpConnectionHandler.cpp:15</div></div>
-<div class="ttc" id="aclass_socket_html"><div class="ttname"><a href="class_socket.html">Socket</a></div><div class="ttdef"><b>Definition:</b> Socket.h:13</div></div>
-<div class="ttc" id="aclass_tcp_server_html_ad6877aa8c7724392306bc88198252a01"><div class="ttname"><a href="class_tcp_server.html#ad6877aa8c7724392306bc88198252a01">TcpServer::Disconnect</a></div><div class="ttdeci">bool Disconnect(Socket *client)</div><div class="ttdoc">Disconnect client socket.</div><div class="ttdef"><b>Definition:</b> TcpServer.cpp:83</div></div>
+<div class="ttc" id="aclass_tcp_connection_handler_html_a196f8303a104bc30a66aba3a60e17c86"><div class="ttname"><a href="class_tcp_connection_handler.html#a196f8303a104bc30a66aba3a60e17c86">TcpConnectionHandler::SetSocket</a></div><div class="ttdeci">void SetSocket(std::shared_ptr&lt; Socket &gt; socket)</div><div class="ttdoc">Sets the socket of tcp connection.</div><div class="ttdef"><b>Definition:</b> TcpConnectionHandler.cpp:10</div></div>
+<div class="ttc" id="aclass_tcp_connection_handler_html_a532475cd7e469f447110c468854a9087"><div class="ttname"><a href="class_tcp_connection_handler.html#a532475cd7e469f447110c468854a9087">TcpConnectionHandler::SetServer</a></div><div class="ttdeci">void SetServer(std::shared_ptr&lt; TcpServer &gt; server)</div><div class="ttdoc">Sets TcpServer object as context for handler.</div><div class="ttdef"><b>Definition:</b> TcpConnectionHandler.cpp:15</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

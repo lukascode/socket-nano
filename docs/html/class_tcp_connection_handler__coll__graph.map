@@ -1,16 +1,22 @@
 <map id="TcpConnectionHandler" name="TcpConnectionHandler">
-<area shape="rect" id="node1" title=" " alt="" coords="601,1761,784,1883"/>
-<area shape="rect" id="node2" href="$class_socket.html" title=" " alt="" coords="687,432,853,1067"/>
-<area shape="rect" id="node4" href="$class_tcp_server.html" title=" " alt="" coords="488,1372,684,1699"/>
-<area shape="rect" id="node5" title=" " alt="" coords="507,1181,665,1258"/>
-<area shape="rect" id="node3" href="$class_address.html" title=" " alt="" coords="701,145,839,355"/>
-<area shape="rect" id="node6" title="STL class." alt="" coords="444,211,560,289"/>
-<area shape="rect" id="node13" title=" " alt="" coords="347,711,518,788"/>
-<area shape="rect" id="node7" title=" " alt="" coords="329,5,368,83"/>
-<area shape="rect" id="node12" title="STL class." alt="" coords="167,211,282,289"/>
-<area shape="rect" id="node8" title="STL class." alt="" coords="134,1181,214,1258"/>
-<area shape="rect" id="node9" title="STL class." alt="" coords="5,703,132,795"/>
-<area shape="rect" id="node10" href="$class_thread_pool.html" title=" " alt="" coords="343,1129,483,1309"/>
-<area shape="rect" id="node11" title=" " alt="" coords="156,703,323,795"/>
-<area shape="rect" id="node14" title="STL class." alt="" coords="336,211,420,289"/>
+<area shape="rect" id="node1" title=" " alt="" coords="121,2137,303,2259"/>
+<area shape="rect" id="node2" title=" " alt="" coords="206,1997,399,2075"/>
+<area shape="rect" id="node3" href="$class_tcp_server.html" title=" " alt="" coords="365,1593,561,1935"/>
+<area shape="rect" id="node4" title=" " alt="" coords="557,1439,723,1531"/>
+<area shape="rect" id="node5" title=" " alt="" coords="119,1291,294,1369"/>
+<area shape="rect" id="node20" title=" " alt="" coords="302,1439,463,1531"/>
+<area shape="rect" id="node6" href="$class_socket.html" title=" " alt="" coords="101,587,267,1221"/>
+<area shape="rect" id="node7" title=" " alt="" coords="93,425,275,502"/>
+<area shape="rect" id="node8" href="$class_address.html" title=" " alt="" coords="173,145,312,355"/>
+<area shape="rect" id="node9" title="STL class." alt="" coords="8,211,149,289"/>
+<area shape="rect" id="node13" title=" " alt="" coords="463,1291,662,1369"/>
+<area shape="rect" id="node10" title=" " alt="" coords="427,5,466,83"/>
+<area shape="rect" id="node16" title="STL class." alt="" coords="672,211,787,289"/>
+<area shape="rect" id="node19" title="STL class." alt="" coords="389,211,505,289"/>
+<area shape="rect" id="node11" title="STL class." alt="" coords="748,1446,828,1523"/>
+<area shape="rect" id="node12" title="STL class." alt="" coords="725,1284,851,1376"/>
+<area shape="rect" id="node14" href="$class_thread_pool.html" title=" " alt="" coords="563,814,703,994"/>
+<area shape="rect" id="node15" title=" " alt="" coords="659,417,826,509"/>
+<area shape="rect" id="node17" title=" " alt="" coords="464,425,635,502"/>
+<area shape="rect" id="node18" title="STL class." alt="" coords="550,211,634,289"/>
 </map>

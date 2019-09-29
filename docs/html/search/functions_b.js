@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['udpserver_93',['UdpServer',['../class_udp_server.html#a8c92cddacde367de9946efb8368096dc',1,'UdpServer']]]
+  ['valid_94',['Valid',['../class_socket.html#af577d71bf807c81228b42c0b63081883',1,'Socket']]]
 ];
