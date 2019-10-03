@@ -82,9 +82,10 @@ void TcpServer::Clean()
 
 bool TcpServer::Disconnect(std::shared_ptr<Socket> client)
 {
-	auto it = std::find(clients.begin(), clients.end(), client);
-	if (it != clients.end())
+	auto it = std::find(std::begin(clients),std::end(clients), client);
+	if (it != std::end(clients))
 	{
+		(*it)->Shutdown();
 		clients.erase(it);
 		return true;
 	}
