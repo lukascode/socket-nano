@@ -57,8 +57,10 @@ public:
 	void SendAll(const std::string &data);
 	void SendAll(const std::vector<uint8_t> &data);
 	void SendAll(const uint8_t *buf, size_t len);
+	std::string RecvAllString(size_t len);
 	std::vector<uint8_t> RecvAll(size_t len);
 	void RecvAll(uint8_t *buf, size_t len);
+	std::string RecvUntilString(const std::string pattern, size_t maxlen);
 	std::vector<uint8_t> RecvUntil(const std::string pattern, size_t maxlen);
 	std::vector<uint8_t> RecvUntil(const std::vector<uint8_t> &pattern, size_t maxlen);
 	void RecvUntil(uint8_t *buf, size_t buflen, const uint8_t *pattern, size_t patternlen, size_t *len);

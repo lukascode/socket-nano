@@ -83,11 +83,9 @@ TEST_CASE("should establish tcp connection", "[socket]")
     auto socket = Socket::Create(SOCK_STREAM);
     socket->EnableTimeout(2);
     socket->Connect(std::make_shared<Address>(port));
-    auto data = socket->RecvAll(5);
-    std::string dataStr = std::string(data.begin(), data.end());
+    auto data = socket->RecvAllString(5);
 
-    REQUIRE(data.size() == 5);
-    REQUIRE(dataStr == "HELLO");
+    REQUIRE(data == "HELLO");
 }
 
 TEST_CASE("should throw timeout exception", "[socket]")
@@ -150,9 +148,9 @@ TEST_CASE("recv until test", "[socket]")
 
     auto socket = Socket::Create(SOCK_STREAM);
     socket->Connect(std::make_shared<Address>(port));
-    auto data = socket->RecvUntil("AA\r\n", 128);
+    auto data = socket->RecvUntilString("AA\r\n", 128);
 
-    REQUIRE(std::string(data.begin(), data.end()) == "ggw9gijskgjb0943AA\r\n");
+    REQUIRE(data == "ggw9gijskgjb0943AA\r\n");
 }
 
 TEST_CASE("recv until test expect buffer overflow", "[socket]")

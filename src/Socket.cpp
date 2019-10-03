@@ -206,6 +206,12 @@ void Socket::SendAll(const uint8_t *buf, size_t len)
     }
 }
 
+std::string Socket::RecvAllString(size_t len)
+{
+    auto data = RecvAll(len);
+    return std::string(data.begin(), data.end());
+}
+
 std::vector<uint8_t> Socket::RecvAll(size_t len)
 {
     std::vector<uint8_t> data(len);
@@ -249,6 +255,12 @@ void Socket::RecvAll(uint8_t *buf, size_t len)
     {
         throw SocketConnectionClosedException("Connection has been closed");
     }
+}
+
+std::string Socket::RecvUntilString(const std::string pattern, size_t maxlen)
+{
+    auto data = RecvUntil(pattern, maxlen);
+    return std::string(data.begin(), data.end());
 }
 
 std::vector<uint8_t> Socket::RecvUntil(const std::string pattern, size_t maxlen)
